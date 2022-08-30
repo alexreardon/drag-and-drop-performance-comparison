@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
 
 const Baseline: NextPage = () => {
-  return 'hello world';
+  return <h1>Hello world</h1>;
 };
 
 export default Baseline;
