@@ -15,6 +15,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
+    "jsxImportSource": "@emotion/react",
     "incremental": true,
     "allowJs": true,
     "skipLibCheck": true
@@ -22,8 +23,9 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
-, "pages/_document.tsx"  ],
+    "**/*.tsx",
+    "pages/_document.tsx"
+  ],
   "exclude": [
     "node_modules"
   ]

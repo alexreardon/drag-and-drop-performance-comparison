@@ -1,8 +1,0 @@
-
-.container {
-  display: flex;
-  padding: var(--grid);
-  justify-content: center;
-  gap: calc(var(--grid) *2);
-  flex-direction: row;
-}

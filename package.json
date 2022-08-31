@@ -10,9 +10,11 @@
   },
   "dependencies": {
     "@atlaskit/css-reset": "^6.3.14",
-    "@atlaskit/drag-and-drop": "^0.1.0",
-    "@atlaskit/drag-and-drop-hitbox": "^0.1.0",
+    "@atlaskit/drag-and-drop": "^0.2.0",
+    "@atlaskit/drag-and-drop-hitbox": "^0.2.0",
+    "@atlaskit/drag-and-drop-indicator": "^0.2.0",
     "@atlaskit/tokens": "^0.10.17",
+    "@emotion/react": "^11.10.4",
     "next": "12.2.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
