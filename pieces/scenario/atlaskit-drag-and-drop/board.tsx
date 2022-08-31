@@ -6,11 +6,10 @@ import { extractClosestEdge } from '@atlaskit/drag-and-drop-hitbox/addon/closest
 import type { Edge } from '@atlaskit/drag-and-drop-hitbox/types';
 import { reorderWithEdge } from '@atlaskit/drag-and-drop-hitbox/util/reorder-with-edge';
 import { monitorForElements } from '@atlaskit/drag-and-drop/adapter/element';
-import { monitorForFiles } from '@atlaskit/drag-and-drop/adapter/file';
 import { combine } from '@atlaskit/drag-and-drop/util/combine';
 
 import { ColumnMap, ColumnType, getInitialData, Item } from '../../data/tasks';
-import { Column } from './column';
+import { Column } from '../deferred-atlaskit-drag-and-drop/column';
 import { columnGap, gridSize } from '../../util/constants';
 
 const boardStyles = css({
@@ -32,10 +31,6 @@ export default function Board() {
   useEffect(() => {
     invariant(ref.current);
     return combine(
-      monitorForFiles({
-        onDragStart: (args) => console.log('start:file', args.source.items),
-        onDrop: (args) => console.log('drop:file', args.source.items),
-      }),
       monitorForElements({
         onDrop(args) {
           const { location, source } = args;
@@ -65,12 +60,6 @@ export default function Board() {
               finishIndex,
               edge,
               axis: 'horizontal',
-            });
-
-            console.log('reordering column', {
-              startIndex,
-              destinationIndex: updated.findIndex((columnId) => columnId === target.data.columnId),
-              edge,
             });
 
             setData({ ...data, orderedColumnIds: updated });
@@ -111,11 +100,6 @@ export default function Board() {
                   },
                 };
                 setData({ ...data, columnMap: updatedMap });
-                console.log('moving card to end position in same column', {
-                  startIndex: itemIndex,
-                  destinationIndex: updated.findIndex((i) => i.itemId === itemId),
-                  edge: null,
-                });
                 return;
               }
 
@@ -133,13 +117,6 @@ export default function Board() {
               };
 
               setData({ ...data, columnMap: updatedMap });
-              console.log('moving card to end position of another column', {
-                startIndex: itemIndex,
-                destinationIndex: updatedMap[destinationColumn.columnId].items.findIndex(
-                  (i) => i.itemId === itemId,
-                ),
-                edge: null,
-              });
               return;
             }
 
@@ -172,11 +149,6 @@ export default function Board() {
                   ...data.columnMap,
                   [sourceColumn.columnId]: updatedSourceColumn,
                 };
-                console.log('dropping relative to card in the same column', {
-                  startIndex: itemIndex,
-                  destinationIndex: updated.findIndex((i) => i.itemId === itemId),
-                  edge,
-                });
                 setData({ ...data, columnMap: updatedMap });
                 return;
               }
@@ -200,13 +172,6 @@ export default function Board() {
                 [sourceColumn.columnId]: updatedSourceColumn,
                 [destinationColumn.columnId]: updatedDestinationColumn,
               };
-              console.log('dropping on a card in different column', {
-                sourceColumn: sourceColumn.columnId,
-                destinationColumn: destinationColumn.columnId,
-                startIndex: itemIndex,
-                destinationIndex,
-                edge,
-              });
               setData({ ...data, columnMap: updatedMap });
             }
           }

@@ -75,6 +75,14 @@
     "@babel/traverse" "^7.15.0"
     "@babel/types" "^7.15.0"
 
+"@atlassian/react-async@^0.5.2":
+  version "0.5.2"
+  resolved "https://packages.atlassian.com/api/npm/atlassian-npm/@atlassian/react-async/-/@atlassian/react-async-0.5.2.tgz#75fc5205406573dd6c4280b77cdaac70db681b9b"
+  integrity sha512-q8ybbF3/eQ3wpEsaudu4bzOvDAnYqycc0W1TC8E6OlbQ0oth5A4EjRxraGzxve1KaMy1vu912kDcNBppZMpXLQ==
+  dependencies:
+    "@babel/runtime" "^7.0.0"
+    "@types/react-relay" "^13.0.2"
+
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.18.6":
   version "7.18.6"
   resolved "https://packages.atlassian.com/api/npm/npm-remote/@babel/code-frame/-/code-frame-7.18.6.tgz#3b25d38c89600baa2dcc219edfa88a74eb2c427a"
@@ -584,6 +592,14 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-relay@^13.0.2":
+  version "13.0.4"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@types/react-relay/-/react-relay-13.0.4.tgz#3e80b822eac8316f6b69d606eec511ba9d983f23"
+  integrity sha512-xak6OHxW36HmJdDMgyvGJIhDkvY46/WrEm6YiBq8KN29pyEf3n1TqTgDsK3i9fWlF1m/4PKnJDgDjqIStWfYCg==
+  dependencies:
+    "@types/react" "*"
+    "@types/relay-runtime" "*"
+
 "@types/react@*", "@types/react@18.0.17":
   version "18.0.17"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-18.0.17.tgz#4583d9c322d67efe4b39a935d223edcc7050ccf4"
@@ -592,6 +608,11 @@
     "@types/prop-types" "*"
     "@types/scheduler" "*"
     csstype "^3.0.2"
+
+"@types/relay-runtime@*":
+  version "14.1.2"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@types/relay-runtime/-/relay-runtime-14.1.2.tgz#252313e977f5b4d5a71d623fb8147c7815efbc9d"
+  integrity sha512-HeXlKlkGakGZtnViOk5lRn5ljjYqR+EvbJodt0hmwAp5YrWZ5kdXqzMWvAhlAUpGJtP7NkKwMMAsduy46S7UjA==
 
 "@types/scheduler@*":
   version "0.16.2"

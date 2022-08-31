@@ -1,18 +1,12 @@
 /* eslint-disable @repo/internal/react/consistent-css-prop-usage */
 import { memo, useEffect, useRef, useState } from 'react';
 
-import { css, jsx } from '@emotion/react';
+import { css } from '@emotion/react';
 import invariant from 'tiny-invariant';
 
-import {
-  attachClosestEdge,
-  Edge,
-  extractClosestEdge,
-} from '@atlaskit/drag-and-drop-hitbox/addon/closest-edge';
+import type { Edge } from '@atlaskit/drag-and-drop-hitbox/types';
+import { importForInteraction, waitForAllResources } from '@atlassian/react-async';
 import { DropIndicator } from '@atlaskit/drag-and-drop-indicator/box';
-import { draggable, dropTargetForElements } from '@atlaskit/drag-and-drop/adapter/element';
-import { combine } from '@atlaskit/drag-and-drop/util/combine';
-import { scrollJustEnoughIntoView } from '@atlaskit/drag-and-drop/util/scroll-just-enough-into-view';
 import { token } from '@atlaskit/tokens';
 
 import { Item } from '../../data/tasks';
@@ -87,50 +81,103 @@ export const Card = memo(function Card({ item }: { item: Item }) {
   const [state, setState] = useState<DraggableState>('idle');
 
   useEffect(() => {
-    invariant(ref.current);
-    return combine(
-      draggable({
-        element: ref.current,
-        getInitialData: () => ({ type: 'card', itemId: itemId }),
-        onGenerateDragPreview: ({ source }) => {
-          scrollJustEnoughIntoView({ element: source.element });
-          setState('generate-preview');
+    let cleanupDragAndDrop: null | (() => void) = null;
+    const disposeResource = waitForAllResources([
+      importForInteraction(
+        () =>
+          import(
+            /* webpackChunkName: "@atlaskit/drag-and-drop/util/combine" */ '@atlaskit/drag-and-drop/util/combine'
+          ),
+        {
+          moduleId: '@atlaskit/drag-and-drop/util/combine',
         },
+      ),
+      importForInteraction(
+        () =>
+          import(
+            /* webpackChunkName: "@atlaskit/drag-and-drop/adapter/element" */ '@atlaskit/drag-and-drop/adapter/element'
+          ),
+        {
+          moduleId: '@atlaskit/drag-and-drop/adapter/element',
+        },
+      ),
+      importForInteraction(
+        () =>
+          import(
+            /* webpackChunkName: "@atlaskit/drag-and-drop-hitbox/addon/closest-edge" */ '@atlaskit/drag-and-drop-hitbox/addon/closest-edge'
+          ),
+        {
+          moduleId: '@atlaskit/drag-and-drop-hitbox/addon/closest-edge',
+        },
+      ),
+      importForInteraction(
+        () =>
+          import(
+            /* webpackChunkName: "@atlaskit/drag-and-drop/util/scroll-just-enough-into-view" */ '@atlaskit/drag-and-drop/util/scroll-just-enough-into-view'
+          ),
+        {
+          moduleId: '@atlaskit/drag-and-drop/util/scroll-just-enough-into-view',
+        },
+      ),
+    ]).onComplete(
+      ([
+        { combine },
+        { draggable, dropTargetForElements },
+        { extractClosestEdge, attachClosestEdge },
+        { scrollJustEnoughIntoView },
+      ]) => {
+        invariant(ref.current);
 
-        onDragStart: () => setState('dragging'),
-        onDrop: () => setState('idle'),
-      }),
-      dropTargetForElements({
-        element: ref.current,
-        canDrop: (args) => args.source.data.type === 'card',
-        getIsSticky: () => true,
-        getData: ({ input, element }) => {
-          const data = { type: 'card', itemId: itemId };
+        cleanupDragAndDrop = combine(
+          draggable({
+            element: ref.current,
+            getInitialData: () => ({ type: 'card', itemId: itemId }),
+            onGenerateDragPreview: ({ source }) => {
+              scrollJustEnoughIntoView({ element: source.element });
+              setState('generate-preview');
+            },
 
-          return attachClosestEdge(data, {
-            input,
-            element,
-            allowedEdges: ['top', 'bottom'],
-          });
-        },
-        onDragEnter: (args) => {
-          if (args.source.data.itemId !== itemId) {
-            setClosestEdge(extractClosestEdge(args.self.data));
-          }
-        },
-        onDrag: (args) => {
-          if (args.source.data.itemId !== itemId) {
-            setClosestEdge(extractClosestEdge(args.self.data));
-          }
-        },
-        onDragLeave: (args) => {
-          setClosestEdge(null);
-        },
-        onDrop: (args) => {
-          setClosestEdge(null);
-        },
-      }),
+            onDragStart: () => setState('dragging'),
+            onDrop: () => setState('idle'),
+          }),
+          dropTargetForElements({
+            element: ref.current,
+            canDrop: (args) => args.source.data.type === 'card',
+            getIsSticky: () => true,
+            getData: ({ input, element }) => {
+              const data = { type: 'card', itemId: itemId };
+
+              return attachClosestEdge(data, {
+                input,
+                element,
+                allowedEdges: ['top', 'bottom'],
+              });
+            },
+            onDragEnter: (args) => {
+              if (args.source.data.itemId !== itemId) {
+                setClosestEdge(extractClosestEdge(args.self.data));
+              }
+            },
+            onDrag: (args) => {
+              if (args.source.data.itemId !== itemId) {
+                setClosestEdge(extractClosestEdge(args.self.data));
+              }
+            },
+            onDragLeave: (args) => {
+              setClosestEdge(null);
+            },
+            onDrop: (args) => {
+              setClosestEdge(null);
+            },
+          }),
+        );
+      },
     );
+
+    return () => {
+      disposeResource();
+      cleanupDragAndDrop?.();
+    };
   }, [itemId]);
 
   return (
