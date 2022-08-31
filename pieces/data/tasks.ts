@@ -13,12 +13,12 @@ function getItems({ count, startColumnId }: { count: number; startColumnId: stri
   return Array.from(
     { length: count },
     (_, index): Item => ({
-      itemId: `${startColumnId}${index}`,
+      itemId: `task:${startColumnId}${index}`,
     }),
   );
 }
 
-export function getInitialData({ count }: { count: number } = { count: 30 }) {
+export function getInitialData({ count }: { count: number } = { count: 50 }) {
   const orderedColumnIds: string[] = ['A', 'B', 'C'];
   const columns: ColumnType[] = orderedColumnIds.map((columnId, index) => {
     const column: ColumnType = {
