@@ -21,8 +21,8 @@ const columnStyles = css({
 });
 
 const scrollContainerStyles = css({
-  // height: '60vh',
-  // overflowY: 'auto',
+  height: '80vh',
+  overflowY: 'auto',
 });
 
 const cardListStyles = css({
