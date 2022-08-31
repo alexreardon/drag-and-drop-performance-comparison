@@ -15,7 +15,6 @@
     "@atlaskit/drag-and-drop-hitbox": "^0.2.0",
     "@atlaskit/drag-and-drop-indicator": "^0.2.0",
     "@atlaskit/tokens": "^0.10.17",
-    "@atlassian/react-async": "^0.5.2",
     "@emotion/react": "^11.10.4",
     "next": "12.2.5",
     "react": "18.2.0",

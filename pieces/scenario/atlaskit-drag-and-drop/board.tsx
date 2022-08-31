@@ -3,7 +3,7 @@ import { useRef, useState } from 'react';
 
 import { ColumnMap, getInitialData } from '../../data/tasks';
 import { columnGap, gridSize } from '../../util/constants';
-import { Column } from '../deferred-atlaskit-drag-and-drop/column';
+import { Column } from './column';
 
 const boardStyles = css({
   display: 'flex',
