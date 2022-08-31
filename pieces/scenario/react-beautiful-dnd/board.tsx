@@ -1,11 +1,6 @@
 import { css } from '@emotion/react';
 import { useRef, useState } from 'react';
-import {
-  DragDropContext,
-  Droppable,
-  DroppableProvided,
-  resetServerContext,
-} from 'react-beautiful-dnd';
+import { DragDropContext, Droppable, DroppableProvided } from 'react-beautiful-dnd';
 
 import { ColumnMap, getInitialData } from '../../data/tasks';
 import { columnGap, gridSize } from '../../util/constants';
@@ -19,11 +14,6 @@ const boardStyles = css({
   flexDirection: 'row',
   '--grid': `${gridSize}px`,
 });
-
-export async function getServerSideProps() {
-  resetServerContext();
-  return { props: { data: [] } };
-}
 
 export default function Board() {
   const [data, setData] = useState<{

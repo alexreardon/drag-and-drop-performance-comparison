@@ -15,14 +15,13 @@ const boardStyles = css({
 });
 
 export default function Board() {
-  const [data, setData] = useState<{
+  const [data] = useState<{
     columnMap: ColumnMap;
     orderedColumnIds: string[];
   }>(() => getInitialData());
-  const ref = useRef<HTMLDivElement | null>(null);
 
   return (
-    <div css={boardStyles} ref={ref}>
+    <div css={boardStyles}>
       {data.orderedColumnIds.map((columnId) => {
         return <Column column={data.columnMap[columnId]} key={columnId} />;
       })}
