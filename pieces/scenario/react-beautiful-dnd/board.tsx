@@ -1,6 +1,11 @@
 import { css } from '@emotion/react';
 import { useRef, useState } from 'react';
-import { DragDropContext, Droppable, DroppableProvided } from 'react-beautiful-dnd';
+import {
+  DragDropContext,
+  Droppable,
+  DroppableProvided,
+  resetServerContext,
+} from 'react-beautiful-dnd';
 
 import { ColumnMap, getInitialData } from '../../data/tasks';
 import { columnGap, gridSize } from '../../util/constants';
@@ -10,9 +15,13 @@ const boardStyles = css({
   display: 'flex',
   padding: columnGap,
   justifyContent: 'center',
-  gap: columnGap,
   flexDirection: 'row',
   '--grid': `${gridSize}px`,
+  // gap: columnGap,
+  '> *': {
+    marginLeft: columnGap / 2,
+    marginRight: columnGap / 2,
+  },
 });
 
 export default function Board() {

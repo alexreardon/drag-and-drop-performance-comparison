@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  // rbd i hate you now
+  reactStrictMode: false,
   swcMinify: true,
 };
 
