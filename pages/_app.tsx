@@ -13,7 +13,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
     // Initialize Fathom when the app loads
     fathom.load('RAXVWOFR', {
-      includedDomains: ['drag-and-drop-performance-comparison.vercel.app/'],
+      includedDomains: ['drag-and-drop-performance-comparison.vercel.app'],
     });
 
     function onRouteChangeComplete() {
