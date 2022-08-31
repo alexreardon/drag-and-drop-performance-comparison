@@ -1,7 +1,9 @@
 import { NextPage } from 'next';
 
+import Board from '../../pieces/scenario/baseline/board';
+
 const Baseline: NextPage = () => {
-  return <h1>Hello world</h1>;
+  return <Board />;
 };
 
 export default Baseline;

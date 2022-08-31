@@ -19,6 +19,23 @@
     "@babel/runtime" "^7.0.0"
     fbjs "^3.0.0"
 
+"@atlaskit/drag-and-drop-hitbox@^0.1.0":
+  version "0.1.0"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/drag-and-drop-hitbox/-/drag-and-drop-hitbox-0.1.0.tgz#80d9d36b79abeb2770c068320c3bef44d7b73429"
+  integrity sha512-0aC/26drf1kUTwRei2F/+SdXLQ1GgAgcLbYq0h2niv6B3OYRn/1Ry1XHTIQdztz953KRc/GCHV9SJzwpT6HjvA==
+  dependencies:
+    "@atlaskit/drag-and-drop" "^0.1.0"
+    "@babel/runtime" "^7.0.0"
+
+"@atlaskit/drag-and-drop@^0.1.0":
+  version "0.1.0"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/drag-and-drop/-/drag-and-drop-0.1.0.tgz#6374bb9acdac2b993997cb833cd423464f2bb758"
+  integrity sha512-jesfNHs8HzBuZ8mVcvO2lmQuBFq6Djjfvq6zhkm3Br70PJw2Rp7bps8/iLouGSmPAlvdxfquGShn9I2PZhbOMA==
+  dependencies:
+    "@babel/runtime" "^7.0.0"
+    bind-event-listener "^2.1.1"
+    raf-schd "^4.0.3"
+
 "@atlaskit/ds-lib@^2.1.0":
   version "2.1.1"
   resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/ds-lib/-/ds-lib-2.1.1.tgz#aae35e91b5591a207519c2a40c56308a631d3e5c"
@@ -1715,6 +1732,11 @@ queue-microtask@^1.2.2:
   resolved "https://registry.yarnpkg.com/queue-microtask/-/queue-microtask-1.2.3.tgz#4929228bbc724dfac43e0efb058caf7b6cfb6243"
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
 
+raf-schd@^4.0.3:
+  version "4.0.3"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/raf-schd/-/raf-schd-4.0.3.tgz#5d6c34ef46f8b2a0e880a8fcdb743efc5bfdbc1a"
+  integrity sha512-tQkJl2GRWh83ui2DiPTJz9wEiMN20syf+5oKfB03yYP7ioZcJwsIK8FjrtLwH1m7C7e+Tt2yYBlrOpdT+dyeIQ==
+
 react-dom@18.2.0:
   version "18.2.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-18.2.0.tgz#22aaf38708db2674ed9ada224ca4aa708d821e3d"
@@ -1928,6 +1950,11 @@ text-table@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==
+
+tiny-invariant@^1.2.0:
+  version "1.2.0"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/tiny-invariant/-/tiny-invariant-1.2.0.tgz#a1141f86b672a9148c72e978a19a73b9b94a15a9"
+  integrity sha512-1Uhn/aqw5C6RI4KejVeTg6mIS7IqxnLJ8Mv2tV5rTc0qWobay7pDUz6Wi392Cnc8ak1H0F2cjoRzb2/AW4+Fvg==
 
 to-fast-properties@^2.0.0:
   version "2.0.0"
