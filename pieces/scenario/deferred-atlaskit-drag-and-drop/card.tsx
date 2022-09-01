@@ -81,80 +81,80 @@ export const Card = memo(function Card({ item }: { item: Item }) {
   const [closestEdge, setClosestEdge] = useState<Edge | null>(null);
   const [state, setState] = useState<DraggableState>('idle');
 
-  // useEffect(() => {
-  //   const controller = new AbortController();
-  //   (async () => {
-  //     const modules = await Promise.all([
-  //       await import('@atlaskit/drag-and-drop-hitbox/addon/closest-edge'),
-  //       await import('@atlaskit/drag-and-drop/adapter/element'),
-  //       await import('@atlaskit/drag-and-drop/util/combine'),
-  //       await import('@atlaskit/drag-and-drop/util/scroll-just-enough-into-view'),
-  //     ]);
+  useEffect(() => {
+    const controller = new AbortController();
+    (async () => {
+      const modules = await Promise.all([
+        await import('@atlaskit/drag-and-drop-hitbox/addon/closest-edge'),
+        await import('@atlaskit/drag-and-drop/adapter/element'),
+        await import('@atlaskit/drag-and-drop/util/combine'),
+        await import('@atlaskit/drag-and-drop/util/scroll-just-enough-into-view'),
+      ]);
 
-  //     if (controller.signal.aborted) {
-  //       return;
-  //     }
+      if (controller.signal.aborted) {
+        return;
+      }
 
-  //     const [
-  //       { attachClosestEdge, extractClosestEdge },
-  //       { draggable, dropTargetForElements },
-  //       { combine },
-  //       { scrollJustEnoughIntoView },
-  //     ] = modules;
+      const [
+        { attachClosestEdge, extractClosestEdge },
+        { draggable, dropTargetForElements },
+        { combine },
+        { scrollJustEnoughIntoView },
+      ] = modules;
 
-  //     invariant(ref.current);
+      invariant(ref.current);
 
-  //     const cleanup = combine(
-  //       draggable({
-  //         element: ref.current,
-  //         getInitialData: () => ({ type: 'card', itemId: itemId }),
-  //         onGenerateDragPreview: ({ source }) => {
-  //           scrollJustEnoughIntoView({ element: source.element });
-  //           setState('generate-preview');
-  //         },
+      const cleanup = combine(
+        draggable({
+          element: ref.current,
+          getInitialData: () => ({ type: 'card', itemId: itemId }),
+          onGenerateDragPreview: ({ source }) => {
+            scrollJustEnoughIntoView({ element: source.element });
+            setState('generate-preview');
+          },
 
-  //         onDragStart: () => setState('dragging'),
-  //         onDrop: () => setState('idle'),
-  //       }),
-  //       dropTargetForElements({
-  //         element: ref.current,
-  //         canDrop: (args) => args.source.data.type === 'card',
-  //         getIsSticky: () => true,
-  //         getData: ({ input, element }) => {
-  //           const data = { type: 'card', itemId: itemId };
+          onDragStart: () => setState('dragging'),
+          onDrop: () => setState('idle'),
+        }),
+        dropTargetForElements({
+          element: ref.current,
+          canDrop: (args) => args.source.data.type === 'card',
+          getIsSticky: () => true,
+          getData: ({ input, element }) => {
+            const data = { type: 'card', itemId: itemId };
 
-  //           return attachClosestEdge(data, {
-  //             input,
-  //             element,
-  //             allowedEdges: ['top', 'bottom'],
-  //           });
-  //         },
-  //         onDragEnter: (args) => {
-  //           if (args.source.data.itemId !== itemId) {
-  //             setClosestEdge(extractClosestEdge(args.self.data));
-  //           }
-  //         },
-  //         onDrag: (args) => {
-  //           if (args.source.data.itemId !== itemId) {
-  //             setClosestEdge(extractClosestEdge(args.self.data));
-  //           }
-  //         },
-  //         onDragLeave: (args) => {
-  //           setClosestEdge(null);
-  //         },
-  //         onDrop: (args) => {
-  //           setClosestEdge(null);
-  //         },
-  //       }),
-  //     );
+            return attachClosestEdge(data, {
+              input,
+              element,
+              allowedEdges: ['top', 'bottom'],
+            });
+          },
+          onDragEnter: (args) => {
+            if (args.source.data.itemId !== itemId) {
+              setClosestEdge(extractClosestEdge(args.self.data));
+            }
+          },
+          onDrag: (args) => {
+            if (args.source.data.itemId !== itemId) {
+              setClosestEdge(extractClosestEdge(args.self.data));
+            }
+          },
+          onDragLeave: (args) => {
+            setClosestEdge(null);
+          },
+          onDrop: (args) => {
+            setClosestEdge(null);
+          },
+        }),
+      );
 
-  //     controller.signal.addEventListener('abort', cleanup, { once: true });
-  //   })();
+      controller.signal.addEventListener('abort', cleanup, { once: true });
+    })();
 
-  //   return () => {
-  //     controller.abort();
-  //   };
-  // }, [itemId]);
+    return () => {
+      controller.abort();
+    };
+  }, [itemId]);
 
   return (
     <div css={cardStyles} ref={ref} data-testid={`item-${itemId}`}>
