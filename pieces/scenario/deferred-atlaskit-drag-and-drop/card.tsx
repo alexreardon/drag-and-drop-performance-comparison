@@ -85,7 +85,6 @@ export const Card = memo(function Card({ item }: { item: Item }) {
     const controller = new AbortController();
     let cleanup: (() => void) | null = null;
     (async () => {
-      invariant(ref.current);
       const modules = await Promise.all([
         await import('@atlaskit/drag-and-drop-hitbox/addon/closest-edge'),
         await import('@atlaskit/drag-and-drop/adapter/element'),
@@ -102,6 +101,8 @@ export const Card = memo(function Card({ item }: { item: Item }) {
         { combine },
         { scrollJustEnoughIntoView },
       ] = modules;
+
+      invariant(ref.current);
 
       cleanup = combine(
         draggable({
