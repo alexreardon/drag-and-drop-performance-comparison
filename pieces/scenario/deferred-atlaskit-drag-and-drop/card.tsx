@@ -82,22 +82,28 @@ export const Card = memo(function Card({ item }: { item: Item }) {
   const [state, setState] = useState<DraggableState>('idle');
 
   useEffect(() => {
-    // TODO: cleanup / abort
-    // TODO: promise.all
+    const controller = new AbortController();
+    let cleanup: (() => void) | null = null;
     (async () => {
       invariant(ref.current);
-      const { attachClosestEdge, extractClosestEdge } = await import(
-        '@atlaskit/drag-and-drop-hitbox/addon/closest-edge'
-      );
-      const { draggable, dropTargetForElements } = await import(
-        '@atlaskit/drag-and-drop/adapter/element'
-      );
-      const { combine } = await import('@atlaskit/drag-and-drop/util/combine');
-      const { scrollJustEnoughIntoView } = await import(
-        '@atlaskit/drag-and-drop/util/scroll-just-enough-into-view'
-      );
+      const modules = await Promise.all([
+        await import('@atlaskit/drag-and-drop-hitbox/addon/closest-edge'),
+        await import('@atlaskit/drag-and-drop/adapter/element'),
+        await import('@atlaskit/drag-and-drop/util/combine'),
+        await import('@atlaskit/drag-and-drop/util/scroll-just-enough-into-view'),
+      ]);
+      if (controller.signal.aborted) {
+        return;
+      }
 
-      return combine(
+      const [
+        { attachClosestEdge, extractClosestEdge },
+        { draggable, dropTargetForElements },
+        { combine },
+        { scrollJustEnoughIntoView },
+      ] = modules;
+
+      cleanup = combine(
         draggable({
           element: ref.current,
           getInitialData: () => ({ type: 'card', itemId: itemId }),
@@ -140,6 +146,11 @@ export const Card = memo(function Card({ item }: { item: Item }) {
           },
         }),
       );
+
+      return () => {
+        controller.abort();
+        cleanup?.();
+      };
     })();
   }, [itemId]);
 

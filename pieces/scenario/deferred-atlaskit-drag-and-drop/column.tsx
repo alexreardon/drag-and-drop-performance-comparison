@@ -70,20 +70,30 @@ export const Column = memo(function Column({ column }: { column: ColumnType }) {
   const [closestEdge, setClosestEdge] = useState<Edge | null>(null);
 
   useEffect(() => {
+    const controller = new AbortController();
+    let cleanup: (() => void) | null = null;
     (async () => {
-      const { attachClosestEdge, extractClosestEdge } = await import(
-        '@atlaskit/drag-and-drop-hitbox/addon/closest-edge'
-      );
-      const { draggable, dropTargetForElements } = await import(
-        '@atlaskit/drag-and-drop/adapter/element'
-      );
-      const { combine } = await import('@atlaskit/drag-and-drop/util/combine');
+      const modules = await Promise.all([
+        await import('@atlaskit/drag-and-drop-hitbox/addon/closest-edge'),
+        await import('@atlaskit/drag-and-drop/adapter/element'),
+        await import('@atlaskit/drag-and-drop/util/combine'),
+      ]);
+
+      if (controller.signal.aborted) {
+        return;
+      }
+
+      const [
+        { attachClosestEdge, extractClosestEdge },
+        { draggable, dropTargetForElements },
+        { combine },
+      ] = modules;
 
       invariant(columnRef.current);
       invariant(headerRef.current);
       invariant(cardListRef.current);
 
-      return combine(
+      cleanup = combine(
         draggable({
           element: columnRef.current,
           dragHandle: headerRef.current,
@@ -127,6 +137,11 @@ export const Column = memo(function Column({ column }: { column: ColumnType }) {
           },
         }),
       );
+
+      return () => {
+        controller.abort();
+        cleanup?.();
+      };
     })();
   }, [columnId]);
 
