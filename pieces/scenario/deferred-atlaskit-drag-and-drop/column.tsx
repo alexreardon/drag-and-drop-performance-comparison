@@ -70,7 +70,7 @@ export const Column = memo(function Column({ column }: { column: ColumnType }) {
   const [closestEdge, setClosestEdge] = useState<Edge | null>(null);
 
   useEffect(() => {
-    async () => {
+    (async () => {
       const { attachClosestEdge, extractClosestEdge } = await import(
         '@atlaskit/drag-and-drop-hitbox/addon/closest-edge'
       );
@@ -127,7 +127,7 @@ export const Column = memo(function Column({ column }: { column: ColumnType }) {
           },
         }),
       );
-    };
+    })();
   }, [columnId]);
 
   return (

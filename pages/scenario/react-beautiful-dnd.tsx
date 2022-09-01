@@ -6,7 +6,7 @@ import Board from '../../pieces/scenario/react-beautiful-dnd/board';
 export async function getStaticProps() {
   resetServerContext();
   return {
-    props: {}, // will be passed to the page component as props
+    props: {},
   };
 }
 
