@@ -138,11 +138,11 @@ export const Column = memo(function Column({ column }: { column: ColumnType }) {
       );
 
       controller.signal.addEventListener('abort', cleanup, { once: true });
-
-      return () => {
-        controller.abort();
-      };
     })();
+
+    return () => {
+      controller.abort();
+    };
   }, [columnId]);
 
   return (
