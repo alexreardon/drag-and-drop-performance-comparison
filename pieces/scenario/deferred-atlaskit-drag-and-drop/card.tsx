@@ -1,23 +1,18 @@
-/* eslint-disable @repo/internal/react/consistent-css-prop-usage */
-import { memo, useEffect, useRef, useState } from 'react';
-
-import { css, jsx } from '@emotion/react';
-import invariant from 'tiny-invariant';
-
-import {
-  attachClosestEdge,
-  Edge,
-  extractClosestEdge,
-} from '@atlaskit/drag-and-drop-hitbox/addon/closest-edge';
-import { DropIndicator } from '@atlaskit/drag-and-drop-indicator/box';
-import { draggable, dropTargetForElements } from '@atlaskit/drag-and-drop/adapter/element';
-import { combine } from '@atlaskit/drag-and-drop/util/combine';
-import { scrollJustEnoughIntoView } from '@atlaskit/drag-and-drop/util/scroll-just-enough-into-view';
+import dynamic from 'next/dynamic';
+import type { Edge } from '@atlaskit/drag-and-drop-hitbox/types';
 import { token } from '@atlaskit/tokens';
+import { css } from '@emotion/react';
+import { memo, useEffect, useRef, useState } from 'react';
+import invariant from 'tiny-invariant';
 
 import { Item } from '../../data/tasks';
 import { cardGap } from '../../util/constants';
 import { fallbackColor } from '../../util/fallback';
+
+const LazyDropIndicator = dynamic(() => import('./drop-indicator'), {
+  ssr: false,
+  suspense: true,
+});
 
 const cardStyles = css({
   display: 'flex',
@@ -87,50 +82,65 @@ export const Card = memo(function Card({ item }: { item: Item }) {
   const [state, setState] = useState<DraggableState>('idle');
 
   useEffect(() => {
-    invariant(ref.current);
-    return combine(
-      draggable({
-        element: ref.current,
-        getInitialData: () => ({ type: 'card', itemId: itemId }),
-        onGenerateDragPreview: ({ source }) => {
-          scrollJustEnoughIntoView({ element: source.element });
-          setState('generate-preview');
-        },
+    // TODO: cleanup / abort
+    // TODO: promise.all
+    (async () => {
+      invariant(ref.current);
+      const { attachClosestEdge, extractClosestEdge } = await import(
+        '@atlaskit/drag-and-drop-hitbox/addon/closest-edge'
+      );
+      const { draggable, dropTargetForElements } = await import(
+        '@atlaskit/drag-and-drop/adapter/element'
+      );
+      const { combine } = await import('@atlaskit/drag-and-drop/util/combine');
+      const { scrollJustEnoughIntoView } = await import(
+        '@atlaskit/drag-and-drop/util/scroll-just-enough-into-view'
+      );
 
-        onDragStart: () => setState('dragging'),
-        onDrop: () => setState('idle'),
-      }),
-      dropTargetForElements({
-        element: ref.current,
-        canDrop: (args) => args.source.data.type === 'card',
-        getIsSticky: () => true,
-        getData: ({ input, element }) => {
-          const data = { type: 'card', itemId: itemId };
+      return combine(
+        draggable({
+          element: ref.current,
+          getInitialData: () => ({ type: 'card', itemId: itemId }),
+          onGenerateDragPreview: ({ source }) => {
+            scrollJustEnoughIntoView({ element: source.element });
+            setState('generate-preview');
+          },
 
-          return attachClosestEdge(data, {
-            input,
-            element,
-            allowedEdges: ['top', 'bottom'],
-          });
-        },
-        onDragEnter: (args) => {
-          if (args.source.data.itemId !== itemId) {
-            setClosestEdge(extractClosestEdge(args.self.data));
-          }
-        },
-        onDrag: (args) => {
-          if (args.source.data.itemId !== itemId) {
-            setClosestEdge(extractClosestEdge(args.self.data));
-          }
-        },
-        onDragLeave: (args) => {
-          setClosestEdge(null);
-        },
-        onDrop: (args) => {
-          setClosestEdge(null);
-        },
-      }),
-    );
+          onDragStart: () => setState('dragging'),
+          onDrop: () => setState('idle'),
+        }),
+        dropTargetForElements({
+          element: ref.current,
+          canDrop: (args) => args.source.data.type === 'card',
+          getIsSticky: () => true,
+          getData: ({ input, element }) => {
+            const data = { type: 'card', itemId: itemId };
+
+            return attachClosestEdge(data, {
+              input,
+              element,
+              allowedEdges: ['top', 'bottom'],
+            });
+          },
+          onDragEnter: (args) => {
+            if (args.source.data.itemId !== itemId) {
+              setClosestEdge(extractClosestEdge(args.self.data));
+            }
+          },
+          onDrag: (args) => {
+            if (args.source.data.itemId !== itemId) {
+              setClosestEdge(extractClosestEdge(args.self.data));
+            }
+          },
+          onDragLeave: (args) => {
+            setClosestEdge(null);
+          },
+          onDrop: (args) => {
+            setClosestEdge(null);
+          },
+        }),
+      );
+    })();
   }, [itemId]);
 
   return (
@@ -138,7 +148,7 @@ export const Card = memo(function Card({ item }: { item: Item }) {
       <span css={idStyles}>ID: {item.itemId}</span>
       <DragIcon state={state} />
       <CardText state={state} />
-      <DropIndicator edge={closestEdge} gap={cardGap} />
+      <LazyDropIndicator edge={closestEdge} gap={cardGap} />
     </div>
   );
 });

@@ -1,23 +1,22 @@
 import { memo, useEffect, useRef, useState } from 'react';
 
-import { css, jsx } from '@emotion/react';
+import { css } from '@emotion/react';
 import invariant from 'tiny-invariant';
 
-import {
-  attachClosestEdge,
-  Edge,
-  extractClosestEdge,
-} from '@atlaskit/drag-and-drop-hitbox/addon/closest-edge';
-import { DropIndicator } from '@atlaskit/drag-and-drop-indicator/box';
-import { draggable, dropTargetForElements } from '@atlaskit/drag-and-drop/adapter/element';
-import { combine } from '@atlaskit/drag-and-drop/util/combine';
 import { token } from '@atlaskit/tokens';
 
+import type { Edge } from '@atlaskit/drag-and-drop-hitbox/types';
 import { ColumnType } from '../../data/tasks';
 import { cardGap, columnGap } from '../../util/constants';
 import { fallbackColor } from '../../util/fallback';
 
+import dynamic from 'next/dynamic';
 import { Card } from './card';
+
+const LazyDropIndicator = dynamic(() => import('./drop-indicator'), {
+  ssr: false,
+  suspense: true,
+});
 
 const columnStyles = css({
   display: 'flex',
@@ -71,53 +70,64 @@ export const Column = memo(function Column({ column }: { column: ColumnType }) {
   const [closestEdge, setClosestEdge] = useState<Edge | null>(null);
 
   useEffect(() => {
-    invariant(columnRef.current);
-    invariant(headerRef.current);
-    invariant(cardListRef.current);
-    return combine(
-      draggable({
-        element: columnRef.current,
-        dragHandle: headerRef.current,
-        getInitialData: () => ({ columnId, type: 'column' }),
-      }),
-      dropTargetForElements({
-        element: cardListRef.current,
-        getData: () => ({ columnId }),
-        canDrop: (args) => args.source.data.type === 'card',
-        getIsSticky: () => true,
-        onDragEnter: () => setIsDraggingOver(true),
-        onDragLeave: () => setIsDraggingOver(false),
-        onDragStart: () => setIsDraggingOver(true),
-        onDrop: () => setIsDraggingOver(false),
-      }),
-      dropTargetForElements({
-        element: columnRef.current,
-        canDrop: (args) => args.source.data.type === 'column',
-        getIsSticky: () => true,
-        getData: ({ input, element }) => {
-          const data = {
-            columnId,
-          };
-          return attachClosestEdge(data, {
-            input,
-            element,
-            allowedEdges: ['left', 'right'],
-          });
-        },
-        onDragEnter: (args) => {
-          setClosestEdge(extractClosestEdge(args.self.data));
-        },
-        onDrag: (args) => {
-          setClosestEdge(extractClosestEdge(args.self.data));
-        },
-        onDragLeave: (args) => {
-          setClosestEdge(null);
-        },
-        onDrop: (args) => {
-          setClosestEdge(null);
-        },
-      }),
-    );
+    async () => {
+      const { attachClosestEdge, extractClosestEdge } = await import(
+        '@atlaskit/drag-and-drop-hitbox/addon/closest-edge'
+      );
+      const { draggable, dropTargetForElements } = await import(
+        '@atlaskit/drag-and-drop/adapter/element'
+      );
+      const { combine } = await import('@atlaskit/drag-and-drop/util/combine');
+
+      invariant(columnRef.current);
+      invariant(headerRef.current);
+      invariant(cardListRef.current);
+
+      return combine(
+        draggable({
+          element: columnRef.current,
+          dragHandle: headerRef.current,
+          getInitialData: () => ({ columnId, type: 'column' }),
+        }),
+        dropTargetForElements({
+          element: cardListRef.current,
+          getData: () => ({ columnId }),
+          canDrop: (args) => args.source.data.type === 'card',
+          getIsSticky: () => true,
+          onDragEnter: () => setIsDraggingOver(true),
+          onDragLeave: () => setIsDraggingOver(false),
+          onDragStart: () => setIsDraggingOver(true),
+          onDrop: () => setIsDraggingOver(false),
+        }),
+        dropTargetForElements({
+          element: columnRef.current,
+          canDrop: (args) => args.source.data.type === 'column',
+          getIsSticky: () => true,
+          getData: ({ input, element }) => {
+            const data = {
+              columnId,
+            };
+            return attachClosestEdge(data, {
+              input,
+              element,
+              allowedEdges: ['left', 'right'],
+            });
+          },
+          onDragEnter: (args) => {
+            setClosestEdge(extractClosestEdge(args.self.data));
+          },
+          onDrag: (args) => {
+            setClosestEdge(extractClosestEdge(args.self.data));
+          },
+          onDragLeave: (args) => {
+            setClosestEdge(null);
+          },
+          onDrop: (args) => {
+            setClosestEdge(null);
+          },
+        }),
+      );
+    };
   }, [columnId]);
 
   return (
@@ -133,7 +143,7 @@ export const Column = memo(function Column({ column }: { column: ColumnType }) {
           ))}
         </div>
       </div>
-      <DropIndicator edge={closestEdge} gap={columnGap} />
+      <LazyDropIndicator edge={closestEdge} gap={columnGap} />
     </div>
   );
 });
