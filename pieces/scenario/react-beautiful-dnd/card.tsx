@@ -47,11 +47,10 @@ function DragIcon({ state }: { state: DraggableState }) {
   );
 }
 
-type DraggableState = 'idle' | 'generate-preview' | 'dragging';
+type DraggableState = 'idle' | 'dragging';
 const cardText: { [State in DraggableState]: string } = {
-  'generate-preview': 'Drag preview',
   idle: 'Draggable',
-  dragging: 'Draggable source',
+  dragging: 'Dragging',
 };
 
 const cardTextStyles = css({
@@ -71,23 +70,25 @@ function CardText({ state }: { state: DraggableState }) {
 
 export const Card = memo(function Card({ item, index }: { item: Item; index: number }) {
   const itemId = item.itemId;
-  const [state, setState] = useState<DraggableState>('idle');
 
   return (
     <Draggable draggableId={item.itemId} index={index}>
-      {(provided: DraggableProvided, snapshot: DraggableStateSnapshot) => (
-        <div
-          css={cardStyles}
-          ref={provided.innerRef}
-          data-testid={`item-${itemId}`}
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-        >
-          <span css={idStyles}>ID: {item.itemId}</span>
-          <DragIcon state={state} />
-          <CardText state={state} />
-        </div>
-      )}
+      {(provided: DraggableProvided, snapshot: DraggableStateSnapshot) => {
+        const state: DraggableState = snapshot.isDragging ? 'dragging' : 'idle';
+        return (
+          <div
+            css={cardStyles}
+            ref={provided.innerRef}
+            data-testid={`item-${itemId}`}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+          >
+            <span css={idStyles}>ID: {item.itemId}</span>
+            <DragIcon state={state} />
+            <CardText state={state} />
+          </div>
+        );
+      }}
     </Draggable>
   );
 });

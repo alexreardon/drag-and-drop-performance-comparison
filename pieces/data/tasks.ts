@@ -13,7 +13,7 @@ function getItems({ count, startColumnId }: { count: number; startColumnId: stri
   return Array.from(
     { length: count },
     (_, index): Item => ({
-      itemId: `task:${startColumnId}${index}`,
+      itemId: `${startColumnId}${index}`,
     }),
   );
 }
