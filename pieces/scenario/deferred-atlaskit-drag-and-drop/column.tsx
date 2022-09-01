@@ -71,7 +71,6 @@ export const Column = memo(function Column({ column }: { column: ColumnType }) {
 
   useEffect(() => {
     const controller = new AbortController();
-    let cleanup: (() => void) | null = null;
     (async () => {
       const modules = await Promise.all([
         await import('@atlaskit/drag-and-drop-hitbox/addon/closest-edge'),
@@ -93,7 +92,7 @@ export const Column = memo(function Column({ column }: { column: ColumnType }) {
       invariant(headerRef.current);
       invariant(cardListRef.current);
 
-      cleanup = combine(
+      const cleanup = combine(
         draggable({
           element: columnRef.current,
           dragHandle: headerRef.current,
@@ -138,9 +137,10 @@ export const Column = memo(function Column({ column }: { column: ColumnType }) {
         }),
       );
 
+      controller.signal.addEventListener('abort', cleanup, { once: true });
+
       return () => {
         controller.abort();
-        cleanup?.();
       };
     })();
   }, [columnId]);

@@ -83,7 +83,6 @@ export const Card = memo(function Card({ item }: { item: Item }) {
 
   useEffect(() => {
     const controller = new AbortController();
-    let cleanup: (() => void) | null = null;
     (async () => {
       const modules = await Promise.all([
         await import('@atlaskit/drag-and-drop-hitbox/addon/closest-edge'),
@@ -91,6 +90,7 @@ export const Card = memo(function Card({ item }: { item: Item }) {
         await import('@atlaskit/drag-and-drop/util/combine'),
         await import('@atlaskit/drag-and-drop/util/scroll-just-enough-into-view'),
       ]);
+
       if (controller.signal.aborted) {
         return;
       }
@@ -104,7 +104,7 @@ export const Card = memo(function Card({ item }: { item: Item }) {
 
       invariant(ref.current);
 
-      cleanup = combine(
+      const cleanup = combine(
         draggable({
           element: ref.current,
           getInitialData: () => ({ type: 'card', itemId: itemId }),
@@ -148,9 +148,10 @@ export const Card = memo(function Card({ item }: { item: Item }) {
         }),
       );
 
+      controller.signal.addEventListener('abort', cleanup, { once: true });
+
       return () => {
         controller.abort();
-        cleanup?.();
       };
     })();
   }, [itemId]);
