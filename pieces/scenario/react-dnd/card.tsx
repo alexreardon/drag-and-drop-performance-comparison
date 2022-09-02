@@ -2,22 +2,15 @@
 import { memo, useEffect, useRef, useState } from 'react';
 
 import { css, jsx } from '@emotion/react';
-import invariant from 'tiny-invariant';
 
-import {
-  attachClosestEdge,
-  Edge,
-  extractClosestEdge,
-} from '@atlaskit/drag-and-drop-hitbox/addon/closest-edge';
-import { DropIndicator } from '@atlaskit/drag-and-drop-indicator/box';
-import { draggable, dropTargetForElements } from '@atlaskit/drag-and-drop/adapter/element';
-import { combine } from '@atlaskit/drag-and-drop/util/combine';
-import { scrollJustEnoughIntoView } from '@atlaskit/drag-and-drop/util/scroll-just-enough-into-view';
 import { token } from '@atlaskit/tokens';
 
 import { Item } from '../../data/tasks';
-import { cardGap } from '../../util/constants';
 import { fallbackColor } from '../../util/fallback';
+import { useDrag, useDrop } from 'react-dnd';
+import mergeRefs from './merge-refs';
+import DropIndicator from './drop-indicator';
+import { cardGap } from '../../util/constants';
 
 const cardStyles = css({
   display: 'flex',
@@ -30,7 +23,6 @@ const cardStyles = css({
   background: token('elevation.surface.raised', fallbackColor),
   borderRadius: 'calc(var(--grid) / 2)',
   boxShadow: `0px 0px 1px rgba(9, 30, 66, 0.31), 0px 1px 1px rgba(9, 30, 66, 0.25)`,
-  // cursor: 'grab',
   '--local-line-height': '2px',
   userSelect: 'none',
 });
@@ -81,63 +73,36 @@ function CardText({ state }: { state: DraggableState }) {
 }
 
 export const Card = memo(function Card({ item }: { item: Item }) {
-  const ref = useRef<HTMLDivElement | null>(null);
   const itemId = item.itemId;
-  const [closestEdge, setClosestEdge] = useState<Edge | null>(null);
-  const [state, setState] = useState<DraggableState>('idle');
 
-  useEffect(() => {
-    invariant(ref.current);
-    return combine(
-      draggable({
-        element: ref.current,
-        getInitialData: () => ({ type: 'card', itemId: itemId }),
-        onGenerateDragPreview: ({ source }) => {
-          scrollJustEnoughIntoView({ element: source.element });
-          setState('generate-preview');
-        },
-        onDragStart: () => setState('dragging'),
-        onDrop: () => setState('idle'),
-      }),
-      dropTargetForElements({
-        element: ref.current,
-        canDrop: (args) => args.source.data.type === 'card',
-        getIsSticky: () => true,
-        getData: ({ input, element }) => {
-          const data = { type: 'card', itemId: itemId };
+  const [{ canDrop, isOver }, dropRef] = useDrop(() => ({
+    accept: 'CARD',
+    // Props to collect
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+      canDrop: monitor.canDrop(),
+    }),
+  }));
 
-          return attachClosestEdge(data, {
-            input,
-            element,
-            allowedEdges: ['top', 'bottom'],
-          });
-        },
-        onDragEnter: (args) => {
-          if (args.source.data.itemId !== itemId) {
-            setClosestEdge(extractClosestEdge(args.self.data));
-          }
-        },
-        onDrag: (args) => {
-          if (args.source.data.itemId !== itemId) {
-            setClosestEdge(extractClosestEdge(args.self.data));
-          }
-        },
-        onDragLeave: (args) => {
-          setClosestEdge(null);
-        },
-        onDrop: (args) => {
-          setClosestEdge(null);
-        },
+  const [{ isDragging }, dragRef] = useDrag(
+    () => ({
+      type: 'CARD',
+      item: { type: 'card', itemId: itemId },
+      collect: (monitor) => ({
+        isDragging: monitor.isDragging(),
       }),
-    );
-  }, [itemId]);
+    }),
+    [],
+  );
+
+  const state: DraggableState = isDragging ? 'dragging' : 'idle';
 
   return (
-    <div css={cardStyles} ref={ref} data-testid={`item-${itemId}`}>
-      <span css={idStyles}>ID: {item.itemId}</span>
+    <div css={cardStyles} ref={mergeRefs([dragRef, dropRef])} data-testid={`item-${item.itemId}`}>
+      <span css={idStyles}>ID: {itemId}</span>
       <DragIcon state={state} />
       <CardText state={state} />
-      <DropIndicator edge={closestEdge} gap={cardGap} />
+      <DropIndicator edge={isOver ? 'bottom' : null} gap={cardGap} />
     </div>
   );
 });
