@@ -11,6 +11,7 @@ import { useDrag, useDrop } from 'react-dnd';
 import mergeRefs from './merge-refs';
 import DropIndicator from './drop-indicator';
 import { cardGap } from '../../util/constants';
+import { Edge, getClosestEdge } from './get-closest-edge';
 
 const cardStyles = css({
   display: 'flex',
@@ -74,14 +75,25 @@ function CardText({ state }: { state: DraggableState }) {
 
 export const Card = memo(function Card({ item }: { item: Item }) {
   const itemId = item.itemId;
+  const dropTargetRef = useRef<HTMLDivElement | null>(null);
+  const [closestEdge, setClosestEdge] = useState<Edge | null>(null);
 
-  const [{ canDrop, isOver }, dropRef] = useDrop(() => ({
+  const [{ isOver }, dropRef] = useDrop(() => ({
     accept: 'CARD',
-    // Props to collect
-    collect: (monitor) => ({
-      isOver: monitor.isOver(),
-      canDrop: monitor.canDrop(),
-    }),
+    hover: (item, monitor) => {
+      const edge = getClosestEdge({
+        ref: dropTargetRef,
+        allowedEdges: ['bottom', 'top'],
+        client: monitor.getClientOffset(),
+      });
+      setClosestEdge(edge);
+    },
+    collect: (monitor) => {
+      const isOver = monitor.isOver();
+      return {
+        isOver: isOver,
+      };
+    },
   }));
 
   const [{ isDragging }, dragRef] = useDrag(
@@ -98,11 +110,15 @@ export const Card = memo(function Card({ item }: { item: Item }) {
   const state: DraggableState = isDragging ? 'dragging' : 'idle';
 
   return (
-    <div css={cardStyles} ref={mergeRefs([dragRef, dropRef])} data-testid={`item-${item.itemId}`}>
+    <div
+      css={cardStyles}
+      ref={mergeRefs([dragRef, dropRef, dropTargetRef])}
+      data-testid={`item-${item.itemId}`}
+    >
       <span css={idStyles}>ID: {itemId}</span>
       <DragIcon state={state} />
       <CardText state={state} />
-      <DropIndicator edge={isOver ? 'bottom' : null} gap={cardGap} />
+      <DropIndicator edge={isOver ? closestEdge : null} gap={cardGap} />
     </div>
   );
 });

@@ -10,6 +10,7 @@ import { fallbackColor } from '../../util/fallback';
 
 import { Card } from './card';
 import { useDrag, useDrop } from 'react-dnd';
+import mergeRefs from './merge-refs';
 
 const columnStyles = css({
   display: 'flex',
@@ -55,10 +56,17 @@ const isDraggingOverColumnStyles = css({
 });
 
 export const Column = memo(function Column({ column }: { column: ColumnType }) {
-  const [{ isOver }, dropRef] = useDrop(() => ({
+  const [{ isOver }, cardDropRef] = useDrop(() => ({
     accept: 'CARD',
     collect: (monitor) => ({
       isOver: monitor.isOver(),
+    }),
+  }));
+
+  const [{ isOverA }, columnDropRef] = useDrop(() => ({
+    accept: 'COLUMN',
+    collect: (monitor) => ({
+      isOverA: monitor.isOver(),
     }),
   }));
 
@@ -70,7 +78,10 @@ export const Column = memo(function Column({ column }: { column: ColumnType }) {
   }));
 
   return (
-    <div css={[columnStyles, isOver && isDraggingOverColumnStyles]} ref={draggableRef}>
+    <div
+      css={[columnStyles, isOver && isDraggingOverColumnStyles]}
+      ref={mergeRefs([draggableRef, columnDropRef])}
+    >
       <div
         css={columnHeaderStyles}
         ref={dragHandleRef}
@@ -80,7 +91,7 @@ export const Column = memo(function Column({ column }: { column: ColumnType }) {
         <span css={columnHeaderIdStyles}>ID: {column.columnId}</span>
       </div>
       <div css={scrollContainerStyles}>
-        <div css={cardListStyles} ref={dropRef}>
+        <div css={cardListStyles} ref={cardDropRef}>
           {column.items.map((item) => (
             <Card item={item} key={item.itemId} />
           ))}
