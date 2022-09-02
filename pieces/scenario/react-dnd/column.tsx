@@ -5,12 +5,14 @@ import { css } from '@emotion/react';
 import { token } from '@atlaskit/tokens';
 
 import { ColumnType } from '../../data/tasks';
-import { cardGap } from '../../util/constants';
+import { cardGap, columnGap } from '../../util/constants';
 import { fallbackColor } from '../../util/fallback';
 
-import { Card } from './card';
 import { useDrag, useDrop } from 'react-dnd';
+import { Card } from './card';
 import mergeRefs from './merge-refs';
+import { Edge, getClosestEdge } from './get-closest-edge';
+import DropIndicator from './drop-indicator';
 
 const columnStyles = css({
   display: 'flex',
@@ -56,6 +58,9 @@ const isDraggingOverColumnStyles = css({
 });
 
 export const Column = memo(function Column({ column }: { column: ColumnType }) {
+  const dropTargetRef = useRef<HTMLDivElement | null>(null);
+  const [closestEdge, setClosestEdge] = useState<Edge | null>(null);
+
   const [{ isOver }, cardDropRef] = useDrop(() => ({
     accept: 'CARD',
     collect: (monitor) => ({
@@ -63,15 +68,34 @@ export const Column = memo(function Column({ column }: { column: ColumnType }) {
     }),
   }));
 
-  const [{ isOverA }, columnDropRef] = useDrop(() => ({
+  const [{ isColumnOver }, columnDropRef] = useDrop(() => ({
     accept: 'COLUMN',
+    hover: (item, monitor) => {
+      if (!monitor.canDrop()) {
+        setClosestEdge(null);
+        return;
+      }
+      const edge = getClosestEdge({
+        ref: dropTargetRef,
+        allowedEdges: ['left', 'right'],
+        client: monitor.getClientOffset(),
+      });
+      setClosestEdge(edge);
+    },
+    canDrop(item, monitor) {
+      if (typeof item === 'object' && item != null) {
+        return (item as any).columnId !== column.columnId;
+      }
+      return true;
+    },
     collect: (monitor) => ({
-      isOverA: monitor.isOver(),
+      isColumnOver: monitor.isOver(),
     }),
   }));
 
   const [{ isDragging }, dragHandleRef, draggableRef] = useDrag(() => ({
     type: 'COLUMN',
+    item: { columnId: column.columnId },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
@@ -80,7 +104,7 @@ export const Column = memo(function Column({ column }: { column: ColumnType }) {
   return (
     <div
       css={[columnStyles, isOver && isDraggingOverColumnStyles]}
-      ref={mergeRefs([draggableRef, columnDropRef])}
+      ref={mergeRefs([draggableRef, columnDropRef, dropTargetRef])}
     >
       <div
         css={columnHeaderStyles}
@@ -97,6 +121,7 @@ export const Column = memo(function Column({ column }: { column: ColumnType }) {
           ))}
         </div>
       </div>
+      <DropIndicator edge={isColumnOver ? closestEdge : null} gap={columnGap} />
     </div>
   );
 });

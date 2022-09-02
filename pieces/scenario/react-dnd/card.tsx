@@ -7,7 +7,7 @@ import { token } from '@atlaskit/tokens';
 
 import { Item } from '../../data/tasks';
 import { fallbackColor } from '../../util/fallback';
-import { useDrag, useDrop } from 'react-dnd';
+import { useDrag, useDragDropManager, useDrop } from 'react-dnd';
 import mergeRefs from './merge-refs';
 import DropIndicator from './drop-indicator';
 import { cardGap } from '../../util/constants';
