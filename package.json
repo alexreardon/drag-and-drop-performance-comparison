@@ -15,6 +15,7 @@
     "@atlaskit/drag-and-drop-indicator": "^0.2.0",
     "@atlaskit/tokens": "^0.10.17",
     "@emotion/react": "^11.10.4",
+    "cypress": "^10.7.0",
     "next": "12.2.5",
     "react": "18.2.0",
     "react-beautiful-dnd": "^13.1.1",
