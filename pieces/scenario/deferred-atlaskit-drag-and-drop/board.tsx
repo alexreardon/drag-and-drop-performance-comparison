@@ -2,15 +2,14 @@ import { css } from '@emotion/react';
 import { useEffect, useRef, useState } from 'react';
 
 import { ColumnMap, ColumnType, Item, getInitialData } from '../../data/tasks';
-import { columnGap, gridSize } from '../../util/constants';
 import { Column } from './column';
 import invariant from 'tiny-invariant';
 
 const boardStyles = css({
   display: 'flex',
-  padding: columnGap,
+  padding: 'var(--column-gap)',
   justifyContent: 'center',
-  gap: columnGap,
+  gap: 'var(--column-gap)',
   flexDirection: 'row',
 });
 import type { Edge } from '@atlaskit/drag-and-drop-hitbox/types';

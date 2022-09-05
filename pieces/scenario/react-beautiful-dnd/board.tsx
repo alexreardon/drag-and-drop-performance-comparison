@@ -8,19 +8,18 @@ import {
 } from 'react-beautiful-dnd';
 
 import { ColumnMap, getInitialData } from '../../data/tasks';
-import { columnGap, gridSize } from '../../util/constants';
 import { Column } from './column';
 
 const boardStyles = css({
   display: 'flex',
-  padding: columnGap,
+  padding: 'var(--column-gap)',
   justifyContent: 'center',
   flexDirection: 'row',
 
-  // gap: columnGap,
+  // gap: 'var(--column-gap),
   '> *': {
-    marginLeft: columnGap / 2,
-    marginRight: columnGap / 2,
+    marginLeft: 'calc(var(--column-gap) / 2)',
+    marginRight: 'calc(var(--column-gap) / 2)',
   },
 });
 

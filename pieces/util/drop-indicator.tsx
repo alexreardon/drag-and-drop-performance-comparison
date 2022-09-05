@@ -4,8 +4,8 @@
 import type { CSSProperties } from 'react';
 
 import { token } from '@atlaskit/tokens';
-import { css, SerializedStyles } from '@emotion/core';
-import { fallbackColor } from '../../util/fallback';
+import { css, SerializedStyles } from '@emotion/react';
+import { fallbackColor } from './fallback';
 
 type Edge = 'top' | 'right' | 'bottom' | 'left';
 
@@ -17,7 +17,7 @@ export type DropIndicatorProps = {
   /**
    * The distance between draggable items.
    */
-  gap?: number;
+  gap?: string;
 };
 
 const lineStyles = css({
@@ -66,7 +66,7 @@ const edgeStyles: Record<Edge, SerializedStyles> = {
  *
  * A drop indicator is used to communicate the intended resting place of the draggable item. The orientation of the drop indicator should always match the direction of the content flow.
  */
-export default function DropIndicator({ edge, gap = 0 }: DropIndicatorProps) {
+export default function DropIndicator({ edge, gap = '0px' }: DropIndicatorProps) {
   /**
    * To clearly communicate the resting place of a draggable item during a drag operation,
    * the drop indicator should be positioned half way between draggable items.
@@ -78,7 +78,7 @@ export default function DropIndicator({ edge, gap = 0 }: DropIndicatorProps) {
       css={[lineStyles, edge && edgeStyles[edge]]}
       style={
         {
-          '--local-line-offset': `calc(-0.5 * calc(${gap}px + var(--border-width)))`,
+          '--local-line-offset': `calc(-0.5 * calc(${gap} + var(--border-width)))`,
         } as CSSProperties
       }
     />

@@ -1,5 +1,7 @@
 :root {
   --grid: 8px;
+  --card-gap: var(--grid);
+  --column-gap: calc(var(--grid) * 2);
   --border-radius: 2px;
   --border-width: 2px;
 }

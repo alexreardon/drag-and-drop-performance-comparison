@@ -1,13 +1,12 @@
-/* eslint-disable @repo/internal/react/consistent-css-prop-usage */
-import { memo, useEffect, useRef, useState } from 'react';
+import { memo } from 'react';
 
-import { css, jsx } from '@emotion/react';
+import { css } from '@emotion/react';
 
 import { token } from '@atlaskit/tokens';
 
+import { Draggable, DraggableProvided, DraggableStateSnapshot } from 'react-beautiful-dnd';
 import { Item } from '../../data/tasks';
 import { fallbackColor } from '../../util/fallback';
-import { Draggable, DraggableProvided, DraggableStateSnapshot } from 'react-beautiful-dnd';
 
 const cardStyles = css({
   display: 'flex',
@@ -20,7 +19,7 @@ const cardStyles = css({
   background: token('elevation.surface.raised', fallbackColor),
   borderRadius: 'calc(var(--grid) / 2)',
   boxShadow: `0px 0px 1px rgba(9, 30, 66, 0.31), 0px 1px 1px rgba(9, 30, 66, 0.25)`,
-  '--local-line-height': '2px',
+
   userSelect: 'none',
 });
 

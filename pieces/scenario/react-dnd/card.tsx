@@ -1,4 +1,3 @@
-/* eslint-disable @repo/internal/react/consistent-css-prop-usage */
 import { memo, useEffect, useRef, useState } from 'react';
 
 import { css, jsx } from '@emotion/react';
@@ -9,8 +8,7 @@ import { Item } from '../../data/tasks';
 import { fallbackColor } from '../../util/fallback';
 import { useDrag, useDragDropManager, useDrop } from 'react-dnd';
 import mergeRefs from './merge-refs';
-import DropIndicator from './drop-indicator';
-import { cardGap } from '../../util/constants';
+import DropIndicator from '../../util/drop-indicator';
 import { Edge, getClosestEdge } from './get-closest-edge';
 
 const cardStyles = css({
@@ -24,7 +22,7 @@ const cardStyles = css({
   background: token('elevation.surface.raised', fallbackColor),
   borderRadius: 'calc(var(--grid) / 2)',
   boxShadow: `0px 0px 1px rgba(9, 30, 66, 0.31), 0px 1px 1px rgba(9, 30, 66, 0.25)`,
-  '--local-line-height': '2px',
+
   userSelect: 'none',
 });
 
@@ -118,7 +116,7 @@ export const Card = memo(function Card({ item }: { item: Item }) {
       <span css={idStyles}>ID: {itemId}</span>
       <DragIcon state={state} />
       <CardText state={state} />
-      <DropIndicator edge={isOver ? closestEdge : null} gap={cardGap} />
+      <DropIndicator edge={isOver ? closestEdge : null} gap={'var(--card-gap)'} />
     </div>
   );
 });

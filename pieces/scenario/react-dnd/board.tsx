@@ -4,14 +4,13 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import { ColumnMap, getInitialData } from '../../data/tasks';
-import { columnGap, gridSize } from '../../util/constants';
 import { Column } from './column';
 
 const boardStyles = css({
   display: 'flex',
-  padding: columnGap,
+  padding: 'var(--column-gap)',
   justifyContent: 'center',
-  gap: columnGap,
+  gap: 'var(--column-gap)',
   flexDirection: 'row',
 });
 

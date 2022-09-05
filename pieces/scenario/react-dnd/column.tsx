@@ -5,14 +5,13 @@ import { css } from '@emotion/react';
 import { token } from '@atlaskit/tokens';
 
 import { ColumnType } from '../../data/tasks';
-import { cardGap, columnGap } from '../../util/constants';
 import { fallbackColor } from '../../util/fallback';
 
 import { useDrag, useDrop } from 'react-dnd';
 import { Card } from './card';
 import mergeRefs from './merge-refs';
 import { Edge, getClosestEdge } from './get-closest-edge';
-import DropIndicator from './drop-indicator';
+import DropIndicator from '../../util/drop-indicator';
 
 const columnStyles = css({
   display: 'flex',
@@ -34,7 +33,7 @@ const cardListStyles = css({
   boxSizing: 'border-box',
   minHeight: '100%',
   padding: 'var(--grid)',
-  gap: cardGap,
+  gap: 'var(--card-gap)',
   flexDirection: 'column',
 });
 
@@ -121,7 +120,7 @@ export const Column = memo(function Column({ column }: { column: ColumnType }) {
           ))}
         </div>
       </div>
-      <DropIndicator edge={isColumnOver ? closestEdge : null} gap={columnGap} />
+      <DropIndicator edge={isColumnOver ? closestEdge : null} gap={'var(--column-gap)'} />
     </div>
   );
 });

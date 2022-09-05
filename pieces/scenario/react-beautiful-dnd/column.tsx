@@ -5,7 +5,6 @@ import { css } from '@emotion/react';
 import { token } from '@atlaskit/tokens';
 
 import { ColumnType } from '../../data/tasks';
-import { cardGap } from '../../util/constants';
 import { fallbackColor } from '../../util/fallback';
 
 import { Card } from './card';
@@ -41,7 +40,7 @@ const cardListStyles = css({
   // gap: cardGap,
   flexDirection: 'column',
   '> *': {
-    marginBottom: cardGap,
+    marginBottom: 'var(--card-gap)',
   },
 });
 

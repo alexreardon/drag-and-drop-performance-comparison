@@ -8,16 +8,15 @@ import {
   Edge,
   extractClosestEdge,
 } from '@atlaskit/drag-and-drop-hitbox/addon/closest-edge';
-import { DropIndicator } from '@atlaskit/drag-and-drop-indicator/box';
 import { draggable, dropTargetForElements } from '@atlaskit/drag-and-drop/adapter/element';
 import { combine } from '@atlaskit/drag-and-drop/util/combine';
 import { token } from '@atlaskit/tokens';
 
 import { ColumnType } from '../../data/tasks';
-import { cardGap, columnGap } from '../../util/constants';
 import { fallbackColor } from '../../util/fallback';
 
 import { Card } from './card';
+import DropIndicator from '../../util/drop-indicator';
 
 const columnStyles = css({
   display: 'flex',
@@ -25,7 +24,6 @@ const columnStyles = css({
   flexDirection: 'column',
   background: token('elevation.surface.sunken', fallbackColor),
   borderRadius: 'calc(var(--grid) * 2)',
-  // transition: `background ${mediumDurationMs}ms ${easeInOut}`,
   position: 'relative',
 });
 
@@ -39,7 +37,7 @@ const cardListStyles = css({
   boxSizing: 'border-box',
   minHeight: '100%',
   padding: 'var(--grid)',
-  gap: cardGap,
+  gap: 'var(--card-gap)',
   flexDirection: 'column',
 });
 
@@ -133,7 +131,7 @@ export const Column = memo(function Column({ column }: { column: ColumnType }) {
           ))}
         </div>
       </div>
-      <DropIndicator edge={closestEdge} gap={columnGap} />
+      <DropIndicator edge={closestEdge} gap={'var(--column-gap)'} />
     </div>
   );
 });

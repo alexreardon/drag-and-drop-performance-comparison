@@ -7,13 +7,12 @@ import { token } from '@atlaskit/tokens';
 
 import type { Edge } from '@atlaskit/drag-and-drop-hitbox/types';
 import { ColumnType } from '../../data/tasks';
-import { cardGap, columnGap } from '../../util/constants';
 import { fallbackColor } from '../../util/fallback';
 
 import dynamic from 'next/dynamic';
 import { Card } from './card';
 
-const LazyDropIndicator = dynamic(() => import('./drop-indicator'), {
+const LazyDropIndicator = dynamic(() => import('../../util/drop-indicator'), {
   ssr: false,
   suspense: true,
 });
@@ -38,7 +37,7 @@ const cardListStyles = css({
   boxSizing: 'border-box',
   minHeight: '100%',
   padding: 'var(--grid)',
-  gap: cardGap,
+  gap: 'var(--card-gap)',
   flexDirection: 'column',
 });
 
@@ -158,7 +157,7 @@ export const Column = memo(function Column({ column }: { column: ColumnType }) {
           ))}
         </div>
       </div>
-      <LazyDropIndicator edge={closestEdge} gap={columnGap} />
+      <LazyDropIndicator edge={closestEdge} gap={'var(--column-gap)'} />
     </div>
   );
 });

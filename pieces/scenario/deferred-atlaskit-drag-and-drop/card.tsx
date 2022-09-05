@@ -6,10 +6,9 @@ import { memo, useEffect, useRef, useState } from 'react';
 import invariant from 'tiny-invariant';
 
 import { Item } from '../../data/tasks';
-import { cardGap } from '../../util/constants';
 import { fallbackColor } from '../../util/fallback';
 
-const LazyDropIndicator = dynamic(() => import('./drop-indicator'), {
+const LazyDropIndicator = dynamic(() => import('../../util/drop-indicator'), {
   ssr: false,
   suspense: true,
 });
@@ -25,8 +24,6 @@ const cardStyles = css({
   background: token('elevation.surface.raised', fallbackColor),
   borderRadius: 'calc(var(--grid) / 2)',
   boxShadow: `0px 0px 1px rgba(9, 30, 66, 0.31), 0px 1px 1px rgba(9, 30, 66, 0.25)`,
-  // cursor: 'grab',
-  '--local-line-height': '2px',
   userSelect: 'none',
 });
 
@@ -161,7 +158,7 @@ export const Card = memo(function Card({ item }: { item: Item }) {
       <span css={idStyles}>ID: {item.itemId}</span>
       <DragIcon state={state} />
       <CardText state={state} />
-      <LazyDropIndicator edge={closestEdge} gap={cardGap} />
+      <LazyDropIndicator edge={closestEdge} gap={'var(--card-gap)'} />
     </div>
   );
 });

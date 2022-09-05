@@ -2,14 +2,13 @@ import { css } from '@emotion/react';
 import { useRef, useState } from 'react';
 
 import { ColumnMap, getInitialData } from '../../data/tasks';
-import { columnGap, gridSize } from '../../util/constants';
 import { Column } from './column';
 
 const boardStyles = css({
   display: 'flex',
-  padding: columnGap,
+  padding: 'var(--column-gap)',
   justifyContent: 'center',
-  gap: columnGap,
+  gap: 'var(--column-gap)',
   flexDirection: 'row',
 });
 
