@@ -127,7 +127,7 @@ export const Column = memo(function Column({ column }: { column: ColumnType }) {
         <span css={columnHeaderIdStyles}>ID: {column.columnId}</span>
       </div>
       <div css={scrollContainerStyles}>
-        <div css={cardListStyles} ref={cardListRef}>
+        <div css={cardListStyles} ref={cardListRef} data-testid={`column-${columnId}--card-list`}>
           {column.items.map((item) => (
             <Card item={item} key={item.itemId} />
           ))}
