@@ -11,7 +11,6 @@ const boardStyles = css({
   justifyContent: 'center',
   gap: columnGap,
   flexDirection: 'row',
-  '--grid': `${gridSize}px`,
 });
 
 export default function Board() {

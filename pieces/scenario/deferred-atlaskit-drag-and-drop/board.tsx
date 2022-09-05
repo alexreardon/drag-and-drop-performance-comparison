@@ -12,7 +12,6 @@ const boardStyles = css({
   justifyContent: 'center',
   gap: columnGap,
   flexDirection: 'row',
-  '--grid': `${gridSize}px`,
 });
 import type { Edge } from '@atlaskit/drag-and-drop-hitbox/types';
 

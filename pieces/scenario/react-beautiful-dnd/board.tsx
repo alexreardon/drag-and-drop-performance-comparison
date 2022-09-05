@@ -16,7 +16,7 @@ const boardStyles = css({
   padding: columnGap,
   justifyContent: 'center',
   flexDirection: 'row',
-  '--grid': `${gridSize}px`,
+
   // gap: columnGap,
   '> *': {
     marginLeft: columnGap / 2,
