@@ -1,7 +1,6 @@
 import { memo, useEffect, useRef, useState } from 'react';
 
 import { css } from '@emotion/react';
-import invariant from 'tiny-invariant';
 
 import { token } from '@atlaskit/tokens';
 
@@ -71,71 +70,20 @@ export const Column = memo(function Column({ column }: { column: ColumnType }) {
   useEffect(() => {
     const controller = new AbortController();
     (async () => {
-      const modules = await Promise.all([
-        await import('@atlaskit/drag-and-drop-hitbox/addon/closest-edge'),
-        await import('@atlaskit/drag-and-drop/adapter/element'),
-        await import('@atlaskit/drag-and-drop/util/combine'),
-      ]);
+      const { attachColumn } = await import('./attach-column');
 
       if (controller.signal.aborted) {
         return;
       }
 
-      const [
-        { attachClosestEdge, extractClosestEdge },
-        { draggable, dropTargetForElements },
-        { combine },
-      ] = modules;
-
-      invariant(columnRef.current);
-      invariant(headerRef.current);
-      invariant(cardListRef.current);
-
-      const cleanup = combine(
-        draggable({
-          element: columnRef.current,
-          dragHandle: headerRef.current,
-          getInitialData: () => ({ columnId, type: 'column' }),
-        }),
-        dropTargetForElements({
-          element: cardListRef.current,
-          getData: () => ({ columnId }),
-          canDrop: (args) => args.source.data.type === 'card',
-          getIsSticky: () => true,
-          onDragEnter: () => setIsDraggingOver(true),
-          onDragLeave: () => setIsDraggingOver(false),
-          onDragStart: () => setIsDraggingOver(true),
-          onDrop: () => setIsDraggingOver(false),
-        }),
-        dropTargetForElements({
-          element: columnRef.current,
-          canDrop: (args) => args.source.data.type === 'column',
-          getIsSticky: () => true,
-          getData: ({ input, element }) => {
-            const data = {
-              columnId,
-            };
-            return attachClosestEdge(data, {
-              input,
-              element,
-              allowedEdges: ['left', 'right'],
-            });
-          },
-          onDragEnter: (args) => {
-            setClosestEdge(extractClosestEdge(args.self.data));
-          },
-          onDrag: (args) => {
-            setClosestEdge(extractClosestEdge(args.self.data));
-          },
-          onDragLeave: (args) => {
-            setClosestEdge(null);
-          },
-          onDrop: (args) => {
-            setClosestEdge(null);
-          },
-        }),
-      );
-
+      const cleanup = attachColumn({
+        headerRef,
+        columnRef,
+        cardListRef,
+        columnId,
+        setIsDraggingOver,
+        setClosestEdge,
+      });
       controller.signal.addEventListener('abort', cleanup, { once: true });
     })();
 

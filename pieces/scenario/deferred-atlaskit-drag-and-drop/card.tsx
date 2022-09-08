@@ -3,10 +3,10 @@ import type { Edge } from '@atlaskit/drag-and-drop-hitbox/types';
 import { token } from '@atlaskit/tokens';
 import { css } from '@emotion/react';
 import { memo, useEffect, useRef, useState } from 'react';
-import invariant from 'tiny-invariant';
 
 import { Item } from '../../data/tasks';
 import { fallbackColor } from '../../util/fallback';
+import type { DraggableState } from './attach-card';
 
 const LazyDropIndicator = dynamic(() => import('../../util/drop-indicator'), {
   ssr: false,
@@ -50,7 +50,6 @@ function DragIcon({ state }: { state: DraggableState }) {
   );
 }
 
-type DraggableState = 'idle' | 'generate-preview' | 'dragging';
 const cardText: { [State in DraggableState]: string } = {
   'generate-preview': 'Drag preview',
   idle: 'Draggable',
@@ -80,78 +79,20 @@ export const Card = memo(function Card({ item }: { item: Item }) {
 
   useEffect(() => {
     const controller = new AbortController();
-    (async () => {
-      const modules = await Promise.all([
-        await import('@atlaskit/drag-and-drop-hitbox/addon/closest-edge'),
-        await import('@atlaskit/drag-and-drop/adapter/element'),
-        await import('@atlaskit/drag-and-drop/util/combine'),
-        await import('@atlaskit/drag-and-drop/util/scroll-just-enough-into-view'),
-      ]);
 
+    (async () => {
+      const { attachCard } = await import('./attach-card');
       if (controller.signal.aborted) {
         return;
       }
-
-      const [
-        { attachClosestEdge, extractClosestEdge },
-        { draggable, dropTargetForElements },
-        { combine },
-        { scrollJustEnoughIntoView },
-      ] = modules;
-
-      invariant(ref.current);
-
-      const cleanup = combine(
-        draggable({
-          element: ref.current,
-          getInitialData: () => ({ type: 'card', itemId: itemId }),
-          onGenerateDragPreview: ({ source }) => {
-            scrollJustEnoughIntoView({ element: source.element });
-            setState('generate-preview');
-          },
-
-          onDragStart: () => setState('dragging'),
-          onDrop: () => setState('idle'),
-        }),
-        dropTargetForElements({
-          element: ref.current,
-          canDrop: (args) => args.source.data.type === 'card',
-          getIsSticky: () => true,
-          getData: ({ input, element }) => {
-            const data = { type: 'card', itemId: itemId };
-
-            return attachClosestEdge(data, {
-              input,
-              element,
-              allowedEdges: ['top', 'bottom'],
-            });
-          },
-          onDragEnter: (args) => {
-            if (args.source.data.itemId !== itemId) {
-              setClosestEdge(extractClosestEdge(args.self.data));
-            }
-          },
-          onDrag: (args) => {
-            if (args.source.data.itemId !== itemId) {
-              setClosestEdge(extractClosestEdge(args.self.data));
-            }
-          },
-          onDragLeave: (args) => {
-            setClosestEdge(null);
-          },
-          onDrop: (args) => {
-            setClosestEdge(null);
-          },
-        }),
-      );
-
+      const cleanup = attachCard({ setState, setClosestEdge, itemId, ref });
       controller.signal.addEventListener('abort', cleanup, { once: true });
     })();
 
     return () => {
       controller.abort();
     };
-  }, [itemId]);
+  });
 
   return (
     <div css={cardStyles} ref={ref} data-testid={`item-${itemId}`}>
