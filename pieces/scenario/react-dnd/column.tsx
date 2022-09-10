@@ -5,13 +5,13 @@ import { css } from '@emotion/react';
 import { token } from '@atlaskit/tokens';
 
 import { ColumnType } from '../../data/tasks';
-import { fallbackColor } from '../../util/fallback';
+import { fallbackColor } from '../../shared/fallback';
 
 import { useDrag, useDrop } from 'react-dnd';
 import { Card } from './card';
 import mergeRefs from './merge-refs';
 import { Edge, getClosestEdge } from './get-closest-edge';
-import DropIndicator from '../../util/drop-indicator';
+import DropIndicator from '../../shared/drop-indicator';
 
 const columnStyles = css({
   display: 'flex',

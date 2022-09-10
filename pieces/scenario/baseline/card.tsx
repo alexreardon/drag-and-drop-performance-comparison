@@ -5,7 +5,7 @@ import { css, jsx } from '@emotion/react';
 import { token } from '@atlaskit/tokens';
 
 import { Item } from '../../data/tasks';
-import { fallbackColor } from '../../util/fallback';
+import { fallbackColor } from '../../shared/fallback';
 
 const cardStyles = css({
   display: 'flex',

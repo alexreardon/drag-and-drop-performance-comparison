@@ -6,7 +6,7 @@ import { token } from '@atlaskit/tokens';
 
 import { Draggable, DraggableProvided, DraggableStateSnapshot } from 'react-beautiful-dnd';
 import { Item } from '../../data/tasks';
-import { fallbackColor } from '../../util/fallback';
+import { fallbackColor } from '../../shared/fallback';
 
 const cardStyles = css({
   display: 'flex',

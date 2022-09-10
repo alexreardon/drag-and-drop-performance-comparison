@@ -14,8 +14,8 @@ import { scrollJustEnoughIntoView } from '@atlaskit/drag-and-drop/util/scroll-ju
 import { token } from '@atlaskit/tokens';
 
 import { Item } from '../../data/tasks';
-import { fallbackColor } from '../../util/fallback';
-import DropIndicator from '../../util/drop-indicator';
+import { fallbackColor } from '../../shared/fallback';
+import DropIndicator from '../../shared/drop-indicator';
 
 const cardStyles = css({
   display: 'flex',

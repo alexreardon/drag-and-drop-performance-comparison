@@ -5,10 +5,10 @@ import { css, jsx } from '@emotion/react';
 import { token } from '@atlaskit/tokens';
 
 import { Item } from '../../data/tasks';
-import { fallbackColor } from '../../util/fallback';
+import { fallbackColor } from '../../shared/fallback';
 import { useDrag, useDragDropManager, useDrop } from 'react-dnd';
 import mergeRefs from './merge-refs';
-import DropIndicator from '../../util/drop-indicator';
+import DropIndicator from '../../shared/drop-indicator';
 import { Edge, getClosestEdge } from './get-closest-edge';
 
 const cardStyles = css({

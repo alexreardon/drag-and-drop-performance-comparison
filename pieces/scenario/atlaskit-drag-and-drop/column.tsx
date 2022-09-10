@@ -13,10 +13,10 @@ import { combine } from '@atlaskit/drag-and-drop/util/combine';
 import { token } from '@atlaskit/tokens';
 
 import { ColumnType } from '../../data/tasks';
-import { fallbackColor } from '../../util/fallback';
+import { fallbackColor } from '../../shared/fallback';
 
 import { Card } from './card';
-import DropIndicator from '../../util/drop-indicator';
+import DropIndicator from '../../shared/drop-indicator';
 
 const columnStyles = css({
   display: 'flex',

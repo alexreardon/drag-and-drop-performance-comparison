@@ -6,12 +6,12 @@ import { token } from '@atlaskit/tokens';
 
 import type { Edge } from '@atlaskit/drag-and-drop-hitbox/types';
 import { ColumnType } from '../../data/tasks';
-import { fallbackColor } from '../../util/fallback';
+import { fallbackColor } from '../../shared/fallback';
 
 import dynamic from 'next/dynamic';
 import { Card } from './card';
 
-const LazyDropIndicator = dynamic(() => import('../../util/drop-indicator'), {
+const LazyDropIndicator = dynamic(() => import('../../shared/drop-indicator'), {
   ssr: false,
   suspense: true,
 });

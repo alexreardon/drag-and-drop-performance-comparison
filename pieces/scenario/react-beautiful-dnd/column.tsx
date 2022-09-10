@@ -5,7 +5,7 @@ import { css } from '@emotion/react';
 import { token } from '@atlaskit/tokens';
 
 import { ColumnType } from '../../data/tasks';
-import { fallbackColor } from '../../util/fallback';
+import { fallbackColor } from '../../shared/fallback';
 
 import { Card } from './card';
 import {

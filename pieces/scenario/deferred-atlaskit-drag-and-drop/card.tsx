@@ -5,10 +5,10 @@ import { css } from '@emotion/react';
 import { memo, useEffect, useRef, useState } from 'react';
 
 import { Item } from '../../data/tasks';
-import { fallbackColor } from '../../util/fallback';
+import { fallbackColor } from '../../shared/fallback';
 import type { DraggableState } from './attach-card';
 
-const LazyDropIndicator = dynamic(() => import('../../util/drop-indicator'), {
+const LazyDropIndicator = dynamic(() => import('../../shared/drop-indicator'), {
   ssr: false,
   suspense: true,
 });
