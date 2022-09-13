@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "@atlaskit/css-reset": "^6.3.14",
-    "@atlaskit/drag-and-drop": "^0.5.0",
-    "@atlaskit/drag-and-drop-hitbox": "^0.2.3",
+    "@atlaskit/drag-and-drop": "^0.6.0",
+    "@atlaskit/drag-and-drop-hitbox": "^0.2.4",
     "@atlaskit/tokens": "^0.10.19",
     "@emotion/react": "^11.10.4",
     "next": "12.3.0",
@@ -23,8 +23,8 @@
     "tiny-invariant": "^1.2.0"
   },
   "devDependencies": {
-    "@types/node": "18.7.17",
-    "@types/react": "18.0.19",
+    "@types/node": "18.7.18",
+    "@types/react": "18.0.20",
     "@types/react-beautiful-dnd": "^13.1.2",
     "@types/react-dom": "18.0.6",
     "eslint": "8.23.1",
