@@ -8,6 +8,9 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "engines": {
+    "node": ">=16.17.0"
+  },
   "dependencies": {
     "@atlaskit/css-reset": "^6.3.14",
     "@atlaskit/drag-and-drop": "^0.6.0",
