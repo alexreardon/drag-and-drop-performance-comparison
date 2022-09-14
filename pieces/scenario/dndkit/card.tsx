@@ -1,13 +1,10 @@
-import { memo, useEffect, useRef, useState } from 'react';
+import { AllHTMLAttributes, forwardRef } from 'react';
 
-import { css, jsx } from '@emotion/react';
+import { css } from '@emotion/react';
 
 import { token } from '@atlaskit/tokens';
 
-import { Item } from '../../data/tasks';
 import { fallbackColor } from '../../shared/fallback';
-import { useSortable } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
 
 const cardStyles = css({
   display: 'flex',
@@ -68,31 +65,19 @@ function CardText({ state }: { state: DraggableState }) {
   );
 }
 
-export const Card = memo(function Card({ item }: { item: Item }) {
-  const itemId = item.itemId;
-  const [state, setState] = useState<DraggableState>('idle');
+type Props = { itemId: string; state: DraggableState } & AllHTMLAttributes<HTMLDivElement>;
 
-  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
-    id: item.itemId,
-  });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-  };
-
+export const Card = forwardRef<HTMLDivElement, Props>(function Card(
+  { itemId, state, ...rest }: Props,
+  ref,
+) {
   return (
-    <div
-      css={cardStyles}
-      ref={setNodeRef}
-      style={style}
-      {...attributes}
-      {...listeners}
-      data-testid={`item-${itemId}`}
-    >
-      <span css={idStyles}>ID: {item.itemId}</span>
-      <DragIcon state={state} />
-      <CardText state={state} />
-    </div>
+    <>
+      <div css={cardStyles} {...rest} ref={ref}>
+        <span css={idStyles}>ID: {itemId}</span>
+        <DragIcon state={state} />
+        <CardText state={state} />
+      </div>
+    </>
   );
 });

@@ -9,6 +9,7 @@ import { fallbackColor } from '../../shared/fallback';
 import { SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 
 import { Card } from './card';
+import { SortableCard } from './sortable-card';
 
 const columnStyles = css({
   display: 'flex',
@@ -62,7 +63,7 @@ export const Column = memo(function Column({ column }: { column: ColumnType }) {
         <SortableContext items={itemIds} strategy={verticalListSortingStrategy}>
           <div css={cardListStyles}>
             {column.items.map((item) => (
-              <Card item={item} key={item.itemId} />
+              <SortableCard itemId={item.itemId} key={item.itemId} />
             ))}
           </div>
         </SortableContext>
