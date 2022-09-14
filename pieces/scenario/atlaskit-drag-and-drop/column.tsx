@@ -16,7 +16,7 @@ import { ColumnType } from '../../data/tasks';
 import { fallbackColor } from '../../shared/fallback';
 
 import { Card } from './card';
-import DropIndicator from '../../shared/drop-indicator';
+import DropIndicator from '@atlaskit/drag-and-drop-indicator/box';
 
 const columnStyles = css({
   display: 'flex',

@@ -1,4 +1,4 @@
-import { memo, useEffect, useRef, useState } from 'react';
+import { memo, Suspense, useEffect, useRef, useState } from 'react';
 
 import { css } from '@emotion/react';
 
@@ -11,10 +11,7 @@ import { fallbackColor } from '../../shared/fallback';
 import dynamic from 'next/dynamic';
 import { Card } from './card';
 
-const LazyDropIndicator = dynamic(() => import('../../shared/drop-indicator'), {
-  ssr: false,
-  suspense: true,
-});
+const LazyDropIndicator = dynamic(() => import('@atlaskit/drag-and-drop-indicator/box'));
 
 const columnStyles = css({
   display: 'flex',
@@ -105,7 +102,9 @@ export const Column = memo(function Column({ column }: { column: ColumnType }) {
           ))}
         </div>
       </div>
-      <LazyDropIndicator edge={closestEdge} gap={'var(--column-gap)'} />
+      <Suspense>
+        <LazyDropIndicator edge={closestEdge} gap={'var(--column-gap)'} />
+      </Suspense>
     </div>
   );
 });

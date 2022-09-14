@@ -15,7 +15,7 @@ import { token } from '@atlaskit/tokens';
 
 import { Item } from '../../data/tasks';
 import { fallbackColor } from '../../shared/fallback';
-import DropIndicator from '../../shared/drop-indicator';
+import DropIndicator from '@atlaskit/drag-and-drop-indicator/box';
 
 const cardStyles = css({
   display: 'flex',

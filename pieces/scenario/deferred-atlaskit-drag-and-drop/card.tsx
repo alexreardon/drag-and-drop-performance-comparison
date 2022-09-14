@@ -2,16 +2,13 @@ import dynamic from 'next/dynamic';
 import type { Edge } from '@atlaskit/drag-and-drop-hitbox/types';
 import { token } from '@atlaskit/tokens';
 import { css } from '@emotion/react';
-import { memo, useEffect, useRef, useState } from 'react';
+import { memo, Suspense, useEffect, useRef, useState } from 'react';
 
 import { Item } from '../../data/tasks';
 import { fallbackColor } from '../../shared/fallback';
 import type { DraggableState } from './attach-card';
 
-const LazyDropIndicator = dynamic(() => import('../../shared/drop-indicator'), {
-  ssr: false,
-  suspense: true,
-});
+const LazyDropIndicator = dynamic(() => import('@atlaskit/drag-and-drop-indicator/box'));
 
 const cardStyles = css({
   display: 'flex',
@@ -99,7 +96,9 @@ export const Card = memo(function Card({ item }: { item: Item }) {
       <span css={idStyles}>ID: {item.itemId}</span>
       <DragIcon state={state} />
       <CardText state={state} />
-      <LazyDropIndicator edge={closestEdge} gap={'var(--card-gap)'} />
+      <Suspense>
+        <LazyDropIndicator edge={closestEdge} gap={'var(--card-gap)'} />
+      </Suspense>
     </div>
   );
 });

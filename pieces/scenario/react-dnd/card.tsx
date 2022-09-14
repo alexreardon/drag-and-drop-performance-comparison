@@ -6,9 +6,9 @@ import { token } from '@atlaskit/tokens';
 
 import { Item } from '../../data/tasks';
 import { fallbackColor } from '../../shared/fallback';
-import { useDrag, useDragDropManager, useDrop } from 'react-dnd';
+import { useDrag, useDrop } from 'react-dnd';
 import mergeRefs from './merge-refs';
-import DropIndicator from '../../shared/drop-indicator';
+import DropIndicator from '@atlaskit/drag-and-drop-indicator/box';
 import { Edge, getClosestEdge } from './get-closest-edge';
 
 const cardStyles = css({
