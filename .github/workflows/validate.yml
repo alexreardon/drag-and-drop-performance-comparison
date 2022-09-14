@@ -1,8 +1,8 @@
-name: Lighthouse
+name: Validate
 on: [push]
 jobs:
-  lhci:
-    name: Lighthouse
+  validate:
+    name: Validate
     runs-on: ubuntu-latest
     steps:
       # Setup node
@@ -13,14 +13,8 @@ jobs:
           # Using node action to manage caching node_modules
           cache: 'yarn'
 
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
+      - name: ESLint
+        run: yarn lint
 
       - name: Build site
         run: yarn build
-
-      - name: Install lighthouse cli
-        run: yarn add @lhci --global
-
-      - name: Run lighthouse cli
-        run: lhci autorun
