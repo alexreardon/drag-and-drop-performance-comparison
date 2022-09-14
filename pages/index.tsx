@@ -16,9 +16,14 @@ export const getStaticProps: GetStaticProps = async () => {
 const Home: NextPage = ({ slugs }: { slugs?: string[] }) => {
   return (
     <>
-      <h1>ReactJS Drag & Drop Libraries' Performance Comparison</h1>
-      <p>repo:
-        <a href="https://github.com/alexreardon/drag-and-drop-performance-comparison">github.com/alexreardon/drag-and-drop-performance-comparison</a>
+      <h1>
+        <code>react.js</code> drag and drop libraries performance comparison
+      </h1>
+      <p>
+        Repo:
+        <a href="https://github.com/alexreardon/drag-and-drop-performance-comparison">
+          github.com/alexreardon/drag-and-drop-performance-comparison
+        </a>
       </p>
       <h2>Available scenarios:</h2>
       <ul>
