@@ -1,0 +1,26 @@
+name: Lighthouse
+on: [push]
+jobs:
+  lhci:
+    name: Lighthouse
+    runs-on: ubuntu-latest
+    steps:
+      # Setup node
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+          # Using node action to manage caching node_modules
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build site
+        run: yarn build
+
+      - name: Install lighthouse cli
+        run: yarn add @lhci --global
+
+      - name: Run lighthouse cli
+        run: lhci autorun
