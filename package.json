@@ -12,6 +12,7 @@
     "@atlaskit/css-reset": "^6.3.14",
     "@atlaskit/drag-and-drop": "^0.6.0",
     "@atlaskit/drag-and-drop-hitbox": "^0.2.4",
+    "@atlaskit/drag-and-drop-indicator": "^0.4.1",
     "@atlaskit/tokens": "^0.10.19",
     "@emotion/react": "^11.10.4",
     "next": "12.3.0",
