@@ -1,4 +1,4 @@
-import { memo, useMemo, useRef, useState } from 'react';
+import { forwardRef, memo, useMemo, useRef, useState } from 'react';
 
 import { css } from '@emotion/react';
 
@@ -10,6 +10,7 @@ import { SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-
 
 import { Card } from './card';
 import { SortableCard } from './sortable-card';
+import { CSS } from '@dnd-kit/utilities';
 
 const columnStyles = css({
   display: 'flex',
@@ -53,9 +54,24 @@ const columnHeaderIdStyles = css({
 export const Column = memo(function Column({ column }: { column: ColumnType }) {
   const itemIds = useMemo(() => column.items.map((item) => item.itemId), [column.items]);
 
+  const { attributes, listeners, setNodeRef, isDragging, transform, transition } = useSortable({
+    id: column.columnId,
+  });
+
+  const style = {
+    opacity: isDragging ? '0' : undefined,
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+
   return (
-    <div css={[columnStyles]}>
-      <div css={columnHeaderStyles} data-testid={`column-${column.columnId}--header`}>
+    <div css={[columnStyles]} style={style} ref={setNodeRef}>
+      <div
+        css={columnHeaderStyles}
+        {...attributes}
+        {...listeners}
+        data-testid={`column-${column.columnId}--header`}
+      >
         <h6>{column.title}</h6>
         <span css={columnHeaderIdStyles}>ID: {column.columnId}</span>
       </div>

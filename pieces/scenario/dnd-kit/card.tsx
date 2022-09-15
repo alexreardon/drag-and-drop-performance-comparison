@@ -43,11 +43,10 @@ function DragIcon({ state }: { state: DraggableState }) {
   );
 }
 
-type DraggableState = 'idle' | 'generate-preview' | 'dragging';
+type DraggableState = 'idle' | 'dragging';
 const cardText: { [State in DraggableState]: string } = {
-  'generate-preview': 'Drag preview',
   idle: 'Draggable',
-  dragging: 'Draggable source',
+  dragging: 'Dragging',
 };
 
 const cardTextStyles = css({
