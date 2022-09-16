@@ -78,7 +78,6 @@ export const Card = memo(function Card({ item, index }: { item: Item; index: num
           <div
             css={cardStyles}
             ref={provided.innerRef}
-            data-testid={`item-${itemId}`}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
           >

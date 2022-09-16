@@ -66,12 +66,7 @@ export const Column = memo(function Column({ column }: { column: ColumnType }) {
 
   return (
     <div css={[columnStyles]} style={style} ref={setNodeRef}>
-      <div
-        css={columnHeaderStyles}
-        {...attributes}
-        {...listeners}
-        data-testid={`column-${column.columnId}--header`}
-      >
+      <div css={columnHeaderStyles} {...attributes} {...listeners}>
         <h6>{column.title}</h6>
         <span css={columnHeaderIdStyles}>ID: {column.columnId}</span>
       </div>

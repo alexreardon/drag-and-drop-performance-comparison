@@ -74,11 +74,7 @@ export const Column = memo(function Column({
           ref={draggableProvided.innerRef}
           {...draggableProvided.draggableProps}
         >
-          <div
-            css={columnHeaderStyles}
-            data-testid={`column-${column.columnId}--header`}
-            {...draggableProvided.dragHandleProps}
-          >
+          <div css={columnHeaderStyles} {...draggableProvided.dragHandleProps}>
             <h6>{column.title}</h6>
             <span css={columnHeaderIdStyles}>ID: {column.columnId}</span>
           </div>

@@ -51,7 +51,7 @@ const columnHeaderIdStyles = css({
 export const Column = memo(function Column({ column }: { column: ColumnType }) {
   return (
     <div css={[columnStyles]}>
-      <div css={columnHeaderStyles} data-testid={`column-${column.columnId}--header`}>
+      <div css={columnHeaderStyles}>
         <h6>{column.title}</h6>
         <span css={columnHeaderIdStyles}>ID: {column.columnId}</span>
       </div>

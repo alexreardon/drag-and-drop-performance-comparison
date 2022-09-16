@@ -108,11 +108,7 @@ export const Card = memo(function Card({ item }: { item: Item }) {
   const state: DraggableState = isDragging ? 'dragging' : 'idle';
 
   return (
-    <div
-      css={cardStyles}
-      ref={mergeRefs([dragRef, dropRef, dropTargetRef])}
-      data-testid={`item-${item.itemId}`}
-    >
+    <div css={cardStyles} ref={mergeRefs([dragRef, dropRef, dropTargetRef])}>
       <span css={idStyles}>ID: {itemId}</span>
       <DragIcon state={state} />
       <CardText state={state} />

@@ -105,11 +105,7 @@ export const Column = memo(function Column({ column }: { column: ColumnType }) {
       css={[columnStyles, isOver && isDraggingOverColumnStyles]}
       ref={mergeRefs([draggableRef, columnDropRef, dropTargetRef])}
     >
-      <div
-        css={columnHeaderStyles}
-        ref={dragHandleRef}
-        data-testid={`column-${column.columnId}--header`}
-      >
+      <div css={columnHeaderStyles} ref={dragHandleRef}>
         <h6>{column.title}</h6>
         <span css={columnHeaderIdStyles}>ID: {column.columnId}</span>
       </div>

@@ -72,7 +72,7 @@ export const Card = memo(function Card({ item }: { item: Item }) {
   const [state, setState] = useState<DraggableState>('idle');
 
   return (
-    <div css={cardStyles} ref={ref} data-testid={`item-${itemId}`}>
+    <div css={cardStyles} ref={ref}>
       <span css={idStyles}>ID: {item.itemId}</span>
       <DragIcon state={state} />
       <CardText state={state} />

@@ -120,7 +120,7 @@ export const Column = memo(function Column({ column }: { column: ColumnType }) {
 
   return (
     <div css={[columnStyles, isDraggingOver && isDraggingOverColumnStyles]} ref={columnRef}>
-      <div css={columnHeaderStyles} ref={headerRef} data-testid={`column-${columnId}--header`}>
+      <div css={columnHeaderStyles} ref={headerRef}>
         <h6>{column.title}</h6>
         <span css={columnHeaderIdStyles}>ID: {column.columnId}</span>
       </div>
