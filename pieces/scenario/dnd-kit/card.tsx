@@ -1,4 +1,4 @@
-import { AllHTMLAttributes, forwardRef } from 'react';
+import { AllHTMLAttributes, forwardRef, memo } from 'react';
 
 import { css } from '@emotion/react';
 
@@ -66,17 +66,16 @@ function CardText({ state }: { state: DraggableState }) {
 
 type Props = { itemId: string; state: DraggableState } & AllHTMLAttributes<HTMLDivElement>;
 
-export const Card = forwardRef<HTMLDivElement, Props>(function Card(
-  { itemId, state, ...rest }: Props,
-  ref,
-) {
-  return (
-    <>
-      <div css={cardStyles} {...rest} ref={ref}>
-        <span css={idStyles}>ID: {itemId}</span>
-        <DragIcon state={state} />
-        <CardText state={state} />
-      </div>
-    </>
-  );
-});
+export const Card = memo(
+  forwardRef<HTMLDivElement, Props>(function Card({ itemId, state, ...rest }: Props, ref) {
+    return (
+      <>
+        <div css={cardStyles} {...rest} ref={ref}>
+          <span css={idStyles}>ID: {itemId}</span>
+          <DragIcon state={state} />
+          <CardText state={state} />
+        </div>
+      </>
+    );
+  }),
+);

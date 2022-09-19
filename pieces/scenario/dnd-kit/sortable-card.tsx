@@ -1,9 +1,9 @@
-import { useDraggable } from '@dnd-kit/core';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { memo } from 'react';
 import { Card } from './card';
 
-export function SortableCard({ itemId }: { itemId: string }) {
+export const SortableCard = memo(function SortableCard({ itemId }: { itemId: string }) {
   const { attributes, listeners, setNodeRef, isDragging, transform, transition } = useSortable({
     id: itemId,
   });
@@ -24,4 +24,4 @@ export function SortableCard({ itemId }: { itemId: string }) {
       style={style}
     />
   );
-}
+});
