@@ -17,9 +17,7 @@ import { token } from '@atlaskit/tokens';
 import { Item } from '../../data/tasks';
 import { fallbackColor } from '../../shared/fallback';
 
-import arrowDownIcon from './arrow-down.svg';
-import arrowUpIcon from './arrow-up.svg';
-import Button from './button';
+import { MenuButton, MenuItem } from '../../shared/menu-button';
 
 const cardStyles = css({
   display: 'flex',
@@ -38,7 +36,7 @@ const cardStyles = css({
 const idStyles = css({
   position: 'absolute',
   top: 'var(--grid)',
-  right: 'var(--grid)',
+  left: 'var(--grid)',
   color: token('color.text.disabled', fallbackColor),
   fontSize: '10px',
 });
@@ -80,45 +78,11 @@ function CardText({ state }: { state: DraggableState }) {
   );
 }
 
-const controlGroupStyles = css({
+const controlStyles = css({
   position: 'absolute',
-  bottom: 8,
+  top: 8,
   right: 8,
-  display: 'flex',
-  gap: 4,
-  background: token('elevation.surface.overlay', '#FFF'),
-  boxShadow: token('elevation.shadow.overlay', '0px 8px 12px #091E4226, 0px 0px 1px #091E424F'),
-  padding: 4,
-  borderRadius: 3,
-  opacity: 0,
-  ':focus-within': {
-    opacity: 1,
-  },
 });
-
-const selectStyles = css({
-  background: token('color.background.input', '#FFF'),
-  border: `2px solid ${token('color.border', '#091E4224')}`,
-  borderRadius: 3,
-});
-
-const CardControls = ({ itemId, columnId }: { itemId: string; columnId: string }) => {
-  return (
-    <div role="group" aria-label={`item ${itemId} controls`} css={controlGroupStyles}>
-      <Button aria-label={`move card ${itemId} up`}>
-        <img {...arrowUpIcon} alt="" />
-      </Button>
-      <Button aria-label={`move card ${itemId} down`}>
-        <img {...arrowDownIcon} alt="" />
-      </Button>
-      <select css={selectStyles} aria-label="card column" defaultValue={columnId}>
-        <option value="A">Column A</option>
-        <option value="B">Column B</option>
-        <option value="C">Column C</option>
-      </select>
-    </div>
-  );
-};
 
 export const Card = memo(function Card({ item, columnId }: { item: Item; columnId: string }) {
   const ref = useRef<HTMLDivElement | null>(null);
@@ -178,6 +142,12 @@ export const Card = memo(function Card({ item, columnId }: { item: Item; columnI
       <DragIcon state={state} />
       <CardText state={state} />
       <DropIndicator edge={closestEdge} gap={'var(--card-gap)'} />
+      <div css={controlStyles}>
+        <MenuButton label={`controls for card ${itemId}`}>
+          <MenuItem>Move up</MenuItem>
+          <MenuItem>Move down</MenuItem>
+        </MenuButton>
+      </div>
     </div>
   );
 });
