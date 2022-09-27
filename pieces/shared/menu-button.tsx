@@ -241,18 +241,23 @@ export const MenuButton = ({ label, children }: { label: string; children: React
         break;
     }
 
-    // TODO: select next, not just first
     if (containerRef.current && /[a-z]/i.test(event.key)) {
       const letter = event.key.toLowerCase();
 
-      const items = containerRef.current.querySelectorAll('li');
+      const items = Array.from(containerRef.current.querySelectorAll('li'));
 
-      for (let i = 0; i < items.length; i++) {
-        const item = items[i];
-        if (item.textContent?.toLowerCase().startsWith(letter)) {
-          item.focus();
-          break;
-        }
+      const activeIndex = items.indexOf(document.activeElement as HTMLLIElement);
+
+      let match = items
+        .slice(activeIndex + 1)
+        .find((item) => item.textContent?.toLowerCase().startsWith(letter));
+
+      if (match === undefined) {
+        match = items.find((item) => item.textContent?.toLowerCase().startsWith(letter));
+      }
+
+      if (match !== undefined) {
+        match.focus();
       }
     }
   }, []);

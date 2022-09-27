@@ -62,21 +62,6 @@ const isDraggingOverColumnStyles = css({
   background: token('color.background.selected.hovered', fallbackColor),
 });
 
-const columnControlStyles = css({
-  display: 'flex',
-  gap: 4,
-});
-
-const ColumnControls = ({ columnId }: { columnId: string }) => {
-  return (
-    <MenuButton>
-      <MenuItem>A</MenuItem>
-      <MenuItem>B</MenuItem>
-      <MenuItem>C</MenuItem>
-    </MenuButton>
-  );
-};
-
 export const Column = memo(function Column({ column }: { column: ColumnType }) {
   const columnId = column.columnId;
   const columnRef = useRef<HTMLDivElement | null>(null);
@@ -140,7 +125,10 @@ export const Column = memo(function Column({ column }: { column: ColumnType }) {
       <div css={columnHeaderStyles} ref={headerRef}>
         <h6>{column.title}</h6>
         <span css={columnHeaderIdStyles}>ID: {column.columnId}</span>
-        <ColumnControls columnId={columnId} />
+        <MenuButton label={`controls for column ${columnId}`}>
+          <MenuItem>Move up</MenuItem>
+          <MenuItem>Move down</MenuItem>
+        </MenuButton>
       </div>
       <div css={scrollContainerStyles}>
         <div css={cardListStyles} ref={cardListRef}>
