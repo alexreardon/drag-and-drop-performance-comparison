@@ -39,7 +39,6 @@ export const MenuButton = ({ label, children }: { label: string; children: React
   const { isInitialRender } = useInitialRender();
   useEffect(() => {
     if (!isInitialRender && !isOpen) {
-      console.log('focusing trigger');
       window.setTimeout(() => {
         triggerRef.current?.focus();
       }, 0);
@@ -140,7 +139,13 @@ export const MenuButton = ({ label, children }: { label: string; children: React
 
   return (
     <span css={containerStyles} ref={containerRef}>
-      <Trigger isOpen={isOpen} label={label} onClick={onClick} onKeyDown={onKeyDown} />
+      <Trigger
+        ref={triggerRef}
+        isOpen={isOpen}
+        label={label}
+        onClick={onClick}
+        onKeyDown={onKeyDown}
+      />
       {isOpen && (
         <Menu ref={menuRef} onKeyDown={onMenuKeyDown}>
           {children}
