@@ -27,10 +27,11 @@ const panelStyles = css({
   position: 'absolute',
   background: token('elevation.surface.overlay', fallbackColor),
   boxShadow: token('elevation.shadow.overlay', fallbackColor),
-  minWidth: 240,
-  minHeight: 120,
+  minWidth: 48,
+  minHeight: 48,
   zIndex: 1,
-  top: '100%',
+  top: 'calc(100% + 8px)',
+  borderRadius: 3,
   right: 0,
   listStyleType: 'none',
   padding: 0,
@@ -107,11 +108,23 @@ const Menu = forwardRef<MenuHandle, MenuProps>(function Menu({ children, onKeyDo
 
 const menuItemStyles = css({
   display: 'flex',
+  padding: 8,
+  margin: 0,
   ':hover': {
     background: token('color.background.neutral.subtle.hovered'),
   },
   ':active': {
     background: token('color.background.neutral.subtle.pressed'),
+  },
+});
+
+const menuItemSelectedStyles = css({
+  background: token('color.background.selected'),
+  ':hover': {
+    background: token('color.background.selected.hovered'),
+  },
+  ':active': {
+    background: token('color.background.selected.pressed'),
   },
 });
 
@@ -132,7 +145,7 @@ export const MenuItem = ({ children }: { children: ReactNode }) => {
 
   return (
     <li
-      css={menuItemStyles}
+      css={[menuItemStyles, hasFocus && menuItemSelectedStyles]}
       role="menuitem"
       onFocus={onFocus}
       onBlur={onBlur}
@@ -172,6 +185,11 @@ export const MenuButton = ({ label, children }: { label: string; children: React
   }, []);
 
   useEffect(() => {
+    if (isOpen === false) {
+      setInitialFocus('first');
+      return;
+    }
+
     if (initialFocus === 'first') {
       menuRef.current?.focusFirst();
     }
@@ -179,17 +197,12 @@ export const MenuButton = ({ label, children }: { label: string; children: React
     if (initialFocus === 'last') {
       menuRef.current?.focusLast();
     }
-
-    if (isOpen === false) {
-      setInitialFocus('first');
-    }
   }, [initialFocus, isOpen]);
 
   const onMenuKeyDown: KeyboardEventHandler<HTMLButtonElement> = useCallback((event) => {
     switch (event.key) {
       case 'Escape':
         toggleIsOpen();
-        triggerRef.current?.focus();
         return;
 
       case 'ArrowDown':
