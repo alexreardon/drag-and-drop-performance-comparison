@@ -199,6 +199,8 @@ export const MenuButton = ({ label, children }: { label: string; children: React
     }
   }, [initialFocus, isOpen]);
 
+  const containerRef = useRef<HTMLSpanElement>(null);
+
   const onMenuKeyDown: KeyboardEventHandler<HTMLButtonElement> = useCallback((event) => {
     switch (event.key) {
       case 'Escape':
@@ -212,6 +214,29 @@ export const MenuButton = ({ label, children }: { label: string; children: React
       case 'ArrowUp':
         menuRef.current?.focusPrev();
         break;
+
+      case 'Home':
+        menuRef.current?.focusFirst();
+        break;
+
+      case 'End':
+        menuRef.current?.focusLast();
+        break;
+    }
+
+    // TODO: select next, not just first
+    if (containerRef.current && /[a-z]/i.test(event.key)) {
+      const letter = event.key.toLowerCase();
+
+      const items = containerRef.current.querySelectorAll('li');
+
+      for (let i = 0; i < items.length; i++) {
+        const item = items[i];
+        if (item.textContent?.toLowerCase().startsWith(letter)) {
+          item.focus();
+          break;
+        }
+      }
     }
   }, []);
 
@@ -243,7 +268,7 @@ export const MenuButton = ({ label, children }: { label: string; children: React
   }, []);
 
   return (
-    <span css={containerStyles}>
+    <span css={containerStyles} ref={containerRef}>
       <Button
         role="button"
         aria-haspopup="menu"
