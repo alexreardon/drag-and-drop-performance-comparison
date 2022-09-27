@@ -178,7 +178,7 @@ export const Card = memo(function Card({ item, columnId }: { item: Item; columnI
       <DragIcon state={state} />
       <CardText state={state} />
       <DropIndicator edge={closestEdge} gap={'var(--card-gap)'} />
-      <CardControls itemId={item.itemId} columnId={columnId} />
+      {/* <CardControls itemId={item.itemId} columnId={columnId} /> */}
     </div>
   );
 });

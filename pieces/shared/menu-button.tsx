@@ -1,4 +1,5 @@
 import {
+  FocusEventHandler,
   forwardRef,
   KeyboardEventHandler,
   MouseEventHandler,
@@ -18,6 +19,7 @@ import { token } from '@atlaskit/tokens';
 import Button from './button';
 import { fallbackColor } from './fallback';
 import moreIcon from './more.svg';
+import { useFocusContext } from './focus-context';
 
 const panelStyles = css({
   display: 'flex',
@@ -49,41 +51,46 @@ const stopPropagation: MouseEventHandler = (event) => {
 const Menu = forwardRef<MenuHandle, MenuProps>(function Menu({ children, onKeyDown }, handleRef) {
   const internalRef = useRef<HTMLUListElement>(null);
 
-  useImperativeHandle(handleRef, () => {
-    return {
-      focusFirst() {
-        const { current } = internalRef;
-        current?.firstElementChild?.focus();
-      },
-      focusLast() {
-        const { current } = internalRef;
-        console.log('focus last', current?.lastElementChild);
-        current?.lastElementChild?.focus();
-      },
-      focusNext() {
-        const { current } = internalRef;
-        const active = current?.querySelector('[tabindex="0"]');
+  useImperativeHandle(
+    handleRef,
+    () => {
+      return {
+        internal: internalRef,
+        focusFirst() {
+          const { current } = internalRef;
+          current?.firstElementChild?.focus();
+        },
+        focusLast() {
+          const { current } = internalRef;
+          console.log('focus last', current?.lastElementChild);
+          current?.lastElementChild?.focus();
+        },
+        focusNext() {
+          const { current } = internalRef;
+          const active = current?.querySelector('[tabindex="0"]');
 
-        let next = active?.nextElementSibling;
-        if (next === null) {
-          next = current?.firstElementChild;
-        }
+          let next = active?.nextElementSibling;
+          if (next === null) {
+            next = current?.firstElementChild;
+          }
 
-        next?.focus();
-      },
-      focusPrev() {
-        const { current } = internalRef;
-        const active = current?.querySelector('[tabindex="0"]');
+          next?.focus();
+        },
+        focusPrev() {
+          const { current } = internalRef;
+          const active = current?.querySelector('[tabindex="0"]');
 
-        let prev = active?.previousElementSibling;
-        if (prev === null) {
-          prev = current?.lastElementChild;
-        }
+          let prev = active?.previousElementSibling;
+          if (prev === null) {
+            prev = current?.lastElementChild;
+          }
 
-        prev?.focus();
-      },
-    };
-  });
+          prev?.focus();
+        },
+      };
+    },
+    [internalRef],
+  );
 
   return (
     <ul
@@ -115,7 +122,11 @@ export const MenuItem = ({ children }: { children: ReactNode }) => {
     setHasFocus(true);
   }, []);
 
-  const onBlur = useCallback(() => {
+  const onBlur: FocusEventHandler = useCallback((event) => {
+    if (event.relatedTarget === null) {
+      return;
+    }
+
     setHasFocus(false);
   }, []);
 
@@ -191,6 +202,16 @@ export const MenuButton = ({ label, children }: { label: string; children: React
     }
   }, []);
 
+  const { hasFocusLock, setHasFocusLock } = useFocusContext();
+  useEffect(() => {
+    if (isOpen) {
+      setHasFocusLock(true);
+      return () => {
+        setHasFocusLock(false);
+      };
+    }
+  }, [isOpen, setHasFocusLock]);
+
   useEffect(() => {
     if (!isOpen) {
       return;
@@ -217,7 +238,7 @@ export const MenuButton = ({ label, children }: { label: string; children: React
         aria-label={label}
         onClick={onClick}
         onKeyDown={onKeyDown}
-        inert={isOpen ? 'true' : undefined}
+        inert={hasFocusLock ? 'true' : undefined}
         ref={triggerRef}
       >
         <img {...moreIcon} alt="" />
