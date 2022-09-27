@@ -34,6 +34,7 @@ const Trigger = forwardRef<HTMLButtonElement, TriggerProps>(function Trigger(
       aria-label={label}
       onClick={onClick}
       onKeyDown={onKeyDown}
+      // @ts-expect-error the DOM types don't seem to have inert yet
       inert={hasFocusLock ? 'true' : undefined}
       ref={ref}
     >
