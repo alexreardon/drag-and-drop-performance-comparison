@@ -160,6 +160,14 @@ const containerStyles = css({
   position: 'relative',
 });
 
+const useInitialRender = () => {
+  const isInitialRenderRef = useRef(true);
+  useEffect(() => {
+    isInitialRenderRef.current = false;
+  }, []);
+  return { isInitialRender: isInitialRenderRef.current };
+};
+
 export const MenuButton = ({ label, children }: { label: string; children: ReactNode }) => {
   const [isOpen, toggleIsOpen] = useReducer((isOpen) => !isOpen, false);
 
@@ -168,6 +176,16 @@ export const MenuButton = ({ label, children }: { label: string; children: React
   const menuRef = useRef<MenuHandle>(null);
 
   const triggerRef = useRef<HTMLButtonElement>(null);
+
+  const { isInitialRender } = useInitialRender();
+  useEffect(() => {
+    if (!isInitialRender && !isOpen) {
+      console.log('focusing trigger');
+      window.setTimeout(() => {
+        triggerRef.current?.focus();
+      }, 0);
+    }
+  }, [isInitialRender, isOpen]);
 
   const onKeyDown: KeyboardEventHandler<HTMLButtonElement> = useCallback((event) => {
     switch (event.key) {
