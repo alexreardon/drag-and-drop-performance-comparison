@@ -43,6 +43,8 @@ type MenuProps = { children: ReactNode; onKeyDown: KeyboardEventHandler };
 type MenuHandle = {
   focusFirst(): void;
   focusLast(): void;
+  focusNext(): void;
+  focusPrev(): void;
 };
 
 const stopPropagation: MouseEventHandler = (event) => {
@@ -58,32 +60,29 @@ const Menu = forwardRef<MenuHandle, MenuProps>(function Menu({ children, onKeyDo
       return {
         internal: internalRef,
         focusFirst() {
-          const { current } = internalRef;
-          current?.firstElementChild?.focus();
+          const firstElementChild = internalRef.current?.firstElementChild as HTMLElement;
+          firstElementChild.focus();
         },
         focusLast() {
-          const { current } = internalRef;
-          console.log('focus last', current?.lastElementChild);
-          current?.lastElementChild?.focus();
+          const lastElementChild = internalRef.current?.lastElementChild as HTMLElement;
+          lastElementChild.focus();
         },
         focusNext() {
-          const { current } = internalRef;
-          const active = current?.querySelector('[tabindex="0"]');
+          const active = internalRef.current?.querySelector('[tabindex="0"]');
 
-          let next = active?.nextElementSibling;
+          let next = active?.nextElementSibling as HTMLElement;
           if (next === null) {
-            next = current?.firstElementChild;
+            next = internalRef.current?.firstElementChild as HTMLElement;
           }
 
-          next?.focus();
+          next.focus();
         },
         focusPrev() {
-          const { current } = internalRef;
-          const active = current?.querySelector('[tabindex="0"]');
+          const active = internalRef.current?.querySelector('[tabindex="0"]');
 
-          let prev = active?.previousElementSibling;
+          let prev = active?.previousElementSibling as HTMLElement;
           if (prev === null) {
-            prev = current?.lastElementChild;
+            prev = internalRef.current?.lastElementChild as HTMLElement;
           }
 
           prev?.focus();
