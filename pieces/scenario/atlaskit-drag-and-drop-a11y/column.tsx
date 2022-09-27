@@ -16,10 +16,8 @@ import { token } from '@atlaskit/tokens';
 import { ColumnType } from '../../data/tasks';
 import { fallbackColor } from '../../shared/fallback';
 
-import arrowLeftIcon from './arrow-left.svg';
-import arrowRightIcon from './arrow-right.svg';
-import Button from './button';
 import { Card } from './card';
+import { MenuButton, MenuItem } from '../../shared/menu-button';
 
 const columnStyles = css({
   display: 'flex',
@@ -71,14 +69,11 @@ const columnControlStyles = css({
 
 const ColumnControls = ({ columnId }: { columnId: string }) => {
   return (
-    <span css={columnControlStyles}>
-      <Button aria-label={`move column ${columnId} left`}>
-        <img {...arrowLeftIcon} alt="" />
-      </Button>
-      <Button aria-label={`move column ${columnId} right`}>
-        <img {...arrowRightIcon} alt="" />
-      </Button>
-    </span>
+    <MenuButton>
+      <MenuItem>A</MenuItem>
+      <MenuItem>B</MenuItem>
+      <MenuItem>C</MenuItem>
+    </MenuButton>
   );
 };
 
