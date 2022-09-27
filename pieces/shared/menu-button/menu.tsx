@@ -3,6 +3,7 @@ import {
   KeyboardEventHandler,
   MouseEventHandler,
   ReactNode,
+  useCallback,
   useImperativeHandle,
   useRef,
 } from 'react';
@@ -13,7 +14,11 @@ import { token } from '@atlaskit/tokens';
 
 import { fallbackColor } from '../fallback';
 
-type MenuProps = { children: ReactNode; onKeyDown: KeyboardEventHandler };
+type MenuProps = {
+  children: ReactNode;
+  onKeyDown: KeyboardEventHandler;
+  onClose: () => void;
+};
 
 export type MenuHandle = {
   focusFirst(): void;
@@ -44,7 +49,10 @@ const stopPropagation: MouseEventHandler = (event) => {
   event.stopPropagation();
 };
 
-const Menu = forwardRef<MenuHandle, MenuProps>(function Menu({ children, onKeyDown }, handleRef) {
+const Menu = forwardRef<MenuHandle, MenuProps>(function Menu(
+  { children, onKeyDown: onKeydownProp, onClose },
+  handleRef,
+) {
   const internalRef = useRef<HTMLUListElement>(null);
 
   useImperativeHandle(
@@ -83,6 +91,20 @@ const Menu = forwardRef<MenuHandle, MenuProps>(function Menu({ children, onKeyDo
       };
     },
     [internalRef],
+  );
+
+  const onKeyDown: KeyboardEventHandler = useCallback(
+    (event) => {
+      onKeydownProp(event);
+
+      switch (event.key) {
+        case 'Enter':
+        case ' ':
+          onClose();
+          break;
+      }
+    },
+    [onKeydownProp, onClose],
   );
 
   return (

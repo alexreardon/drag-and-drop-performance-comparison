@@ -137,6 +137,10 @@ export const MenuButton = ({ label, children }: { label: string; children: React
     event.stopPropagation();
   }, []);
 
+  const onClose = useCallback(() => {
+    toggleIsOpen();
+  }, []);
+
   return (
     <span css={containerStyles} ref={containerRef}>
       <Trigger
@@ -147,7 +151,7 @@ export const MenuButton = ({ label, children }: { label: string; children: React
         onKeyDown={onKeyDown}
       />
       {isOpen && (
-        <Menu ref={menuRef} onKeyDown={onMenuKeyDown}>
+        <Menu ref={menuRef} onKeyDown={onMenuKeyDown} onClose={onClose}>
           {children}
         </Menu>
       )}
