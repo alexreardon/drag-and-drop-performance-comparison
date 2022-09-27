@@ -100,6 +100,12 @@ const Menu = forwardRef<MenuHandle, MenuProps>(function Menu({ children, onKeyDo
 
 const menuItemStyles = css({
   display: 'flex',
+  ':hover': {
+    background: token('color.background.neutral.subtle.hovered'),
+  },
+  ':active': {
+    background: token('color.background.neutral.subtle.pressed'),
+  },
 });
 
 export const MenuItem = ({ children }: { children: ReactNode }) => {
