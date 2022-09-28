@@ -108,6 +108,14 @@ const Menu = forwardRef<MenuHandle, MenuProps>(function Menu(
     [onKeydownProp, onClose],
   );
 
+  const onClick: MouseEventHandler = useCallback(
+    (event) => {
+      event.stopPropagation();
+      onClose({ shouldResetFocus: true });
+    },
+    [onClose],
+  );
+
   const onBlur: FocusEventHandler = useCallback(
     (event) => {
       if (!internalRef.current) {
@@ -128,7 +136,7 @@ const Menu = forwardRef<MenuHandle, MenuProps>(function Menu(
       css={menuStyles}
       ref={internalRef}
       onKeyDown={onKeyDown}
-      onClick={stopPropagation}
+      onClick={onClick}
       onBlur={onBlur}
     >
       {children}
