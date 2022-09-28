@@ -36,14 +36,16 @@ export const MenuButton = ({ label, children }: { label: string; children: React
 
   const triggerRef = useRef<HTMLButtonElement>(null);
 
-  const { isInitialRender } = useInitialRender();
+  const shouldResetFocusRef = useRef(false);
+
   useEffect(() => {
-    if (!isInitialRender && !isOpen) {
+    if (!isOpen && shouldResetFocusRef.current) {
+      shouldResetFocusRef.current = false;
       window.setTimeout(() => {
         triggerRef.current?.focus();
       }, 0);
     }
-  }, [isInitialRender, isOpen]);
+  }, [isOpen]);
 
   const onKeyDown: KeyboardEventHandler<HTMLButtonElement> = useCallback((event) => {
     switch (event.key) {
@@ -79,6 +81,7 @@ export const MenuButton = ({ label, children }: { label: string; children: React
   const onMenuKeyDown: KeyboardEventHandler<HTMLButtonElement> = useCallback((event) => {
     switch (event.key) {
       case 'Escape':
+        shouldResetFocusRef.current = true;
         toggleIsOpen();
         return;
 
@@ -137,7 +140,8 @@ export const MenuButton = ({ label, children }: { label: string; children: React
     event.stopPropagation();
   }, []);
 
-  const onClose = useCallback(() => {
+  const onClose = useCallback(({ shouldResetFocus }: { shouldResetFocus: boolean }) => {
+    shouldResetFocusRef.current = shouldResetFocus;
     toggleIsOpen();
   }, []);
 

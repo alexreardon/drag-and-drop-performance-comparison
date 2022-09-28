@@ -1,4 +1,5 @@
 import {
+  FocusEventHandler,
   forwardRef,
   KeyboardEventHandler,
   MouseEventHandler,
@@ -17,7 +18,7 @@ import { fallbackColor } from '../fallback';
 type MenuProps = {
   children: ReactNode;
   onKeyDown: KeyboardEventHandler;
-  onClose: () => void;
+  onClose: (args: { shouldResetFocus: boolean }) => void;
 };
 
 export type MenuHandle = {
@@ -100,11 +101,25 @@ const Menu = forwardRef<MenuHandle, MenuProps>(function Menu(
       switch (event.key) {
         case 'Enter':
         case ' ':
-          onClose();
+          onClose({ shouldResetFocus: true });
           break;
       }
     },
     [onKeydownProp, onClose],
+  );
+
+  const onBlur: FocusEventHandler = useCallback(
+    (event) => {
+      if (!internalRef.current) {
+        return;
+      }
+      if (internalRef.current.contains(event.relatedTarget)) {
+        return;
+      }
+
+      onClose({ shouldResetFocus: false });
+    },
+    [onClose],
   );
 
   return (
@@ -114,6 +129,7 @@ const Menu = forwardRef<MenuHandle, MenuProps>(function Menu(
       ref={internalRef}
       onKeyDown={onKeyDown}
       onClick={stopPropagation}
+      onBlur={onBlur}
     >
       {children}
     </ul>
