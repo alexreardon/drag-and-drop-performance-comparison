@@ -73,16 +73,24 @@ export const MenuButton = ({ label, children }: { label: string; children: React
 
   const triggerRef = useRef<HTMLButtonElement>(null);
 
+  /**
+   * Handles moving focus back to the trigger on menu close.
+   *
+   * Not all closures should move focus back,
+   * so this ref allows for choosing when it happens.
+   */
   const shouldResetFocusRef = useRef(false);
-
   useEffect(() => {
     if (!isOpen && shouldResetFocusRef.current) {
       shouldResetFocusRef.current = false;
-      window.setTimeout(() => {
-        triggerRef.current?.focus();
-      }, 0);
+      triggerRef.current?.focus();
     }
   }, [isOpen]);
+
+  const closeMenu = useCallback(({ shouldResetFocus }: { shouldResetFocus: boolean }) => {
+    shouldResetFocusRef.current = shouldResetFocus;
+    toggleIsOpen();
+  }, []);
 
   const onKeyDown: KeyboardEventHandler<HTMLButtonElement> = useCallback((event) => {
     switch (event.key) {
@@ -117,38 +125,40 @@ export const MenuButton = ({ label, children }: { label: string; children: React
 
   const containerRef = useRef<HTMLSpanElement>(null);
 
-  const onMenuKeyDown: KeyboardEventHandler<HTMLButtonElement> = useCallback((event) => {
-    if (containerRef.current === null) {
-      return;
-    }
-
-    switch (event.key) {
-      case 'Escape':
-        shouldResetFocusRef.current = true;
-        toggleIsOpen();
+  const onMenuKeyDown: KeyboardEventHandler<HTMLButtonElement> = useCallback(
+    (event) => {
+      if (containerRef.current === null) {
         return;
+      }
 
-      case 'ArrowDown':
-        menuRef.current?.focusNext();
-        event.preventDefault();
-        return;
+      switch (event.key) {
+        case 'Escape':
+          closeMenu({ shouldResetFocus: true });
+          return;
 
-      case 'ArrowUp':
-        menuRef.current?.focusPrev();
-        event.preventDefault();
-        break;
+        case 'ArrowDown':
+          menuRef.current?.focusNext();
+          event.preventDefault();
+          return;
 
-      case 'Home':
-        menuRef.current?.focusFirst();
-        break;
+        case 'ArrowUp':
+          menuRef.current?.focusPrev();
+          event.preventDefault();
+          break;
 
-      case 'End':
-        menuRef.current?.focusLast();
-        break;
-    }
+        case 'Home':
+          menuRef.current?.focusFirst();
+          break;
 
-    focusNextMatch(containerRef.current, event.key);
-  }, []);
+        case 'End':
+          menuRef.current?.focusLast();
+          break;
+      }
+
+      focusNextMatch(containerRef.current, event.key);
+    },
+    [closeMenu],
+  );
 
   useEffect(() => {
     if (!isOpen) {
@@ -167,11 +177,6 @@ export const MenuButton = ({ label, children }: { label: string; children: React
     event.stopPropagation();
   }, []);
 
-  const onClose = useCallback(({ shouldResetFocus }: { shouldResetFocus: boolean }) => {
-    shouldResetFocusRef.current = shouldResetFocus;
-    toggleIsOpen();
-  }, []);
-
   return (
     <span css={containerStyles} ref={containerRef}>
       <Trigger
@@ -182,7 +187,7 @@ export const MenuButton = ({ label, children }: { label: string; children: React
         onKeyDown={onKeyDown}
       />
       {isOpen && (
-        <Menu ref={menuRef} onKeyDown={onMenuKeyDown} onClose={onClose}>
+        <Menu ref={menuRef} onKeyDown={onMenuKeyDown} onClose={closeMenu}>
           {children}
         </Menu>
       )}
