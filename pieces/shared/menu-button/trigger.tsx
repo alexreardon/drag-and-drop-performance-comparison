@@ -38,7 +38,7 @@ const Trigger = forwardRef<HTMLButtonElement, TriggerProps>(function Trigger(
       inert={hasFocusLock ? 'true' : undefined}
       ref={ref}
     >
-      <img {...moreIcon} alt="" />
+      <img {...moreIcon} alt="" draggable={false} />
     </Button>
   );
 });
