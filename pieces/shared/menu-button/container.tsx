@@ -19,14 +19,6 @@ const containerStyles = css({
   position: 'relative',
 });
 
-const useInitialRender = () => {
-  const isInitialRenderRef = useRef(true);
-  useEffect(() => {
-    isInitialRenderRef.current = false;
-  }, []);
-  return { isInitialRender: isInitialRenderRef.current };
-};
-
 export const MenuButton = ({ label, children }: { label: string; children: ReactNode }) => {
   const [isOpen, toggleIsOpen] = useReducer((isOpen) => !isOpen, false);
 
