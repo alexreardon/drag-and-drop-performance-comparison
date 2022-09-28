@@ -118,6 +118,10 @@ export const MenuButton = ({ label, children }: { label: string; children: React
   const containerRef = useRef<HTMLSpanElement>(null);
 
   const onMenuKeyDown: KeyboardEventHandler<HTMLButtonElement> = useCallback((event) => {
+    if (containerRef.current === null) {
+      return;
+    }
+
     switch (event.key) {
       case 'Escape':
         shouldResetFocusRef.current = true;
