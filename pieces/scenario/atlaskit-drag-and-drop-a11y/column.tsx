@@ -124,7 +124,6 @@ export const Column = memo(function Column({ column }: { column: ColumnType }) {
     <div css={[columnStyles, isDraggingOver && isDraggingOverColumnStyles]} ref={columnRef}>
       <div css={columnHeaderStyles} ref={headerRef}>
         <h6>{column.title}</h6>
-        {/* <span css={columnHeaderIdStyles}>ID: {column.columnId}</span> */}
         <MenuButton label={`controls for column ${columnId}`}>
           <MenuItem>Move left</MenuItem>
           <MenuItem>Move right</MenuItem>

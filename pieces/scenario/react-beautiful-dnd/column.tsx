@@ -1,4 +1,4 @@
-import { memo, useRef, useState } from 'react';
+import { memo } from 'react';
 
 import { css } from '@emotion/react';
 
@@ -6,6 +6,7 @@ import { token } from '@atlaskit/tokens';
 
 import { ColumnType } from '../../data/tasks';
 import { fallbackColor } from '../../shared/fallback';
+import { MenuButton, MenuItem } from '../../shared/menu-button';
 
 import { Card } from './card';
 import {
@@ -76,7 +77,10 @@ export const Column = memo(function Column({
         >
           <div css={columnHeaderStyles} {...draggableProvided.dragHandleProps}>
             <h6>{column.title}</h6>
-            <span css={columnHeaderIdStyles}>ID: {column.columnId}</span>
+            <MenuButton label={`controls for column ${column.columnId}`}>
+              <MenuItem>Edit</MenuItem>
+              <MenuItem>Share</MenuItem>
+            </MenuButton>
           </div>
           <Droppable droppableId={column.columnId} type="QUOTE" direction="vertical">
             {(droppableProvided: DroppableProvided, droppableSnapshot: DroppableStateSnapshot) => (

@@ -6,6 +6,7 @@ import { token } from '@atlaskit/tokens';
 
 import { ColumnType } from '../../data/tasks';
 import { fallbackColor } from '../../shared/fallback';
+import { MenuButton, MenuItem } from '../../shared/menu-button';
 import { SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 
 import { Card } from './card';
@@ -46,11 +47,6 @@ const columnHeaderStyles = css({
   userSelect: 'none',
 });
 
-const columnHeaderIdStyles = css({
-  color: token('color.text.disabled', fallbackColor),
-  fontSize: '10px',
-});
-
 export const Column = memo(function Column({ column }: { column: ColumnType }) {
   const itemIds = useMemo(() => column.items.map((item) => item.itemId), [column.items]);
 
@@ -68,7 +64,10 @@ export const Column = memo(function Column({ column }: { column: ColumnType }) {
     <div css={[columnStyles]} style={style} ref={setNodeRef}>
       <div css={columnHeaderStyles} {...attributes} {...listeners}>
         <h6>{column.title}</h6>
-        <span css={columnHeaderIdStyles}>ID: {column.columnId}</span>
+        <MenuButton label={`controls for column ${column.columnId}`}>
+          <MenuItem>Edit</MenuItem>
+          <MenuItem>Share</MenuItem>
+        </MenuButton>
       </div>
       <div css={scrollContainerStyles}>
         <SortableContext items={itemIds} strategy={verticalListSortingStrategy}>

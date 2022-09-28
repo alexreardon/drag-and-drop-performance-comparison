@@ -7,6 +7,7 @@ import { token } from '@atlaskit/tokens';
 import type { Edge } from '@atlaskit/drag-and-drop-hitbox/types';
 import { ColumnType } from '../../data/tasks';
 import { fallbackColor } from '../../shared/fallback';
+import { MenuButton, MenuItem } from '../../shared/menu-button';
 
 import dynamic from 'next/dynamic';
 import { Card } from './card';
@@ -45,11 +46,6 @@ const columnHeaderStyles = css({
   color: token('color.text.subtlest', fallbackColor),
   // cursor: 'grab',
   userSelect: 'none',
-});
-
-const columnHeaderIdStyles = css({
-  color: token('color.text.disabled', fallbackColor),
-  fontSize: '10px',
 });
 
 const isDraggingOverColumnStyles = css({
@@ -93,7 +89,10 @@ export const Column = memo(function Column({ column }: { column: ColumnType }) {
     <div css={[columnStyles, isDraggingOver && isDraggingOverColumnStyles]} ref={columnRef}>
       <div css={columnHeaderStyles} ref={headerRef}>
         <h6>{column.title}</h6>
-        <span css={columnHeaderIdStyles}>ID: {column.columnId}</span>
+        <MenuButton label={`controls for column ${column.columnId}`}>
+          <MenuItem>Edit</MenuItem>
+          <MenuItem>Share</MenuItem>
+        </MenuButton>
       </div>
       <div css={scrollContainerStyles}>
         <div css={cardListStyles} ref={cardListRef}>

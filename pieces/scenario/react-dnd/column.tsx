@@ -6,6 +6,7 @@ import { token } from '@atlaskit/tokens';
 
 import { ColumnType } from '../../data/tasks';
 import { fallbackColor } from '../../shared/fallback';
+import { MenuButton, MenuItem } from '../../shared/menu-button';
 
 import { useDrag, useDrop } from 'react-dnd';
 import { Card } from './card';
@@ -45,11 +46,6 @@ const columnHeaderStyles = css({
   color: token('color.text.subtlest', fallbackColor),
   // cursor: 'grab',
   userSelect: 'none',
-});
-
-const columnHeaderIdStyles = css({
-  color: token('color.text.disabled', fallbackColor),
-  fontSize: '10px',
 });
 
 const isDraggingOverColumnStyles = css({
@@ -107,7 +103,10 @@ export const Column = memo(function Column({ column }: { column: ColumnType }) {
     >
       <div css={columnHeaderStyles} ref={dragHandleRef}>
         <h6>{column.title}</h6>
-        <span css={columnHeaderIdStyles}>ID: {column.columnId}</span>
+        <MenuButton label={`controls for column ${column.columnId}`}>
+          <MenuItem>Edit</MenuItem>
+          <MenuItem>Share</MenuItem>
+        </MenuButton>
       </div>
       <div css={scrollContainerStyles}>
         <div css={cardListStyles} ref={cardDropRef}>
