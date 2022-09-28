@@ -16,16 +16,6 @@ const menuItemStyles = css({
   },
 });
 
-const menuItemSelectedStyles = css({
-  background: token('color.background.selected'),
-  ':hover': {
-    background: token('color.background.selected.hovered'),
-  },
-  ':active': {
-    background: token('color.background.selected.pressed'),
-  },
-});
-
 export const MenuItem = ({ children }: { children: ReactNode }) => {
   const [hasFocus, setHasFocus] = useState(false);
 
@@ -43,7 +33,7 @@ export const MenuItem = ({ children }: { children: ReactNode }) => {
 
   return (
     <li
-      css={[menuItemStyles, hasFocus && menuItemSelectedStyles]}
+      css={menuItemStyles}
       role="menuitem"
       onFocus={onFocus}
       onBlur={onBlur}
