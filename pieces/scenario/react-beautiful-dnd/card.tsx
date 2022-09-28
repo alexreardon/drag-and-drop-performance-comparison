@@ -7,6 +7,7 @@ import { token } from '@atlaskit/tokens';
 import { Draggable, DraggableProvided, DraggableStateSnapshot } from 'react-beautiful-dnd';
 import { Item } from '../../data/tasks';
 import { fallbackColor } from '../../shared/fallback';
+import { MenuButton, MenuItem } from '../../shared/menu-button';
 
 const cardStyles = css({
   display: 'flex',
@@ -26,7 +27,7 @@ const cardStyles = css({
 const idStyles = css({
   position: 'absolute',
   top: 'var(--grid)',
-  right: 'var(--grid)',
+  left: 'var(--grid)',
   color: token('color.text.disabled', fallbackColor),
   fontSize: '10px',
 });
@@ -67,6 +68,12 @@ function CardText({ state }: { state: DraggableState }) {
   );
 }
 
+const controlStyles = css({
+  position: 'absolute',
+  top: 8,
+  right: 8,
+});
+
 export const Card = memo(function Card({ item, index }: { item: Item; index: number }) {
   const itemId = item.itemId;
 
@@ -84,6 +91,12 @@ export const Card = memo(function Card({ item, index }: { item: Item; index: num
             <span css={idStyles}>ID: {item.itemId}</span>
             <DragIcon state={state} />
             <CardText state={state} />
+            <div css={controlStyles}>
+              <MenuButton label={`controls for card ${itemId}`}>
+                <MenuItem>Edit</MenuItem>
+                <MenuItem>Share</MenuItem>
+              </MenuButton>
+            </div>
           </div>
         );
       }}

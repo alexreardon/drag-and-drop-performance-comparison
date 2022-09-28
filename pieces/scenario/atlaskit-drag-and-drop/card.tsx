@@ -11,11 +11,12 @@ import {
 import { draggable, dropTargetForElements } from '@atlaskit/drag-and-drop/adapter/element';
 import { combine } from '@atlaskit/drag-and-drop/util/combine';
 import { scrollJustEnoughIntoView } from '@atlaskit/drag-and-drop/util/scroll-just-enough-into-view';
+import DropIndicator from '@atlaskit/drag-and-drop-indicator/box';
 import { token } from '@atlaskit/tokens';
 
 import { Item } from '../../data/tasks';
 import { fallbackColor } from '../../shared/fallback';
-import DropIndicator from '@atlaskit/drag-and-drop-indicator/box';
+import { MenuButton, MenuItem } from '../../shared/menu-button';
 
 const cardStyles = css({
   display: 'flex',
@@ -34,7 +35,7 @@ const cardStyles = css({
 const idStyles = css({
   position: 'absolute',
   top: 'var(--grid)',
-  right: 'var(--grid)',
+  left: 'var(--grid)',
   color: token('color.text.disabled', fallbackColor),
   fontSize: '10px',
 });
@@ -75,6 +76,12 @@ function CardText({ state }: { state: DraggableState }) {
     </h4>
   );
 }
+
+const controlStyles = css({
+  position: 'absolute',
+  top: 8,
+  right: 8,
+});
 
 export const Card = memo(function Card({ item }: { item: Item }) {
   const ref = useRef<HTMLDivElement | null>(null);
@@ -134,6 +141,12 @@ export const Card = memo(function Card({ item }: { item: Item }) {
       <DragIcon state={state} />
       <CardText state={state} />
       <DropIndicator edge={closestEdge} gap={'var(--card-gap)'} />
+      <div css={controlStyles}>
+        <MenuButton label={`controls for card ${itemId}`}>
+          <MenuItem>Move up</MenuItem>
+          <MenuItem>Move down</MenuItem>
+        </MenuButton>
+      </div>
     </div>
   );
 });

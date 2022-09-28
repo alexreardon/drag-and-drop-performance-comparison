@@ -6,6 +6,8 @@ import { memo, Suspense, useEffect, useRef, useState } from 'react';
 
 import { Item } from '../../data/tasks';
 import { fallbackColor } from '../../shared/fallback';
+import { MenuButton, MenuItem } from '../../shared/menu-button';
+
 import type { DraggableState } from './attach-card';
 
 const LazyDropIndicator = dynamic(() => import('@atlaskit/drag-and-drop-indicator/box'));
@@ -27,7 +29,7 @@ const cardStyles = css({
 const idStyles = css({
   position: 'absolute',
   top: 'var(--grid)',
-  right: 'var(--grid)',
+  left: 'var(--grid)',
   color: token('color.text.disabled', fallbackColor),
   fontSize: '10px',
 });
@@ -68,6 +70,12 @@ function CardText({ state }: { state: DraggableState }) {
   );
 }
 
+const controlStyles = css({
+  position: 'absolute',
+  top: 8,
+  right: 8,
+});
+
 export const Card = memo(function Card({ item }: { item: Item }) {
   const ref = useRef<HTMLDivElement | null>(null);
   const itemId = item.itemId;
@@ -99,6 +107,12 @@ export const Card = memo(function Card({ item }: { item: Item }) {
       <Suspense>
         <LazyDropIndicator edge={closestEdge} gap={'var(--card-gap)'} />
       </Suspense>
+      <div css={controlStyles}>
+        <MenuButton label={`controls for card ${itemId}`}>
+          <MenuItem>Edit</MenuItem>
+          <MenuItem>Share</MenuItem>
+        </MenuButton>
+      </div>
     </div>
   );
 });

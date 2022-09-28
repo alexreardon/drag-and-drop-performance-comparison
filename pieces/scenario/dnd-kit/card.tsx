@@ -5,6 +5,7 @@ import { css } from '@emotion/react';
 import { token } from '@atlaskit/tokens';
 
 import { fallbackColor } from '../../shared/fallback';
+import { MenuButton, MenuItem } from '../../shared/menu-button';
 
 const cardStyles = css({
   display: 'flex',
@@ -23,7 +24,7 @@ const cardStyles = css({
 const idStyles = css({
   position: 'absolute',
   top: 'var(--grid)',
-  right: 'var(--grid)',
+  left: 'var(--grid)',
   color: token('color.text.disabled', fallbackColor),
   fontSize: '10px',
 });
@@ -66,6 +67,12 @@ function CardText({ state }: { state: DraggableState }) {
 
 type Props = { itemId: string; state: DraggableState } & AllHTMLAttributes<HTMLDivElement>;
 
+const controlStyles = css({
+  position: 'absolute',
+  top: 8,
+  right: 8,
+});
+
 export const Card = memo(
   forwardRef<HTMLDivElement, Props>(function Card({ itemId, state, ...rest }: Props, ref) {
     return (
@@ -74,6 +81,12 @@ export const Card = memo(
           <span css={idStyles}>ID: {itemId}</span>
           <DragIcon state={state} />
           <CardText state={state} />
+          <div css={controlStyles}>
+            <MenuButton label={`controls for card ${itemId}`}>
+              <MenuItem>Edit</MenuItem>
+              <MenuItem>Share</MenuItem>
+            </MenuButton>
+          </div>
         </div>
       </>
     );

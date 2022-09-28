@@ -146,6 +146,8 @@ export const Card = memo(function Card({ item, columnId }: { item: Item; columnI
         <MenuButton label={`controls for card ${itemId}`}>
           <MenuItem>Move up</MenuItem>
           <MenuItem>Move down</MenuItem>
+          <MenuItem>Edit</MenuItem>
+          <MenuItem>Share</MenuItem>
         </MenuButton>
       </div>
     </div>

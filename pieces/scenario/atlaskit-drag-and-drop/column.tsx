@@ -10,13 +10,14 @@ import {
 } from '@atlaskit/drag-and-drop-hitbox/addon/closest-edge';
 import { draggable, dropTargetForElements } from '@atlaskit/drag-and-drop/adapter/element';
 import { combine } from '@atlaskit/drag-and-drop/util/combine';
+import DropIndicator from '@atlaskit/drag-and-drop-indicator/box';
 import { token } from '@atlaskit/tokens';
 
 import { ColumnType } from '../../data/tasks';
 import { fallbackColor } from '../../shared/fallback';
+import { MenuButton, MenuItem } from '../../shared/menu-button';
 
 import { Card } from './card';
-import DropIndicator from '@atlaskit/drag-and-drop-indicator/box';
 
 const columnStyles = css({
   display: 'flex',
@@ -49,11 +50,6 @@ const columnHeaderStyles = css({
   color: token('color.text.subtlest', fallbackColor),
   // cursor: 'grab',
   userSelect: 'none',
-});
-
-const columnHeaderIdStyles = css({
-  color: token('color.text.disabled', fallbackColor),
-  fontSize: '10px',
 });
 
 const isDraggingOverColumnStyles = css({
@@ -122,7 +118,10 @@ export const Column = memo(function Column({ column }: { column: ColumnType }) {
     <div css={[columnStyles, isDraggingOver && isDraggingOverColumnStyles]} ref={columnRef}>
       <div css={columnHeaderStyles} ref={headerRef}>
         <h6>{column.title}</h6>
-        <span css={columnHeaderIdStyles}>ID: {column.columnId}</span>
+        <MenuButton label={`controls for column ${columnId}`}>
+          <MenuItem>Move left</MenuItem>
+          <MenuItem>Move right</MenuItem>
+        </MenuButton>
       </div>
       <div css={scrollContainerStyles}>
         <div css={cardListStyles} ref={cardListRef}>
