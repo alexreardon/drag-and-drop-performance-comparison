@@ -98,11 +98,8 @@ const Menu = forwardRef<MenuHandle, MenuProps>(function Menu(
     (event) => {
       onKeydownProp(event);
 
-      switch (event.key) {
-        case 'Enter':
-        case ' ':
-          onClose({ shouldResetFocus: true });
-          break;
+      if (event.key === 'Enter' || event.key === ' ') {
+        onClose({ shouldResetFocus: true });
       }
     },
     [onKeydownProp, onClose],
