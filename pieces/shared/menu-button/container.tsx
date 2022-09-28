@@ -50,11 +50,13 @@ export const MenuButton = ({ label, children }: { label: string; children: React
   const onKeyDown: KeyboardEventHandler<HTMLButtonElement> = useCallback((event) => {
     switch (event.key) {
       case 'ArrowDown':
+        event.preventDefault();
         toggleIsOpen();
         setInitialFocus('first');
         break;
 
       case 'ArrowUp':
+        event.preventDefault();
         toggleIsOpen();
         setInitialFocus('last');
         break;
@@ -87,10 +89,12 @@ export const MenuButton = ({ label, children }: { label: string; children: React
 
       case 'ArrowDown':
         menuRef.current?.focusNext();
+        event.preventDefault();
         return;
 
       case 'ArrowUp':
         menuRef.current?.focusPrev();
+        event.preventDefault();
         break;
 
       case 'Home':
