@@ -11,6 +11,7 @@ import {
 } from 'react';
 
 import { css } from '@emotion/react';
+import { bind } from 'bind-event-listener';
 
 import Trigger from './trigger';
 import Menu, { MenuHandle } from './menu';
@@ -165,11 +166,10 @@ export const MenuButton = ({ label, children }: { label: string; children: React
       return;
     }
 
-    window.addEventListener('click', toggleIsOpen);
-
-    return () => {
-      window.removeEventListener('click', toggleIsOpen);
-    };
+    return bind(window, {
+      type: 'click',
+      listener: toggleIsOpen,
+    });
   }, [isOpen]);
 
   const onClick: MouseEventHandler = useCallback((event) => {
