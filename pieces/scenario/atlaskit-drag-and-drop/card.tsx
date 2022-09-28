@@ -143,6 +143,8 @@ export const Card = memo(function Card({ item }: { item: Item }) {
       <DropIndicator edge={closestEdge} gap={'var(--card-gap)'} />
       <div css={controlStyles}>
         <MenuButton label={`controls for card ${itemId}`}>
+          <MenuItem>Edit</MenuItem>
+          <MenuItem>Share</MenuItem>
           <MenuItem>Move up</MenuItem>
           <MenuItem>Move down</MenuItem>
         </MenuButton>
