@@ -69,8 +69,8 @@ type Props = { itemId: string; state: DraggableState } & AllHTMLAttributes<HTMLD
 
 const controlStyles = css({
   position: 'absolute',
-  top: 8,
-  right: 8,
+  top: 'var(--grid)',
+  right: 'var(--grid)',
 });
 
 export const Card = memo(

@@ -69,8 +69,8 @@ function CardText({ state }: { state: DraggableState }) {
 
 const controlStyles = css({
   position: 'absolute',
-  top: 8,
-  right: 8,
+  top: 'var(--grid)',
+  right: 'var(--grid)',
 });
 
 export const Card = memo(function Card({ item }: { item: Item }) {
