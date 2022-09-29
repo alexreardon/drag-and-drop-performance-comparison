@@ -94,18 +94,16 @@ export const MenuButton = ({ label, children }: { label: string; children: React
   }, []);
 
   const onKeyDown: KeyboardEventHandler<HTMLButtonElement> = useCallback((event) => {
-    switch (event.key) {
-      case 'ArrowDown':
-        event.preventDefault();
-        toggleIsOpen();
-        setInitialFocus('first');
-        break;
+    if (event.key === 'ArrowDown') {
+      event.preventDefault();
+      toggleIsOpen();
+      setInitialFocus('first');
+    }
 
-      case 'ArrowUp':
-        event.preventDefault();
-        toggleIsOpen();
-        setInitialFocus('last');
-        break;
+    if (event.key === 'ArrowUp') {
+      event.preventDefault();
+      toggleIsOpen();
+      setInitialFocus('last');
     }
   }, []);
 
