@@ -138,6 +138,17 @@ export const Column = memo(function Column({
               item={item}
               key={item.itemId}
               columnId={columnId}
+              /**
+               * Passing this down to Cards means that every card will re-render
+               * if a column changes order.
+               *
+               * If we end up implementing re-order behavior we should refactor
+               * this.
+               *
+               * One approach is to pass down a stable function (or use context)
+               * which will return the current ids. This uses laziness to
+               * avoid unnecessary re-renders.
+               */
               orderedColumnIds={orderedColumnIds}
             />
           ))}
