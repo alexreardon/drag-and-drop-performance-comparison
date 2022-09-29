@@ -52,7 +52,13 @@ const isDraggingOverColumnStyles = css({
   background: token('color.background.selected.hovered', fallbackColor),
 });
 
-export const Column = memo(function Column({ column }: { column: ColumnType }) {
+export const Column = memo(function Column({
+  column,
+  orderedColumnIds,
+}: {
+  column: ColumnType;
+  orderedColumnIds: string[];
+}) {
   const dropTargetRef = useRef<HTMLDivElement | null>(null);
   const [closestEdge, setClosestEdge] = useState<Edge | null>(null);
 
@@ -113,7 +119,12 @@ export const Column = memo(function Column({ column }: { column: ColumnType }) {
       <div css={scrollContainerStyles}>
         <div css={cardListStyles} ref={cardDropRef}>
           {column.items.map((item) => (
-            <Card item={item} key={item.itemId} columnId={column.columnId} />
+            <Card
+              item={item}
+              key={item.itemId}
+              columnId={column.columnId}
+              orderedColumnIds={orderedColumnIds}
+            />
           ))}
         </div>
       </div>
