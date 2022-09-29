@@ -1,4 +1,11 @@
-import { forwardRef, KeyboardEventHandler, MouseEventHandler, useCallback } from 'react';
+import {
+  KeyboardEventHandler,
+  MouseEventHandler,
+  RefObject,
+  useCallback,
+  useEffect,
+  useRef,
+} from 'react';
 
 import Button from '../button';
 import moreIcon from '../more.svg';
@@ -7,12 +14,39 @@ type TriggerProps = {
   isOpen: boolean;
   label: string;
   openMenu: ({ initialFocus }: { initialFocus: 'first' | 'last' }) => void;
+  shouldResetFocus: boolean;
 };
 
-const Trigger = forwardRef<HTMLButtonElement, TriggerProps>(function Trigger(
-  { isOpen, label, openMenu },
-  ref,
+/**
+ * Handles moving focus back to the trigger on menu close.
+ */
+function useFocusOnClose(
+  ref: RefObject<HTMLUnknownElement>,
+  {
+    isOpen,
+    shouldResetFocus,
+  }: {
+    isOpen: boolean;
+    shouldResetFocus: boolean;
+  },
 ) {
+  useEffect(() => {
+    if (!isOpen && shouldResetFocus) {
+      // Running in an 'immediate' timeout so that
+      // when the menu has closed because of an enter key press,
+      // it won't trigger a click event on the trigger as well.
+      setTimeout(() => {
+        ref.current?.focus();
+      }, 0);
+    }
+  }, [isOpen, ref, shouldResetFocus]);
+}
+
+function Trigger({ isOpen, label, openMenu, shouldResetFocus }: TriggerProps) {
+  const ref = useRef<HTMLButtonElement>(null);
+
+  useFocusOnClose(ref, { isOpen, shouldResetFocus });
+
   const onClick: MouseEventHandler = useCallback(() => {
     openMenu({ initialFocus: 'first' });
   }, [openMenu]);
@@ -49,6 +83,6 @@ const Trigger = forwardRef<HTMLButtonElement, TriggerProps>(function Trigger(
       <img {...moreIcon} alt="" draggable={false} />
     </Button>
   );
-});
+}
 
 export default Trigger;

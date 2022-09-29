@@ -52,21 +52,6 @@ function reducer(state: MenuButtonState, action: MenuButtonAction): MenuButtonSt
 export const MenuButton = ({ label, children }: { label: string; children: ReactNode }) => {
   const [state, dispatch] = useReducer(reducer, { isOpen: false, shouldResetFocus: true });
 
-  const triggerRef = useRef<HTMLButtonElement>(null);
-
-  /**
-   * Handles moving focus back to the trigger on menu close.
-   */
-  useEffect(() => {
-    if (!state.isOpen && state.shouldResetFocus) {
-      // Running in an 'immediate' timeout so that enter key presses on menu items
-      // don't trigger a click event on the trigger as well.
-      setTimeout(() => {
-        triggerRef.current?.focus();
-      }, 0);
-    }
-  }, [state]);
-
   const closeMenu = useCallback(({ shouldResetFocus }: { shouldResetFocus: boolean }) => {
     dispatch({ type: 'close', shouldResetFocus });
   }, []);
@@ -97,7 +82,12 @@ export const MenuButton = ({ label, children }: { label: string; children: React
 
   return (
     <span css={containerStyles} ref={containerRef}>
-      <Trigger ref={triggerRef} isOpen={state.isOpen} label={label} openMenu={openMenu} />
+      <Trigger
+        isOpen={state.isOpen}
+        shouldResetFocus={state.isOpen ? false : state.shouldResetFocus}
+        label={label}
+        openMenu={openMenu}
+      />
       {state.isOpen && (
         <Menu onClose={closeMenu} initialFocus={state.initialFocus}>
           {children}
