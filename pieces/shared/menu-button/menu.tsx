@@ -5,7 +5,6 @@ import {
   MouseEventHandler,
   ReactNode,
   useCallback,
-  useImperativeHandle,
   useRef,
 } from 'react';
 
@@ -19,13 +18,6 @@ type MenuProps = {
   children: ReactNode;
   onKeyDown: KeyboardEventHandler;
   onClose: (args: { shouldResetFocus: boolean }) => void;
-};
-
-export type MenuHandle = {
-  focusFirst(): void;
-  focusLast(): void;
-  focusNext(): void;
-  focusPrev(): void;
 };
 
 const menuStyles = css({
@@ -46,53 +38,11 @@ const menuStyles = css({
   margin: 0,
 });
 
-const stopPropagation: MouseEventHandler = (event) => {
-  event.stopPropagation();
-};
-
-const Menu = forwardRef<MenuHandle, MenuProps>(function Menu(
+const Menu = forwardRef<HTMLUListElement, MenuProps>(function Menu(
   { children, onKeyDown: onKeydownProp, onClose },
-  handleRef,
+  ref,
 ) {
   const internalRef = useRef<HTMLUListElement>(null);
-
-  useImperativeHandle(
-    handleRef,
-    () => {
-      return {
-        internal: internalRef,
-        focusFirst() {
-          const firstElementChild = internalRef.current?.firstElementChild as HTMLElement;
-          firstElementChild.focus();
-        },
-        focusLast() {
-          const lastElementChild = internalRef.current?.lastElementChild as HTMLElement;
-          lastElementChild.focus();
-        },
-        focusNext() {
-          const active = internalRef.current?.querySelector('[tabindex="0"]');
-
-          let next = active?.nextElementSibling as HTMLElement;
-          if (next === null) {
-            next = internalRef.current?.firstElementChild as HTMLElement;
-          }
-
-          next.focus();
-        },
-        focusPrev() {
-          const active = internalRef.current?.querySelector('[tabindex="0"]');
-
-          let prev = active?.previousElementSibling as HTMLElement;
-          if (prev === null) {
-            prev = internalRef.current?.lastElementChild as HTMLElement;
-          }
-
-          prev?.focus();
-        },
-      };
-    },
-    [internalRef],
-  );
 
   const onKeyDown: KeyboardEventHandler = useCallback(
     (event) => {
@@ -131,7 +81,7 @@ const Menu = forwardRef<MenuHandle, MenuProps>(function Menu(
     <ul
       role="menu"
       css={menuStyles}
-      ref={internalRef}
+      ref={ref}
       onKeyDown={onKeyDown}
       onClick={onClick}
       onBlur={onBlur}

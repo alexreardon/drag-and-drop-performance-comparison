@@ -1,5 +1,4 @@
 import {
-  KeyboardEvent,
   KeyboardEventHandler,
   MouseEventHandler,
   ReactNode,
@@ -14,7 +13,8 @@ import { css } from '@emotion/react';
 import { bind } from 'bind-event-listener';
 
 import Trigger from './trigger';
-import Menu, { MenuHandle } from './menu';
+import Menu from './menu';
+import { focusFirstItem, focusLastItem, focusNextItem, focusPrevItem } from './focus';
 
 const containerStyles = css({
   display: 'flex',
@@ -70,7 +70,7 @@ export const MenuButton = ({ label, children }: { label: string; children: React
 
   const [initialFocus, setInitialFocus] = useState<'first' | 'last'>('first');
 
-  const menuRef = useRef<MenuHandle>(null);
+  const menuRef = useRef<HTMLUListElement>(null);
 
   const triggerRef = useRef<HTMLButtonElement>(null);
 
@@ -114,11 +114,11 @@ export const MenuButton = ({ label, children }: { label: string; children: React
     }
 
     if (initialFocus === 'first') {
-      menuRef.current?.focusFirst();
+      focusFirstItem(menuRef.current);
     }
 
     if (initialFocus === 'last') {
-      menuRef.current?.focusLast();
+      focusLastItem(menuRef.current);
     }
   }, [initialFocus, isOpen]);
 
@@ -136,21 +136,21 @@ export const MenuButton = ({ label, children }: { label: string; children: React
           return;
 
         case 'ArrowDown':
-          menuRef.current?.focusNext();
           event.preventDefault();
+          focusNextItem(menuRef.current);
           return;
 
         case 'ArrowUp':
-          menuRef.current?.focusPrev();
           event.preventDefault();
+          focusPrevItem(menuRef.current);
           break;
 
         case 'Home':
-          menuRef.current?.focusFirst();
+          focusFirstItem(menuRef.current);
           break;
 
         case 'End':
-          menuRef.current?.focusLast();
+          focusLastItem(menuRef.current);
           break;
       }
 
