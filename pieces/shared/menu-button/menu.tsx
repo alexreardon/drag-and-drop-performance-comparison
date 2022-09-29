@@ -97,7 +97,7 @@ const Menu = forwardRef<HTMLUListElement, MenuProps>(function Menu({
         focusLastItem(ref.current);
       }
 
-      if (!/[a-z]/i.test(event.key)) {
+      if (/[a-z]/i.test(event.key)) {
         focusNextMatch(ref.current, event.key);
       }
     },
