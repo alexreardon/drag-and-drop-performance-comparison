@@ -5,8 +5,8 @@ import { css } from '@emotion/react';
 import { token } from '@atlaskit/tokens';
 
 const buttonStyles = css({
-  width: 24,
-  height: 24,
+  width: 'calc(var(--grid) * 3)',
+  height: 'calc(var(--grid) * 3)',
   border: 0,
   borderRadius: 3,
   display: 'flex',

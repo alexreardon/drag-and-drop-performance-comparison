@@ -6,7 +6,7 @@ import { token } from '@atlaskit/tokens';
 
 const menuItemStyles = css({
   display: 'flex',
-  padding: 8,
+  padding: 'var(--grid)',
   margin: 0,
   ':hover': {
     background: token('color.background.neutral.subtle.hovered'),
