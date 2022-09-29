@@ -64,13 +64,14 @@ export const MenuButton = ({ label, children }: { label: string; children: React
 
   /**
    * Handles moving focus back to the trigger on menu close.
-   *
-   * Not all closures should move focus back,
-   * so this ref allows for choosing when it happens.
    */
   useEffect(() => {
     if (!state.isOpen && state.shouldResetFocus) {
-      triggerRef.current?.focus();
+      // Running in an 'immediate' timeout so that enter key presses on menu items
+      // don't trigger a click event on the trigger as well.
+      setTimeout(() => {
+        triggerRef.current?.focus();
+      }, 0);
     }
   }, [state]);
 
