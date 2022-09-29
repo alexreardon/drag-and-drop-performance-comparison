@@ -1,12 +1,4 @@
-import {
-  KeyboardEventHandler,
-  MouseEventHandler,
-  ReactNode,
-  useCallback,
-  useEffect,
-  useReducer,
-  useRef,
-} from 'react';
+import { ReactNode, useCallback, useEffect, useReducer, useRef } from 'react';
 
 import { css } from '@emotion/react';
 import { bind } from 'bind-event-listener';
@@ -79,20 +71,13 @@ export const MenuButton = ({ label, children }: { label: string; children: React
     dispatch({ type: 'close', shouldResetFocus });
   }, []);
 
-  const onKeyDown: KeyboardEventHandler<HTMLButtonElement> = useCallback((event) => {
-    if (event.key === 'ArrowDown') {
-      event.preventDefault();
-      dispatch({ type: 'open', initialFocus: 'first' });
-    }
-
-    if (event.key === 'ArrowUp') {
-      event.preventDefault();
-      dispatch({ type: 'open', initialFocus: 'last' });
-    }
+  const openMenu = useCallback(({ initialFocus }: { initialFocus: 'first' | 'last' }) => {
+    dispatch({ type: 'open', initialFocus });
   }, []);
 
   const containerRef = useRef<HTMLSpanElement>(null);
 
+  // Close the menu on outside clicks
   useEffect(() => {
     if (!state.isOpen) {
       return;
@@ -100,29 +85,19 @@ export const MenuButton = ({ label, children }: { label: string; children: React
 
     return bind(window, {
       type: 'click',
-      listener: () => {
+      listener: (event) => {
+        // Ignore clicks inside, we only care about _outside_ clicks.
+        if (containerRef.current?.contains(event.target as Node)) {
+          return;
+        }
         closeMenu({ shouldResetFocus: true });
       },
     });
   }, [closeMenu, state.isOpen]);
 
-  const onClick: MouseEventHandler = useCallback((event) => {
-    dispatch({
-      type: 'open',
-      initialFocus: 'first',
-    });
-    event.stopPropagation();
-  }, []);
-
   return (
     <span css={containerStyles} ref={containerRef}>
-      <Trigger
-        ref={triggerRef}
-        isOpen={state.isOpen}
-        label={label}
-        onClick={onClick}
-        onKeyDown={onKeyDown}
-      />
+      <Trigger ref={triggerRef} isOpen={state.isOpen} label={label} openMenu={openMenu} />
       {state.isOpen && (
         <Menu onClose={closeMenu} initialFocus={state.initialFocus}>
           {children}

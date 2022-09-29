@@ -1,4 +1,4 @@
-import { forwardRef, KeyboardEventHandler, MouseEventHandler } from 'react';
+import { forwardRef, KeyboardEventHandler, MouseEventHandler, useCallback } from 'react';
 
 import Button from '../button';
 import moreIcon from '../more.svg';
@@ -6,14 +6,36 @@ import moreIcon from '../more.svg';
 type TriggerProps = {
   isOpen: boolean;
   label: string;
-  onClick: MouseEventHandler<HTMLButtonElement>;
-  onKeyDown: KeyboardEventHandler<HTMLButtonElement>;
+  openMenu: ({ initialFocus }: { initialFocus: 'first' | 'last' }) => void;
 };
 
 const Trigger = forwardRef<HTMLButtonElement, TriggerProps>(function Trigger(
-  { isOpen, label, onClick, onKeyDown },
+  { isOpen, label, openMenu },
   ref,
 ) {
+  const onClick: MouseEventHandler = useCallback(() => {
+    openMenu({ initialFocus: 'first' });
+  }, [openMenu]);
+
+  const onKeyDown: KeyboardEventHandler<HTMLButtonElement> = useCallback(
+    (event) => {
+      // Pressing the down arrow opens the menu with the first item selected.
+      if (event.key === 'ArrowDown') {
+        // Prevent default so nothing scrolls
+        event.preventDefault();
+        openMenu({ initialFocus: 'first' });
+      }
+
+      // Pressing the up arrow opens the menu with the first item selected.
+      if (event.key === 'ArrowUp') {
+        // Prevent default so nothing scrolls
+        event.preventDefault();
+        openMenu({ initialFocus: 'last' });
+      }
+    },
+    [openMenu],
+  );
+
   return (
     <Button
       role="button"
