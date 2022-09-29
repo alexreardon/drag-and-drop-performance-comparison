@@ -130,31 +130,33 @@ export const MenuButton = ({ label, children }: { label: string; children: React
         return;
       }
 
-      switch (event.key) {
-        case 'Escape':
-          closeMenu({ shouldResetFocus: true });
-          return;
-
-        case 'ArrowDown':
-          event.preventDefault();
-          focusNextItem(menuRef.current);
-          return;
-
-        case 'ArrowUp':
-          event.preventDefault();
-          focusPrevItem(menuRef.current);
-          break;
-
-        case 'Home':
-          focusFirstItem(menuRef.current);
-          break;
-
-        case 'End':
-          focusLastItem(menuRef.current);
-          break;
+      if (event.key === 'Escape') {
+        closeMenu({ shouldResetFocus: true });
       }
 
-      focusNextMatch(containerRef.current, event.key);
+      if (event.key === 'ArrowDown') {
+        // Prevent default so nothing scrolls
+        event.preventDefault();
+        focusNextItem(menuRef.current);
+      }
+
+      if (event.key === 'ArrowUp') {
+        // Prevent default so nothing scrolls
+        event.preventDefault();
+        focusPrevItem(menuRef.current);
+      }
+
+      if (event.key === 'Home') {
+        focusFirstItem(menuRef.current);
+      }
+
+      if (event.key === 'End') {
+        focusLastItem(menuRef.current);
+      }
+
+      if (!/[a-z]/i.test(event.key)) {
+        focusNextMatch(containerRef.current, event.key);
+      }
     },
     [closeMenu],
   );
