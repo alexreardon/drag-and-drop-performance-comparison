@@ -6,7 +6,6 @@ import {
   useEffect,
   useReducer,
   useRef,
-  useState,
 } from 'react';
 
 import { css } from '@emotion/react';
@@ -68,7 +67,7 @@ const focusNextMatch = (container: HTMLElement, key: string) => {
 export const MenuButton = ({ label, children }: { label: string; children: ReactNode }) => {
   const [isOpen, toggleIsOpen] = useReducer((isOpen) => !isOpen, false);
 
-  const [initialFocus, setInitialFocus] = useState<'first' | 'last'>('first');
+  const initialFocusRef = useRef<'first' | 'last'>('first');
 
   const menuRef = useRef<HTMLUListElement>(null);
 
@@ -97,30 +96,30 @@ export const MenuButton = ({ label, children }: { label: string; children: React
     if (event.key === 'ArrowDown') {
       event.preventDefault();
       toggleIsOpen();
-      setInitialFocus('first');
+      initialFocusRef.current = 'first';
     }
 
     if (event.key === 'ArrowUp') {
       event.preventDefault();
       toggleIsOpen();
-      setInitialFocus('last');
+      initialFocusRef.current = 'last';
     }
   }, []);
 
   useEffect(() => {
     if (isOpen === false) {
-      setInitialFocus('first');
+      initialFocusRef.current = 'first';
       return;
     }
 
-    if (initialFocus === 'first') {
+    if (initialFocusRef.current === 'first') {
       focusFirstItem(menuRef.current);
     }
 
-    if (initialFocus === 'last') {
+    if (initialFocusRef.current === 'last') {
       focusLastItem(menuRef.current);
     }
-  }, [initialFocus, isOpen]);
+  }, [isOpen]);
 
   const containerRef = useRef<HTMLSpanElement>(null);
 
