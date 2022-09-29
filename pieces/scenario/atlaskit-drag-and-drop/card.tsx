@@ -83,7 +83,7 @@ const controlStyles = css({
   right: 'var(--grid)',
 });
 
-export const Card = memo(function Card({ item }: { item: Item }) {
+export const Card = memo(function Card({ item, columnId }: { item: Item; columnId: string }) {
   const ref = useRef<HTMLDivElement | null>(null);
   const itemId = item.itemId;
   const [closestEdge, setClosestEdge] = useState<Edge | null>(null);
@@ -147,6 +147,11 @@ export const Card = memo(function Card({ item }: { item: Item }) {
           <MenuItem>Share</MenuItem>
           <MenuItem>Move up</MenuItem>
           <MenuItem>Move down</MenuItem>
+          {['A', 'B', 'C']
+            .filter((id) => id !== columnId)
+            .map((columnId) => {
+              return <MenuItem key={columnId}>Move to Column {columnId}</MenuItem>;
+            })}
         </MenuButton>
       </div>
     </div>
