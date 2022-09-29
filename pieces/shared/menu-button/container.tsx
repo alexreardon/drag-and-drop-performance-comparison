@@ -39,14 +39,10 @@ function reducer(_: MenuButtonState, action: MenuButtonAction): MenuButtonState 
     };
   }
 
-  if (action.type === 'close') {
-    return {
-      isOpen: false,
-      shouldResetFocus: action.shouldResetFocus,
-    };
-  }
-
-  throw new Error('unreachable');
+  return {
+    isOpen: false,
+    shouldResetFocus: action.shouldResetFocus,
+  };
 }
 
 /**
