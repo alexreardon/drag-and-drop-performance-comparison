@@ -26,8 +26,46 @@ const containerStyles = css({
   position: 'relative',
 });
 
+type MenuButtonState =
+  | {
+      isOpen: true;
+      initialFocus: 'first' | 'last';
+    }
+  | {
+      isOpen: false;
+      shouldResetFocus: boolean;
+    };
+
+type MenuButtonAction =
+  | {
+      type: 'open';
+      initialFocus: 'first' | 'last';
+    }
+  | {
+      type: 'close';
+      shouldResetFocus: boolean;
+    };
+
+function reducer(state: MenuButtonState, action: MenuButtonAction): MenuButtonState {
+  if (action.type === 'open') {
+    return {
+      isOpen: true,
+      initialFocus: action.initialFocus,
+    };
+  }
+
+  if (action.type === 'close') {
+    return {
+      isOpen: false,
+      shouldResetFocus: action.shouldResetFocus,
+    };
+  }
+
+  throw new Error('unreachable');
+}
+
 export const MenuButton = ({ label, children }: { label: string; children: ReactNode }) => {
-  const [isOpen, toggleIsOpen] = useReducer((isOpen) => !isOpen, false);
+  const [state, dispatch] = useReducer(reducer, { isOpen: false, shouldResetFocus: true });
 
   const initialFocusRef = useRef<'first' | 'last'>('first');
 
@@ -41,47 +79,41 @@ export const MenuButton = ({ label, children }: { label: string; children: React
    * Not all closures should move focus back,
    * so this ref allows for choosing when it happens.
    */
-  const shouldResetFocusRef = useRef(false);
   useEffect(() => {
-    if (!isOpen && shouldResetFocusRef.current) {
-      shouldResetFocusRef.current = false;
+    if (!state.isOpen && state.shouldResetFocus) {
       triggerRef.current?.focus();
     }
-  }, [isOpen]);
+  }, [state]);
 
   const closeMenu = useCallback(({ shouldResetFocus }: { shouldResetFocus: boolean }) => {
-    shouldResetFocusRef.current = shouldResetFocus;
-    toggleIsOpen();
+    dispatch({ type: 'close', shouldResetFocus });
   }, []);
 
   const onKeyDown: KeyboardEventHandler<HTMLButtonElement> = useCallback((event) => {
     if (event.key === 'ArrowDown') {
       event.preventDefault();
-      toggleIsOpen();
-      initialFocusRef.current = 'first';
+      dispatch({ type: 'open', initialFocus: 'first' });
     }
 
     if (event.key === 'ArrowUp') {
       event.preventDefault();
-      toggleIsOpen();
-      initialFocusRef.current = 'last';
+      dispatch({ type: 'open', initialFocus: 'last' });
     }
   }, []);
 
   useEffect(() => {
-    if (isOpen === false) {
-      initialFocusRef.current = 'first';
+    if (!state.isOpen) {
       return;
     }
 
-    if (initialFocusRef.current === 'first') {
+    if (state.initialFocus === 'first') {
       focusFirstItem(menuRef.current);
     }
 
-    if (initialFocusRef.current === 'last') {
+    if (state.initialFocus === 'last') {
       focusLastItem(menuRef.current);
     }
-  }, [isOpen]);
+  }, [state]);
 
   const containerRef = useRef<HTMLSpanElement>(null);
 
@@ -123,18 +155,23 @@ export const MenuButton = ({ label, children }: { label: string; children: React
   );
 
   useEffect(() => {
-    if (!isOpen) {
+    if (!state.isOpen) {
       return;
     }
 
     return bind(window, {
       type: 'click',
-      listener: toggleIsOpen,
+      listener: () => {
+        closeMenu({ shouldResetFocus: true });
+      },
     });
-  }, [isOpen]);
+  }, [closeMenu, state.isOpen]);
 
   const onClick: MouseEventHandler = useCallback((event) => {
-    toggleIsOpen();
+    dispatch({
+      type: 'open',
+      initialFocus: 'first',
+    });
     event.stopPropagation();
   }, []);
 
@@ -142,12 +179,12 @@ export const MenuButton = ({ label, children }: { label: string; children: React
     <span css={containerStyles} ref={containerRef}>
       <Trigger
         ref={triggerRef}
-        isOpen={isOpen}
+        isOpen={state.isOpen}
         label={label}
         onClick={onClick}
         onKeyDown={onKeyDown}
       />
-      {isOpen && (
+      {state.isOpen && (
         <Menu ref={menuRef} onKeyDown={onMenuKeyDown} onClose={closeMenu}>
           {children}
         </Menu>
