@@ -1,4 +1,8 @@
-function focus(el?: Element | null) {
+/**
+ * The focus method is only present on HTMLElement instances,
+ * so this convenience method simplifies dealing with different types.
+ */
+function focus(el: unknown) {
   if (el instanceof HTMLElement) {
     el.focus();
   }
