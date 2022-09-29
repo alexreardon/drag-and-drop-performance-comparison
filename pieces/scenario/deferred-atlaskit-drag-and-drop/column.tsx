@@ -92,6 +92,8 @@ export const Column = memo(function Column({ column }: { column: ColumnType }) {
         <MenuButton label={`controls for column ${column.columnId}`}>
           <MenuItem>Edit</MenuItem>
           <MenuItem>Share</MenuItem>
+          <MenuItem>Move left</MenuItem>
+          <MenuItem>Move right</MenuItem>
         </MenuButton>
       </div>
       <div css={scrollContainerStyles}>
