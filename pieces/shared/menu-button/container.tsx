@@ -13,13 +13,6 @@ import { bind } from 'bind-event-listener';
 
 import Trigger from './trigger';
 import Menu from './menu';
-import {
-  focusFirstItem,
-  focusLastItem,
-  focusNextItem,
-  focusPrevItem,
-  focusNextMatch,
-} from './focus';
 
 const containerStyles = css({
   display: 'flex',
@@ -67,10 +60,6 @@ function reducer(state: MenuButtonState, action: MenuButtonAction): MenuButtonSt
 export const MenuButton = ({ label, children }: { label: string; children: ReactNode }) => {
   const [state, dispatch] = useReducer(reducer, { isOpen: false, shouldResetFocus: true });
 
-  const initialFocusRef = useRef<'first' | 'last'>('first');
-
-  const menuRef = useRef<HTMLUListElement>(null);
-
   const triggerRef = useRef<HTMLButtonElement>(null);
 
   /**
@@ -101,58 +90,7 @@ export const MenuButton = ({ label, children }: { label: string; children: React
     }
   }, []);
 
-  useEffect(() => {
-    if (!state.isOpen) {
-      return;
-    }
-
-    if (state.initialFocus === 'first') {
-      focusFirstItem(menuRef.current);
-    }
-
-    if (state.initialFocus === 'last') {
-      focusLastItem(menuRef.current);
-    }
-  }, [state]);
-
   const containerRef = useRef<HTMLSpanElement>(null);
-
-  const onMenuKeyDown: KeyboardEventHandler<HTMLButtonElement> = useCallback(
-    (event) => {
-      if (containerRef.current === null) {
-        return;
-      }
-
-      if (event.key === 'Escape') {
-        closeMenu({ shouldResetFocus: true });
-      }
-
-      if (event.key === 'ArrowDown') {
-        // Prevent default so nothing scrolls
-        event.preventDefault();
-        focusNextItem(menuRef.current);
-      }
-
-      if (event.key === 'ArrowUp') {
-        // Prevent default so nothing scrolls
-        event.preventDefault();
-        focusPrevItem(menuRef.current);
-      }
-
-      if (event.key === 'Home') {
-        focusFirstItem(menuRef.current);
-      }
-
-      if (event.key === 'End') {
-        focusLastItem(menuRef.current);
-      }
-
-      if (!/[a-z]/i.test(event.key)) {
-        focusNextMatch(containerRef.current, event.key);
-      }
-    },
-    [closeMenu],
-  );
 
   useEffect(() => {
     if (!state.isOpen) {
@@ -185,7 +123,7 @@ export const MenuButton = ({ label, children }: { label: string; children: React
         onKeyDown={onKeyDown}
       />
       {state.isOpen && (
-        <Menu ref={menuRef} onKeyDown={onMenuKeyDown} onClose={closeMenu}>
+        <Menu onClose={closeMenu} initialFocus={state.initialFocus}>
           {children}
         </Menu>
       )}

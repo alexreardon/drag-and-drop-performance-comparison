@@ -5,6 +5,7 @@ import {
   MouseEventHandler,
   ReactNode,
   useCallback,
+  useEffect,
   useRef,
 } from 'react';
 
@@ -13,11 +14,18 @@ import { css } from '@emotion/react';
 import { token } from '@atlaskit/tokens';
 
 import { fallbackColor } from '../fallback';
+import {
+  focusNextItem,
+  focusPrevItem,
+  focusFirstItem,
+  focusLastItem,
+  focusNextMatch,
+} from './focus';
 
 type MenuProps = {
   children: ReactNode;
-  onKeyDown: KeyboardEventHandler;
   onClose: (args: { shouldResetFocus: boolean }) => void;
+  initialFocus: 'first' | 'last';
 };
 
 const menuStyles = css({
@@ -38,21 +46,62 @@ const menuStyles = css({
   margin: 0,
 });
 
-const Menu = forwardRef<HTMLUListElement, MenuProps>(function Menu(
-  { children, onKeyDown: onKeydownProp, onClose },
-  ref,
-) {
-  const internalRef = useRef<HTMLUListElement>(null);
+const Menu = forwardRef<HTMLUListElement, MenuProps>(function Menu({
+  children,
+  onClose,
+  initialFocus,
+}) {
+  const ref = useRef<HTMLUListElement>(null);
+
+  useEffect(() => {
+    if (initialFocus === 'first') {
+      focusFirstItem(ref.current);
+    }
+
+    if (initialFocus === 'last') {
+      focusLastItem(ref.current);
+    }
+  }, [initialFocus]);
 
   const onKeyDown: KeyboardEventHandler = useCallback(
     (event) => {
-      onKeydownProp(event);
+      if (ref.current === null) {
+        return;
+      }
 
       if (event.key === 'Enter' || event.key === ' ') {
         onClose({ shouldResetFocus: true });
       }
+
+      if (event.key === 'Escape') {
+        onClose({ shouldResetFocus: true });
+      }
+
+      if (event.key === 'ArrowDown') {
+        // Prevent default so nothing scrolls
+        event.preventDefault();
+        focusNextItem(ref.current);
+      }
+
+      if (event.key === 'ArrowUp') {
+        // Prevent default so nothing scrolls
+        event.preventDefault();
+        focusPrevItem(ref.current);
+      }
+
+      if (event.key === 'Home') {
+        focusFirstItem(ref.current);
+      }
+
+      if (event.key === 'End') {
+        focusLastItem(ref.current);
+      }
+
+      if (!/[a-z]/i.test(event.key)) {
+        focusNextMatch(ref.current, event.key);
+      }
     },
-    [onKeydownProp, onClose],
+    [onClose],
   );
 
   const onClick: MouseEventHandler = useCallback(
@@ -65,10 +114,10 @@ const Menu = forwardRef<HTMLUListElement, MenuProps>(function Menu(
 
   const onBlur: FocusEventHandler = useCallback(
     (event) => {
-      if (!internalRef.current) {
+      if (!ref.current) {
         return;
       }
-      if (internalRef.current.contains(event.relatedTarget)) {
+      if (ref.current.contains(event.relatedTarget)) {
         return;
       }
 
