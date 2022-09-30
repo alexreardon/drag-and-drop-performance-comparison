@@ -21,6 +21,7 @@
     "@dnd-kit/sortable": "^7.0.1",
     "@dnd-kit/utilities": "^3.2.0",
     "@emotion/react": "^11.10.4",
+    "bind-event-listener": "^2.1.1",
     "next": "12.3.0",
     "react": "18.2.0",
     "react-beautiful-dnd": "^13.1.1",

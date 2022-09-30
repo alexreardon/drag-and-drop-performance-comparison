@@ -25,7 +25,13 @@ export default function Board() {
     <DndProvider backend={HTML5Backend}>
       <div css={boardStyles} ref={ref}>
         {data.orderedColumnIds.map((columnId) => {
-          return <Column column={data.columnMap[columnId]} key={columnId} />;
+          return (
+            <Column
+              column={data.columnMap[columnId]}
+              key={columnId}
+              orderedColumnIds={data.orderedColumnIds}
+            />
+          );
         })}
       </div>
     </DndProvider>

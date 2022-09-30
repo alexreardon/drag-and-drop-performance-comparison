@@ -6,6 +6,7 @@ import { token } from '@atlaskit/tokens';
 
 import { Item } from '../../data/tasks';
 import { fallbackColor } from '../../shared/fallback';
+import { MenuButton, MenuItem } from '../../shared/menu-button';
 
 const cardStyles = css({
   display: 'flex',
@@ -24,7 +25,7 @@ const cardStyles = css({
 const idStyles = css({
   position: 'absolute',
   top: 'var(--grid)',
-  right: 'var(--grid)',
+  left: 'var(--grid)',
   color: token('color.text.disabled', fallbackColor),
   fontSize: '10px',
 });
@@ -66,6 +67,12 @@ function CardText({ state }: { state: DraggableState }) {
   );
 }
 
+const controlStyles = css({
+  position: 'absolute',
+  top: 'var(--grid)',
+  right: 'var(--grid)',
+});
+
 export const Card = memo(function Card({ item }: { item: Item }) {
   const ref = useRef<HTMLDivElement | null>(null);
   const itemId = item.itemId;
@@ -76,6 +83,12 @@ export const Card = memo(function Card({ item }: { item: Item }) {
       <span css={idStyles}>ID: {item.itemId}</span>
       <DragIcon state={state} />
       <CardText state={state} />
+      <div css={controlStyles}>
+        <MenuButton label={`controls for card ${itemId}`}>
+          <MenuItem>Edit</MenuItem>
+          <MenuItem>Share</MenuItem>
+        </MenuButton>
+      </div>
     </div>
   );
 });
