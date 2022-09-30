@@ -14,6 +14,7 @@
   "dependencies": {
     "@atlaskit/css-reset": "^6.3.14",
     "@atlaskit/drag-and-drop": "^0.6.0",
+    "@atlaskit/drag-and-drop-autoscroll": "^0.1.6",
     "@atlaskit/drag-and-drop-hitbox": "^0.2.4",
     "@atlaskit/drag-and-drop-indicator": "^0.4.1",
     "@atlaskit/tokens": "^0.10.19",

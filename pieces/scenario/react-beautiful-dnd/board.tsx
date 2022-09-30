@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   DragDropContext,
   Droppable,
@@ -30,7 +30,7 @@ export default function Board() {
   }>(() => getInitialData());
 
   return (
-    <DragDropContext onDragEnd={() => console.log('TODO: reorder')}>
+    <DragDropContext onDragEnd={() => {}}>
       <Droppable droppableId="board" type="COLUMN" direction="horizontal">
         {(provided: DroppableProvided) => (
           <div css={boardStyles} ref={provided.innerRef} {...provided.droppableProps}>
