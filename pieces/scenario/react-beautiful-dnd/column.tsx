@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useState } from 'react';
 
 import { css } from '@emotion/react';
 
@@ -60,6 +60,10 @@ const columnHeaderIdStyles = css({
   fontSize: '10px',
 });
 
+const isDraggingOverCardListStyles = css({
+  background: token('color.background.selected.hovered', fallbackColor),
+});
+
 export const Column = memo(function Column({
   column,
   index,
@@ -85,7 +89,10 @@ export const Column = memo(function Column({
           <Droppable droppableId={column.columnId} type="QUOTE" direction="vertical">
             {(droppableProvided: DroppableProvided, droppableSnapshot: DroppableStateSnapshot) => (
               <div
-                css={scrollContainerStyles}
+                css={[
+                  scrollContainerStyles,
+                  droppableSnapshot.isDraggingOver ? isDraggingOverCardListStyles : undefined,
+                ]}
                 {...droppableProvided.droppableProps}
                 ref={droppableProvided.innerRef}
               >
