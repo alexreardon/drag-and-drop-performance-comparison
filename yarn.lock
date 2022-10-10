@@ -19,6 +19,15 @@
     "@babel/runtime" "^7.0.0"
     fbjs "^3.0.0"
 
+"@atlaskit/drag-and-drop-autoscroll@^0.1.8":
+  version "0.1.8"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/drag-and-drop-autoscroll/-/drag-and-drop-autoscroll-0.1.8.tgz#ff80e8af50e440ea97bc8169d12fbcbaf397964b"
+  integrity sha512-d+swz8ki0SeUkY2OW3mU8wdlPSTI1yFztsEFcywNRQhvul0fwBWY5KggQFRUZPRPdwY204ESykR+/1/BKYauaA==
+  dependencies:
+    "@atlaskit/drag-and-drop" "^0.7.0"
+    "@babel/runtime" "^7.0.0"
+    css-box-model "^1.2.0"
+
 "@atlaskit/drag-and-drop-hitbox@^0.2.0":
   version "0.2.4"
   resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/drag-and-drop-hitbox/-/drag-and-drop-hitbox-0.2.4.tgz#9e06af64278d4b8605586ef5587bc0478fb8d8c1"
