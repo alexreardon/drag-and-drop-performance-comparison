@@ -10,6 +10,7 @@ import { useDrag, useDrop } from 'react-dnd';
 import mergeRefs from './merge-refs';
 import DropIndicator from '@atlaskit/drag-and-drop-indicator/box';
 import { Edge, getClosestEdge } from './get-closest-edge';
+import { MenuButton, MenuItem } from '../../shared/menu-button';
 
 const cardStyles = css({
   display: 'flex',
@@ -29,7 +30,7 @@ const cardStyles = css({
 const idStyles = css({
   position: 'absolute',
   top: 'var(--grid)',
-  right: 'var(--grid)',
+  left: 'var(--grid)',
   color: token('color.text.disabled', fallbackColor),
   fontSize: '10px',
 });
@@ -71,7 +72,21 @@ function CardText({ state }: { state: DraggableState }) {
   );
 }
 
-export const Card = memo(function Card({ item }: { item: Item }) {
+const controlStyles = css({
+  position: 'absolute',
+  top: 'var(--grid)',
+  right: 'var(--grid)',
+});
+
+export const Card = memo(function Card({
+  item,
+  columnId,
+  orderedColumnIds,
+}: {
+  item: Item;
+  columnId: string;
+  orderedColumnIds: string[];
+}) {
   const itemId = item.itemId;
   const dropTargetRef = useRef<HTMLDivElement | null>(null);
   const [closestEdge, setClosestEdge] = useState<Edge | null>(null);
@@ -113,6 +128,19 @@ export const Card = memo(function Card({ item }: { item: Item }) {
       <DragIcon state={state} />
       <CardText state={state} />
       <DropIndicator edge={isOver ? closestEdge : null} gap={'var(--card-gap)'} />
+      <div css={controlStyles}>
+        <MenuButton label={`controls for card ${itemId}`}>
+          <MenuItem>Edit</MenuItem>
+          <MenuItem>Share</MenuItem>
+          <MenuItem>Move up</MenuItem>
+          <MenuItem>Move down</MenuItem>
+          {orderedColumnIds
+            .filter((id) => id !== columnId)
+            .map((columnId) => {
+              return <MenuItem key={columnId}>Move to Column {columnId}</MenuItem>;
+            })}
+        </MenuButton>
+      </div>
     </div>
   );
 });

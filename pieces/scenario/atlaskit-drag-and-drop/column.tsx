@@ -10,13 +10,14 @@ import {
 } from '@atlaskit/drag-and-drop-hitbox/addon/closest-edge';
 import { draggable, dropTargetForElements } from '@atlaskit/drag-and-drop/adapter/element';
 import { combine } from '@atlaskit/drag-and-drop/util/combine';
+import DropIndicator from '@atlaskit/drag-and-drop-indicator/box';
 import { token } from '@atlaskit/tokens';
 
 import { ColumnType } from '../../data/tasks';
 import { fallbackColor } from '../../shared/fallback';
+import { MenuButton, MenuItem } from '../../shared/menu-button';
 
 import { Card } from './card';
-import DropIndicator from '@atlaskit/drag-and-drop-indicator/box';
 
 const columnStyles = css({
   display: 'flex',
@@ -51,16 +52,17 @@ const columnHeaderStyles = css({
   userSelect: 'none',
 });
 
-const columnHeaderIdStyles = css({
-  color: token('color.text.disabled', fallbackColor),
-  fontSize: '10px',
-});
-
 const isDraggingOverColumnStyles = css({
   background: token('color.background.selected.hovered', fallbackColor),
 });
 
-export const Column = memo(function Column({ column }: { column: ColumnType }) {
+export const Column = memo(function Column({
+  column,
+  orderedColumnIds,
+}: {
+  column: ColumnType;
+  orderedColumnIds: string[];
+}) {
   const columnId = column.columnId;
   const columnRef = useRef<HTMLDivElement | null>(null);
   const headerRef = useRef<HTMLDivElement | null>(null);
@@ -122,12 +124,33 @@ export const Column = memo(function Column({ column }: { column: ColumnType }) {
     <div css={[columnStyles, isDraggingOver && isDraggingOverColumnStyles]} ref={columnRef}>
       <div css={columnHeaderStyles} ref={headerRef}>
         <h6>{column.title}</h6>
-        <span css={columnHeaderIdStyles}>ID: {column.columnId}</span>
+        <MenuButton label={`controls for column ${columnId}`}>
+          <MenuItem>Edit</MenuItem>
+          <MenuItem>Share</MenuItem>
+          <MenuItem>Move left</MenuItem>
+          <MenuItem>Move right</MenuItem>
+        </MenuButton>
       </div>
       <div css={scrollContainerStyles}>
         <div css={cardListStyles} ref={cardListRef}>
           {column.items.map((item) => (
-            <Card item={item} key={item.itemId} />
+            <Card
+              item={item}
+              key={item.itemId}
+              columnId={columnId}
+              /**
+               * Passing this down to Cards means that every card will re-render
+               * if a column changes order.
+               *
+               * If we end up implementing re-order behavior we should refactor
+               * this.
+               *
+               * One approach is to pass down a stable function (or use context)
+               * which will return the current ids. This uses laziness to
+               * avoid unnecessary re-renders.
+               */
+              orderedColumnIds={orderedColumnIds}
+            />
           ))}
         </div>
       </div>

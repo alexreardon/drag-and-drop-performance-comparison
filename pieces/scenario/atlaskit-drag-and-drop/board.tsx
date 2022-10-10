@@ -39,7 +39,13 @@ export default function Board() {
   return (
     <div css={boardStyles}>
       {data.orderedColumnIds.map((columnId) => {
-        return <Column column={data.columnMap[columnId]} key={columnId} />;
+        return (
+          <Column
+            column={data.columnMap[columnId]}
+            key={columnId}
+            orderedColumnIds={data.orderedColumnIds}
+          />
+        );
       })}
     </div>
   );
