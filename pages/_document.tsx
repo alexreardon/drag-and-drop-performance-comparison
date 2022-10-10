@@ -7,6 +7,7 @@ export default function Document() {
       <body>
         <Main />
         <NextScript />
+        <div draggable="true">Unhandled draggable</div>
       </body>
     </Html>
   );

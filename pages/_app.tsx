@@ -11,6 +11,16 @@ function toFixed(value: number): number {
 
 function useFPS() {
   useEffect(() => {
+    const output = document.createElement('div');
+    Object.assign(output.style, {
+      position: 'absolute',
+      bottom: 0,
+      right: 0,
+      background: 'lightgreen',
+      padding: 'var(--grid)',
+    });
+    document.body.appendChild(output);
+
     let frameId: number | null = null;
     let runningAverage: { count: number; total: number } | null = null;
 
@@ -31,11 +41,13 @@ function useFPS() {
           runningAverage.total += fps;
         }
 
-        console.log({
-          diff,
-          fps,
-          averageFps: toFixed(runningAverage.total / runningAverage.count),
-        });
+        output.innerText = `${fps}fps`;
+
+        // console.log({
+        //   diff,
+        //   fps,
+        //   averageFps: toFixed(runningAverage.total / runningAverage.count),
+        // });
         run(now);
       });
     }
@@ -46,12 +58,13 @@ function useFPS() {
         cancelAnimationFrame(frameId);
         frameId = null;
       }
+      document.body.removeChild(output);
     };
   });
 }
 
 function MyApp({ Component, pageProps }: AppProps) {
-  // useFPS();
+  useFPS();
 
   useEffect(() => {
     const observer = new PerformanceObserver((list, obj) => {
@@ -70,7 +83,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         );
       });
     });
-    observer.observe({ entryTypes: ['longtask', 'event'] });
+    observer.observe({ entryTypes: ['longtask', 'event', 'paint'] });
     console.log('what have we got', PerformanceObserver.supportedEntryTypes);
 
     return () => observer.disconnect();
