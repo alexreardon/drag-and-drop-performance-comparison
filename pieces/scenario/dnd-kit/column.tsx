@@ -47,12 +47,17 @@ const columnHeaderStyles = css({
   userSelect: 'none',
 });
 
+const isDraggingOverColumnStyles = css({
+  background: token('color.background.selected.hovered', fallbackColor),
+});
+
 export const Column = memo(function Column({ column }: { column: ColumnType }) {
   const itemIds = useMemo(() => column.items.map((item) => item.itemId), [column.items]);
 
-  const { attributes, listeners, setNodeRef, isDragging, transform, transition } = useSortable({
-    id: column.columnId,
-  });
+  const { attributes, listeners, setNodeRef, isDragging, transform, transition, isSorting } =
+    useSortable({
+      id: column.columnId,
+    });
 
   const style = {
     opacity: isDragging ? '0' : undefined,
@@ -61,7 +66,11 @@ export const Column = memo(function Column({ column }: { column: ColumnType }) {
   };
 
   return (
-    <div css={[columnStyles]} style={style} ref={setNodeRef}>
+    <div
+      css={[columnStyles, isSorting ? isDraggingOverColumnStyles : undefined]}
+      style={style}
+      ref={setNodeRef}
+    >
       <div css={columnHeaderStyles} {...attributes} {...listeners}>
         <h6>{column.title}</h6>
         <MenuButton label={`controls for column ${column.columnId}`}>
