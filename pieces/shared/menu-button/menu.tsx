@@ -63,11 +63,7 @@ function useInitialFocus(menuRef: RefObject<HTMLUListElement>, initialFocus: 'fi
   }, [initialFocus, menuRef]);
 }
 
-const Menu = forwardRef<HTMLUListElement, MenuProps>(function Menu({
-  children,
-  onClose,
-  initialFocus,
-}) {
+function Menu({ children, onClose, initialFocus }: MenuProps) {
   const ref = useRef<HTMLUListElement>(null);
 
   useInitialFocus(ref, initialFocus);
@@ -161,6 +157,6 @@ const Menu = forwardRef<HTMLUListElement, MenuProps>(function Menu({
       {children}
     </ul>
   );
-});
+}
 
 export default Menu;
