@@ -1,4 +1,4 @@
-import { memo, Suspense, useEffect, useRef, useState } from 'react';
+import { forwardRef, memo, Suspense, useEffect, useRef, useState } from 'react';
 
 import { css } from '@emotion/react';
 
@@ -52,6 +52,39 @@ const isDraggingOverColumnStyles = css({
   background: token('color.background.selected.hovered', fallbackColor),
 });
 
+// An additional memoization layer to prevent Card memoization checks when
+// entering and leaving a list
+const CardList = memo(
+  forwardRef<HTMLDivElement, { column: ColumnType; orderedColumnIds: string[] }>(function CardList(
+    { column, orderedColumnIds },
+    ref,
+  ) {
+    return (
+      <div css={cardListStyles} ref={ref}>
+        {column.items.map((item) => (
+          <Card
+            item={item}
+            key={item.itemId}
+            columnId={column.columnId}
+            /**
+             * Passing this down to Cards means that every card will re-render
+             * if a column changes order.
+             *
+             * If we end up implementing re-order behavior we should refactor
+             * this.
+             *
+             * One approach is to pass down a stable function (or use context)
+             * which will return the current ids. This uses laziness to
+             * avoid unnecessary re-renders.
+             */
+            orderedColumnIds={orderedColumnIds}
+          />
+        ))}
+      </div>
+    );
+  }),
+);
+
 export const Column = memo(function Column({
   column,
   orderedColumnIds,
@@ -103,16 +136,7 @@ export const Column = memo(function Column({
         </MenuButton>
       </div>
       <div css={scrollContainerStyles}>
-        <div css={cardListStyles} ref={cardListRef}>
-          {column.items.map((item) => (
-            <Card
-              item={item}
-              key={item.itemId}
-              columnId={columnId}
-              orderedColumnIds={orderedColumnIds}
-            />
-          ))}
-        </div>
+        <CardList column={column} ref={cardListRef} orderedColumnIds={orderedColumnIds} />
       </div>
       <Suspense>
         <LazyDropIndicator edge={closestEdge} gap={'var(--column-gap)'} />

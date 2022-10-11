@@ -51,6 +51,20 @@ const isDraggingOverColumnStyles = css({
   background: token('color.background.selected.hovered', fallbackColor),
 });
 
+// An additional memoization layer to prevent Card memoization checks when
+// entering and leaving a list
+const CardList = memo(
+  forwardRef<HTMLDivElement, { column: ColumnType }>(function CardList({ column }, ref) {
+    return (
+      <div css={cardListStyles} ref={ref}>
+        {column.items.map((item) => (
+          <SortableCard itemId={item.itemId} key={item.itemId} />
+        ))}
+      </div>
+    );
+  }),
+);
+
 export const Column = memo(function Column({ column }: { column: ColumnType }) {
   const itemIds = useMemo(() => column.items.map((item) => item.itemId), [column.items]);
 
@@ -80,11 +94,7 @@ export const Column = memo(function Column({ column }: { column: ColumnType }) {
       </div>
       <div css={scrollContainerStyles}>
         <SortableContext items={itemIds} strategy={verticalListSortingStrategy}>
-          <div css={cardListStyles}>
-            {column.items.map((item) => (
-              <SortableCard itemId={item.itemId} key={item.itemId} />
-            ))}
-          </div>
+          <CardList column={column} />
         </SortableContext>
       </div>
     </div>
