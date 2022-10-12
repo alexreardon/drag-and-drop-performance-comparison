@@ -1,4 +1,4 @@
-import { memo, useState } from 'react';
+import { forwardRef, memo, useState } from 'react';
 
 import { css } from '@emotion/react';
 
@@ -55,10 +55,19 @@ const columnHeaderStyles = css({
   userSelect: 'none',
 });
 
-const columnHeaderIdStyles = css({
-  color: token('color.text.disabled', fallbackColor),
-  fontSize: '10px',
-});
+// An additional memoization layer to prevent Card memoization checks when
+// entering and leaving a list
+const CardList = memo(
+  forwardRef<HTMLDivElement, { column: ColumnType }>(function CardList({ column }, ref) {
+    return (
+      <div css={cardListStyles} ref={ref}>
+        {column.items.map((item, index) => (
+          <Card item={item} key={item.itemId} index={index} />
+        ))}
+      </div>
+    );
+  }),
+);
 
 const isDraggingOverCardListStyles = css({
   background: token('color.background.selected.hovered', fallbackColor),
@@ -96,11 +105,7 @@ export const Column = memo(function Column({
                 {...droppableProvided.droppableProps}
                 ref={droppableProvided.innerRef}
               >
-                <div css={cardListStyles}>
-                  {column.items.map((item, index) => (
-                    <Card item={item} key={item.itemId} index={index} />
-                  ))}
-                </div>
+                <CardList column={column} />
                 {droppableProvided.placeholder}
               </div>
             )}
