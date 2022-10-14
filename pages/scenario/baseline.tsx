@@ -6,8 +6,8 @@ import About from '../../pieces/shared/about';
 const Baseline: NextPage = () => {
   return (
     <>
-      <About />
       <Board />
+      <About title="Baseline" />
     </>
   );
 };
