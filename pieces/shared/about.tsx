@@ -17,17 +17,7 @@ const containerStyles = css({
   flexDirection: 'column',
   gap: 'var(--grid)',
 
-  // ✨ Adapted from: https://twitter.com/pokecoder/status/1579237106169544704
-  background: `conic-gradient(
-    from 90deg at 80% 50%,
-    ${token('color.background.accent.orange')} 12%,
-    ${token('color.background.accent.magenta')} 12%, ${token(
-    'color.background.accent.magenta',
-  )} 33%,
-    ${token('color.background.accent.blue')} 33%, ${token('color.background.accent.blue')} 55%,
-    ${token('color.background.accent.green')} 55%, ${token('color.background.accent.green')} 70%,
-    ${token('color.background.accent.purple')} 70%, ${token('color.background.accent.purple')} 87%,
-    ${token('color.background.accent.orange')} 85%)`,
+  background: token('color.background.accent.purple'),
 });
 
 export default function About({ title }: { title: string }) {
