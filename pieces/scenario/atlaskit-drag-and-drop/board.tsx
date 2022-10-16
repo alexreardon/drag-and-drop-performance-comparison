@@ -20,21 +20,21 @@ export default function Board() {
     orderedColumnIds: string[];
   }>(() => getInitialData());
 
-  useEffect(() => {
-    return monitorForElements({
-      onDragStart: ({ location }) => {
-        autoScroller.start({ input: location.current.input });
-      },
-      onDrop: () => {
-        autoScroller.stop();
-      },
-      onDrag: ({ location }) => {
-        autoScroller.updateInput({
-          input: location.current.input,
-        });
-      },
-    });
-  }, []);
+  // useEffect(() => {
+  //   return monitorForElements({
+  //     onDragStart: ({ location }) => {
+  //       autoScroller.start({ input: location.current.input });
+  //     },
+  //     onDrop: () => {
+  //       autoScroller.stop();
+  //     },
+  //     onDrag: ({ location }) => {
+  //       autoScroller.updateInput({
+  //         input: location.current.input,
+  //       });
+  //     },
+  //   });
+  // }, []);
 
   return (
     <div css={boardStyles}>
