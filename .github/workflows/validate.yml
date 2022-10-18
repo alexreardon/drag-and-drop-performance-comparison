@@ -13,6 +13,9 @@ jobs:
           # Using node action to manage caching node_modules
           cache: 'yarn'
 
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
       - name: ESLint
         run: yarn lint
 

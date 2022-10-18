@@ -74,7 +74,7 @@ function useCloseOnOutsideClick(
 }
 
 export const MenuButton = ({ label, children }: { label: string; children: ReactNode }) => {
-  const [state, dispatch] = useReducer(reducer, { isOpen: false, shouldResetFocus: true });
+  const [state, dispatch] = useReducer(reducer, { isOpen: false, shouldResetFocus: false });
 
   const ref = useRef<HTMLSpanElement>(null);
 
