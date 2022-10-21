@@ -64,7 +64,7 @@ function useFPS() {
 }
 
 function MyApp({ Component, pageProps }: AppProps) {
-  // useFPS();
+  useFPS();
 
   useEffect(() => {
     const observer = new PerformanceObserver((list, obj) => {
