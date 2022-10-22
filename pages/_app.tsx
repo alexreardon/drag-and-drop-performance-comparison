@@ -4,50 +4,38 @@ import '@atlaskit/tokens/css/atlassian-light.css';
 
 import type { AppProps } from 'next/app';
 import { useEffect } from 'react';
+import { token } from '@atlaskit/tokens';
 
-function toFixed(value: number): number {
-  return Number(value.toFixed(1));
+function format(value: number): number {
+  // return Number(value.toFixed(1));
+  return Math.round(value);
 }
 
 function useFPS() {
   useEffect(() => {
-    const output = document.createElement('div');
+    const output = document.createElement('code');
     Object.assign(output.style, {
       position: 'absolute',
-      bottom: 0,
-      right: 0,
-      background: 'lightgreen',
-      padding: 'var(--grid)',
+      display: 'block',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      background: token('color.accent.subtleGreen'),
+      padding: 'var(--grid) calc(var(--grid) * 2)',
+      fontSize: '20px',
+      borderRadius: 'var(--border-radius)',
+      border: `var(--border-width) solid ${token('color.accent.boldGreen')}`,
     });
     document.body.appendChild(output);
 
     let frameId: number | null = null;
-    let runningAverage: { count: number; total: number } | null = null;
 
     function run(last: number) {
       frameId = requestAnimationFrame((now) => {
         const diff = now - last;
-        const fps = toFixed(1000 / diff);
-        if (diff < 0) {
-          run(now);
-          return;
-        }
-        // debugger;
-
-        if (!runningAverage) {
-          runningAverage = { count: 1, total: fps };
-        } else {
-          runningAverage.count++;
-          runningAverage.total += fps;
-        }
+        const fps = format(1000 / diff);
 
         output.innerText = `${fps}fps`;
-
-        // console.log({
-        //   diff,
-        //   fps,
-        //   averageFps: toFixed(runningAverage.total / runningAverage.count),
-        // });
         run(now);
       });
     }
