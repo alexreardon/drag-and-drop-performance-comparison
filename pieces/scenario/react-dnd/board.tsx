@@ -1,9 +1,11 @@
 import { css } from '@emotion/react';
-import { useRef, useState } from 'react';
+import { bindAll } from 'bind-event-listener';
+import { useEffect, useRef, useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import { ColumnMap, getInitialData } from '../../data/tasks';
+import { useCounter } from '../../shared/use-counter';
 import { Column } from './column';
 
 const boardStyles = css({
@@ -20,6 +22,7 @@ export default function Board() {
     orderedColumnIds: string[];
   }>(() => getInitialData());
   const ref = useRef<HTMLDivElement | null>(null);
+  useCounter();
 
   return (
     <DndProvider backend={HTML5Backend}>

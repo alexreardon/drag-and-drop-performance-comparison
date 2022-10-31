@@ -1,13 +1,15 @@
 import { css } from '@emotion/react';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   DragDropContext,
   Droppable,
   DroppableProvided,
   resetServerContext,
 } from 'react-beautiful-dnd';
+import invariant from 'tiny-invariant';
 
 import { ColumnMap, getInitialData } from '../../data/tasks';
+import { useCounter } from '../../shared/use-counter';
 import { Column } from './column';
 
 const boardStyles = css({
@@ -28,6 +30,7 @@ export default function Board() {
     columnMap: ColumnMap;
     orderedColumnIds: string[];
   }>(() => getInitialData());
+  useCounter();
 
   return (
     <DragDropContext onDragEnd={() => {}}>

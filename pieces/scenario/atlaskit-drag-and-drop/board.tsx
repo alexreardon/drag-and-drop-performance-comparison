@@ -1,10 +1,12 @@
 import { monitorForElements } from '@atlaskit/drag-and-drop/adapter/element';
+import { combine } from '@atlaskit/drag-and-drop/util/combine';
 import { css } from '@emotion/react';
-import { useEffect, useRef, useState } from 'react';
-import { autoScroller } from '@atlaskit/drag-and-drop-autoscroll';
+import { useEffect, useState } from 'react';
 
+import { bind, bindAll } from 'bind-event-listener';
 import { ColumnMap, getInitialData } from '../../data/tasks';
 import { Column } from './column';
+import { useCounter } from '../../shared/use-counter';
 
 const boardStyles = css({
   display: 'flex',
@@ -19,22 +21,7 @@ export default function Board() {
     columnMap: ColumnMap;
     orderedColumnIds: string[];
   }>(() => getInitialData());
-
-  // useEffect(() => {
-  //   return monitorForElements({
-  //     onDragStart: ({ location }) => {
-  //       autoScroller.start({ input: location.current.input });
-  //     },
-  //     onDrop: () => {
-  //       autoScroller.stop();
-  //     },
-  //     onDrag: ({ location }) => {
-  //       autoScroller.updateInput({
-  //         input: location.current.input,
-  //       });
-  //     },
-  //   });
-  // }, []);
+  useCounter();
 
   return (
     <div css={boardStyles}>

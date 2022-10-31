@@ -5,6 +5,7 @@ import '@atlaskit/tokens/css/atlassian-light.css';
 import type { AppProps } from 'next/app';
 import { useEffect } from 'react';
 import { token } from '@atlaskit/tokens';
+import { monitorForElements } from '@atlaskit/drag-and-drop/adapter/element';
 
 function format(value: number): number {
   // return Number(value.toFixed(1));
@@ -54,28 +55,49 @@ function useFPS() {
 function MyApp({ Component, pageProps }: AppProps) {
   // useFPS();
 
-  useEffect(() => {
-    const observer = new PerformanceObserver((list, obj) => {
-      list.getEntries().forEach((entry) => {
-        // Display each reported measurement on console
-        console.log(
-          'Name: ' +
-            entry.name +
-            ', Type: ' +
-            entry.entryType +
-            ', Start: ' +
-            entry.startTime +
-            ', Duration: ' +
-            entry.duration +
-            '\n',
-        );
-      });
-    });
-    observer.observe({ entryTypes: ['longtask', 'event', 'paint'] });
-    console.log('what have we got', PerformanceObserver.supportedEntryTypes);
+  // useEffect(() => {
+  //   const observer = new PerformanceObserver((list, obj) => {
+  //     list.getEntries().forEach((entry) => {
+  //       // Display each reported measurement on console
+  //       console.log(
+  //         'Name: ' +
+  //           entry.name +
+  //           ', Type: ' +
+  //           entry.entryType +
+  //           ', Start: ' +
+  //           entry.startTime +
+  //           ', Duration: ' +
+  //           entry.duration +
+  //           '\n',
+  //       );
+  //     });
+  //   });
+  //   observer.observe({ entryTypes: ['longtask', 'event', 'paint'] });
+  //   console.log('what have we got', PerformanceObserver.supportedEntryTypes);
 
-    return () => observer.disconnect();
-  }, []);
+  //   return () => observer.disconnect();
+  // }, []);
+
+  // useEffect(() => {
+  //   let modified: HTMLElement[] = [];
+  //   return monitorForElements({
+  //     onDragStart: () => {
+  //       modified = Array.from(
+  //         document.querySelectorAll(':not([data-drop-target-for-element])'),
+  //       ).filter((element: Element): element is HTMLElement => element instanceof HTMLElement);
+
+  //       modified.forEach((element) => {
+  //         element.style.setProperty('pointer-events', 'none');
+  //       });
+  //     },
+  //     onDrop: () => {
+  //       modified.forEach((element) => {
+  //         element.style.removeProperty('pointer-events');
+  //         modified = [];
+  //       });
+  //     },
+  //   });
+  // });
 
   return <Component {...pageProps} />;
 }

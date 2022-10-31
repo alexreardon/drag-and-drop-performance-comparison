@@ -11,6 +11,7 @@ import mergeRefs from './merge-refs';
 import DropIndicator from '@atlaskit/drag-and-drop-indicator/box';
 import { Edge, getClosestEdge } from './get-closest-edge';
 import { MenuButton, MenuItem } from '../../shared/menu-button';
+import invariant from 'tiny-invariant';
 
 const cardStyles = css({
   display: 'flex',
@@ -103,8 +104,11 @@ export const Card = memo(function Card({
     },
     collect: (monitor) => {
       const isOver = monitor.isOver();
+      const dragging = monitor.getItem();
+
+      const isActuallyOver: boolean = isOver && (dragging as any)?.itemId !== itemId;
       return {
-        isOver: isOver,
+        isOver: isActuallyOver,
       };
     },
   }));
