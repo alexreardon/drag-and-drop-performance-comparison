@@ -103,8 +103,11 @@ export const Card = memo(function Card({
     },
     collect: (monitor) => {
       const isOver = monitor.isOver();
+      const dragging = monitor.getItem();
+
+      const isActuallyOver: boolean = isOver && (dragging as any)?.itemId !== itemId;
       return {
-        isOver: isOver,
+        isOver: isActuallyOver,
       };
     },
   }));
