@@ -2,26 +2,38 @@ import { bindAll } from 'bind-event-listener';
 import { useEffect, useState } from 'react';
 
 function getCounter() {
-  let active: { startMs: number; frameCount: number; frameId: number | null } | null = null;
+  let active: {
+    startMs: number;
+    lastMs: number;
+    frameCount: number;
+    frameId: number | null;
+  } | null = null;
 
   function run() {
     if (!active) {
       return;
     }
-    active.frameId = requestAnimationFrame(() => {
+    active.frameId = requestAnimationFrame((nowMs) => {
       if (!active) {
         return;
       }
       active.frameCount++;
       active.frameId = null;
+      const timeSinceLastFrame = nowMs - active.lastMs;
+      if (timeSinceLastFrame > Math.ceil(1000 / 60)) {
+        console.log('drop frame detected', { timeSinceLastFrame });
+      }
+      active.lastMs = nowMs;
       run();
     });
   }
 
   function start(): void {
     console.log('starting to record fps');
+    const now = performance.now();
     active = {
-      startMs: Date.now(),
+      startMs: now,
+      lastMs: now,
       frameCount: 0,
       frameId: null,
     };
@@ -34,7 +46,7 @@ function getCounter() {
     if (active.frameId) {
       cancelAnimationFrame(active.frameId);
     }
-    const endMs = Date.now();
+    const endMs = performance.now();
     const durationMs = endMs - active.startMs;
     const durationSeconds = durationMs / 1000;
 
