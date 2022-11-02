@@ -113,7 +113,7 @@ export const Card = memo(function Card({
       <DragIcon state={state} />
       <CardText state={state} />
       <Suspense>
-        <LazyDropIndicator edge={closestEdge} gap={'var(--card-gap)'} />
+        {closestEdge && <LazyDropIndicator edge={closestEdge} gap={'var(--card-gap)'} />}
       </Suspense>
       <div css={controlStyles}>
         <MenuButton label={`controls for card ${itemId}`}>
