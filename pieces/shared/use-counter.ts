@@ -1,6 +1,8 @@
 import { bindAll } from 'bind-event-listener';
 import { useEffect, useState } from 'react';
 
+const targetFps = 1000 / 60;
+
 function getCounter() {
   let active: {
     startMs: number;
@@ -20,8 +22,9 @@ function getCounter() {
       active.frameCount++;
       active.frameId = null;
       const timeSinceLastFrame = nowMs - active.lastMs;
-      if (timeSinceLastFrame > Math.ceil(1000 / 60)) {
-        console.log('drop frame detected', { timeSinceLastFrame });
+      if (timeSinceLastFrame > Math.ceil(targetFps)) {
+        const droppedFrames = Math.floor(timeSinceLastFrame / targetFps);
+        console.log('dropped frame(s) detected', { timeSinceLastFrame, droppedFrames });
       }
       active.lastMs = nowMs;
       run();
