@@ -139,7 +139,7 @@ export const Column = memo(function Column({
         <CardList column={column} ref={cardListRef} orderedColumnIds={orderedColumnIds} />
       </div>
       <Suspense>
-        <LazyDropIndicator edge={closestEdge} gap={'var(--column-gap)'} />
+        {closestEdge && <LazyDropIndicator edge={closestEdge} gap={'var(--column-gap)'} />}
       </Suspense>
     </div>
   );

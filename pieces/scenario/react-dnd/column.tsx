@@ -152,7 +152,9 @@ export const Column = memo(function Column({
       <div css={scrollContainerStyles}>
         <CardList column={column} ref={cardDropRef} orderedColumnIds={orderedColumnIds} />
       </div>
-      <DropIndicator edge={isColumnOver ? closestEdge : null} gap={'var(--column-gap)'} />
+      {closestEdge && (
+        <DropIndicator edge={isColumnOver ? closestEdge : null} gap={'var(--column-gap)'} />
+      )}
     </div>
   );
 });
