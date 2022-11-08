@@ -26,7 +26,7 @@ const headerStyles = css({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  fontSize: '3rem',
+  fontSize: 'clamp(2rem, 100%, 4rem)',
 });
 const subHeaderStyles = css({
   textTransform: 'uppercase',
@@ -34,11 +34,19 @@ const subHeaderStyles = css({
   fontWeight: 'bold',
 });
 
-const stackStyles = css({
+const containerStyles = css({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  gap: 'var(--grid)',
+  gap: 'calc(var(--grid) * 2)',
+  padding: '0 calc(var(--grid) * 2)',
+  width: 'max(40vw, 400px)',
+  alignContent: 'center',
+  margin: '0 auto',
+
+  '> *': {
+    margin: '0',
+  },
 });
 
 const repoLinkStyles = css({
@@ -51,7 +59,7 @@ const repoLinkStyles = css({
 const Home: NextPage = ({ slugs }: { slugs?: string[] }) => {
   return (
     <>
-      <div css={stackStyles}>
+      <div css={containerStyles}>
         <h1 css={headerStyles}>
           <span>Drag and drop libraries</span>
           <span css={subHeaderStyles}>performance comparison</span>
@@ -65,7 +73,11 @@ const Home: NextPage = ({ slugs }: { slugs?: string[] }) => {
             Repo
           </a>
         </p>
-        <h2>Available scenarios</h2>
+        <p css={css({ textAlign: 'center' })}>
+          This application contains the same board example, powered by different drag and drop
+          libraries on different urls. This allows external tools to compare the performance of the
+          different libraries
+        </p>
         <ul>
           {slugs?.map((slug) => (
             <li key={slug}>
@@ -73,6 +85,16 @@ const Home: NextPage = ({ slugs }: { slugs?: string[] }) => {
             </li>
           ))}
         </ul>
+        <div>
+          Made with <span aria-label="love">❤️</span> by{' '}
+          <a href="https://twitter.com/alexandereardon" rel="author">
+            @alexandereardon
+          </a>{' '}
+          and{' '}
+          <a href="https://twitter.com/DeclanWarn" rel="author">
+            @DeclanWarn
+          </a>
+        </div>
       </div>
     </>
   );
