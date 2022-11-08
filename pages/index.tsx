@@ -5,6 +5,7 @@ import Link from 'next/link';
 import githubIcon from '../pieces/shared/github.svg';
 import { css, Global } from '@emotion/react';
 import { token } from '@atlaskit/tokens';
+import Image from 'next/image';
 
 export const getStaticProps: GetStaticProps = async () => {
   const filePaths: string[] = await fs.readdir(path.join(process.cwd(), 'pages', 'scenario'));
@@ -60,7 +61,7 @@ const Home: NextPage = ({ slugs }: { slugs?: string[] }) => {
             css={repoLinkStyles}
             href="https://github.com/alexreardon/drag-and-drop-performance-comparison"
           >
-            <img {...githubIcon} alt="" draggable={false} />
+            <Image {...githubIcon} alt="" draggable={false} />
             Repo
           </a>
         </p>
