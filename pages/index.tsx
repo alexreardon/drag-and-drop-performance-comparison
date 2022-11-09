@@ -26,7 +26,8 @@ const headerStyles = css({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  fontSize: 'clamp(2rem, 100%, 4rem)',
+  fontSize: '3rem',
+  textAlign: 'center',
 });
 const subHeaderStyles = css({
   textTransform: 'uppercase',
@@ -40,10 +41,11 @@ const containerStyles = css({
   alignItems: 'center',
   gap: 'calc(var(--grid) * 2)',
   padding: '0 calc(var(--grid) * 2)',
-  width: 'max(40vw, 400px)',
+  maxWidth: '600px',
   alignContent: 'center',
   margin: '0 auto',
 
+  // disabling default css-reset margins
   '> *': {
     margin: '0',
   },
