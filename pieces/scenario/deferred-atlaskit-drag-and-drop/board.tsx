@@ -15,11 +15,6 @@ const boardStyles = css({
 
 export default function Board() {
   const [data, setData] = useState<Data>(() => getInitialData());
-  const lastData = useRef<Data>(data);
-  const getData = useRef<() => Data>(() => lastData.current);
-  useEffect(() => {
-    lastData.current = data;
-  }, [data]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -29,15 +24,14 @@ export default function Board() {
       if (controller.signal.aborted) {
         return;
       }
-      console.log('reordering is ready');
-      const cleanup = attachReordering({ setData, getData: getData.current });
+      const cleanup = attachReordering({ setData, data });
       controller.signal.addEventListener('abort', cleanup, { once: true });
     })();
 
     return () => {
       controller.abort();
     };
-  }, []);
+  }, [data]);
 
   return (
     <WithOrderedColumnIds orderedColumnIds={data.orderedColumnIds}>

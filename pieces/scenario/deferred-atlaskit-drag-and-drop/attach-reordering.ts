@@ -4,15 +4,15 @@ import { Data } from '../../data/tasks';
 import { reorder } from '../atlaskit-drag-and-drop/reorder';
 
 export function attachReordering({
-  getData,
+  data,
   setData,
 }: {
-  getData: () => Data;
+  data: Data;
   setData: (data: Data) => void;
 }): CleanupFn {
   return monitorForElements({
     onDrop(args) {
-      const updated = reorder({ data: getData(), result: args });
+      const updated = reorder({ data, result: args });
       if (updated) {
         setData(updated);
       }

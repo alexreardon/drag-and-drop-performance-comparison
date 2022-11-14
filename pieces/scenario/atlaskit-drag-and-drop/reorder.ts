@@ -9,12 +9,16 @@ function assertIsString(value: unknown): asserts value is string {
   invariant(typeof value === 'string');
 }
 
-function getCardMoveResult(args: Parameters<typeof moveItem>[0] & { data: Data }): Data {
+function getCardMoveResult(args: Parameters<typeof moveItem>[0] & { data: Data }): Data | null {
+  const map = moveItem(args);
+  if (map == null) {
+    return null;
+  }
   return {
     orderedColumnIds: args.data.orderedColumnIds,
     columnMap: {
       ...args.data.columnMap,
-      ...moveItem(args),
+      ...map,
     },
   };
 }
@@ -31,8 +35,13 @@ function moveItem({
   destination: ColumnType;
   startIndex: number;
   finishIndex: number;
-}): ColumnMap {
+}): ColumnMap | null {
   if (source === destination) {
+    // not moving anywhere, can skip this update
+    if (startIndex === finishIndex) {
+      return null;
+    }
+
     const reordered = reorderArray({
       list: source.items,
       startIndex: startIndex,
@@ -86,6 +95,7 @@ export function reorder({
 
     const startIndex: number = data.orderedColumnIds.indexOf(sourceId);
     const finishIndex: number = data.orderedColumnIds.indexOf(finishId);
+
     const edge: Edge | null = extractClosestEdge(finish.data);
 
     const updated = reorderWithEdge({
