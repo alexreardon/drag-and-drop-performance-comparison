@@ -9,6 +9,16 @@ function assertIsString(value: unknown): asserts value is string {
   invariant(typeof value === 'string');
 }
 
+function getCardMoveResult(args: Parameters<typeof moveItem>[0] & { data: Data }): Data {
+  return {
+    orderedColumnIds: args.data.orderedColumnIds,
+    columnMap: {
+      ...args.data.columnMap,
+      ...moveItem(args),
+    },
+  };
+}
+
 function moveItem({
   item,
   source,
@@ -37,7 +47,7 @@ function moveItem({
   }
   // moving to new column
   const newSourceItems = [...source.items];
-  newSourceItems.splice(startIndex, 0);
+  newSourceItems.splice(startIndex, 1);
 
   const newDestinationitems = [...destination.items];
   newDestinationitems.splice(finishIndex, 0, item);
@@ -91,10 +101,10 @@ export function reorder({
 
   // moving a card
   const source: ColumnType = data.columnMap[sourceId];
-  const cardIndex: number = source.items.findIndex(
+  const startIndex: number = source.items.findIndex(
     (item) => item.itemId === result.source.data.itemId,
   );
-  const card: Item = source.items[cardIndex];
+  const item: Item = source.items[startIndex];
 
   // last record will always be a column
   const destinationColumnRecord = result.location.current.dropTargets.at(-1);
@@ -106,40 +116,8 @@ export function reorder({
   // moving relative to a column
   if (result.location.current.dropTargets.length === 1) {
     // moving in same column: move to last position
-    if (source === destination) {
-      const reordered = reorderArray({
-        list: source.items,
-        startIndex: cardIndex,
-        finishIndex: source.items.length - 1,
-      });
-      const updated: ColumnMap = {
-        ...data.columnMap,
-        [source.columnId]: {
-          ...source,
-          items: reordered,
-        },
-      };
-      return {
-        orderedColumnIds: data.orderedColumnIds,
-        columnMap: updated,
-      };
-    }
-    // moving to new column: remove from current column and add to last index of new column
-    const updated: ColumnMap = {
-      ...data.columnMap,
-      [source.columnId]: {
-        ...source,
-        items: source.items.filter((item) => item.itemId !== card.itemId),
-      },
-      [destination.columnId]: {
-        ...destination,
-        items: [...destination.items, card],
-      },
-    };
-    return {
-      orderedColumnIds: data.orderedColumnIds,
-      columnMap: updated,
-    };
+    const finishIndex = source === destination ? source.items.length - 1 : destination.items.length;
+    return getCardMoveResult({ item, source, destination, startIndex, finishIndex, data });
   }
 
   // moving relative to a card in a column
@@ -147,54 +125,26 @@ export function reorder({
     const destinationCardRecord = result.location.current.dropTargets[0];
     assertIsString(destinationCardRecord.data.itemId);
     const edge: Edge | null = extractClosestEdge(destinationCardRecord.data);
-    const finishIndex = destination.items.findIndex(
+    const indexInDesintation = destination.items.findIndex(
       (member) => member.itemId === destinationCardRecord.data.itemId,
     );
 
-    // moving in same column: move to last position
-    if (source === destination) {
-      const reordered = reorderWithEdge({
-        list: source.items,
-        startIndex: startIndex,
-        finishIndex,
-        edge,
-        axis: 'vertical',
-      });
-      const updated: ColumnMap = {
-        ...data.columnMap,
-        [source.columnId]: {
-          ...source,
-          items: reordered,
-        },
-      };
-      return {
-        orderedColumnIds: data.orderedColumnIds,
-        columnMap: updated,
-      };
-    }
-
-    // moving to new column
-    const updatedItems: Item[] = [...destination.items];
-    const destinationIndex = edge === 'bottom' ? finishIndex + 1 : finishIndex;
-    updatedItems.splice(destinationIndex, 0, card);
-
-    const updated: ColumnMap = {
-      ...data.columnMap,
-      [source.columnId]: {
-        ...source,
-        // remove from original column
-        items: source.items.filter((item) => item.itemId !== card.itemId),
-      },
-      [destination.columnId]: {
-        ...destination,
-        // insert into new column
-        items: updatedItems,
-      },
-    };
-    return {
-      orderedColumnIds: data.orderedColumnIds,
-      columnMap: updated,
-    };
+    const finishIndex: number = (() => {
+      if (source === destination) {
+        // reordering in same list
+        const reordered = reorderWithEdge({
+          list: source.items,
+          startIndex: startIndex,
+          finishIndex: indexInDesintation,
+          edge,
+          axis: 'vertical',
+        });
+        return reordered.indexOf(item);
+      }
+      // moving into new list
+      return edge === 'bottom' ? indexInDesintation + 1 : indexInDesintation;
+    })();
+    return getCardMoveResult({ item, source, destination, startIndex, finishIndex, data });
   }
 
   // should never get here
