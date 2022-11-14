@@ -1,10 +1,10 @@
 import { ReactNode } from 'react';
 import invariant from 'tiny-invariant';
-import { Data } from '../../data/tasks';
-import { DataContext } from '../../shared/data-context';
-import { MenuItem } from '../../shared/menu-button';
-import { useRequiredContext } from '../../shared/use-required-context';
-import { getCardMoveResult } from './reorder';
+import { Data } from '../data/tasks';
+import { DataContext } from './data-context';
+import { MenuItem } from './menu-button';
+import { useRequiredContext } from './use-required-context';
+import { getCardMoveResult } from '../scenario/atlaskit-drag-and-drop/reorder';
 import { announce } from '@atlaskit/drag-and-drop-live-region';
 
 export function CardActions({ itemId, columnId }: { itemId: string; columnId: string }) {

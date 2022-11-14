@@ -17,8 +17,7 @@ import { token } from '@atlaskit/tokens';
 import { Item } from '../../data/tasks';
 import { fallbackColor } from '../../shared/fallback';
 import { MenuButton, MenuItem } from '../../shared/menu-button';
-import { CardActions } from './card-actions';
-import { KeyboardActionContext } from './keyboard-actions';
+import { CardActions } from '../../shared/card-actions';
 
 const cardStyles = css({
   display: 'flex',

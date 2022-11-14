@@ -9,9 +9,12 @@ import { fallbackColor } from '../../shared/fallback';
 import { MenuButton, MenuItem } from '../../shared/menu-button';
 
 import type { DraggableState } from './attach-card';
-import { GetOrderedColumnIdsContext } from '../../shared/get-ordered-column-ids-context';
+import { CardActions } from '../../shared/card-actions';
 
 const LazyDropIndicator = dynamic(() => import('@atlaskit/drag-and-drop-indicator/box'));
+const LazyCardActions = dynamic(() =>
+  import('../../shared/card-actions').then((mod) => mod.CardActions),
+);
 
 const cardStyles = css({
   display: 'flex',
@@ -82,7 +85,6 @@ export const Card = memo(function Card({ item, columnId }: { item: Item; columnI
   const itemId = item.itemId;
   const [closestEdge, setClosestEdge] = useState<Edge | null>(null);
   const [state, setState] = useState<DraggableState>('idle');
-  const getOrderedColumnIds = useContext(GetOrderedColumnIdsContext);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -115,13 +117,7 @@ export const Card = memo(function Card({ item, columnId }: { item: Item; columnI
             <>
               <MenuItem>Edit</MenuItem>
               <MenuItem>Share</MenuItem>
-              <MenuItem>Move up</MenuItem>
-              <MenuItem>Move down</MenuItem>
-              {getOrderedColumnIds()
-                .filter((id) => id !== columnId)
-                .map((columnId) => {
-                  return <MenuItem key={columnId}>Move to Column {columnId}</MenuItem>;
-                })}
+              <LazyCardActions itemId={itemId} columnId={columnId} />
             </>
           )}
         </MenuButton>

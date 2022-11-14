@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import { useEffect, useRef, useState } from 'react';
 
 import { Data, getInitialData } from '../../data/tasks';
-import { WithOrderedColumnIds } from '../../shared/with-ordered-column-ids';
+import { DataContext, useStableDataContextValue } from '../../shared/data-context';
 import { Column } from './column';
 
 const boardStyles = css({
@@ -15,6 +15,7 @@ const boardStyles = css({
 
 export default function Board() {
   const [data, setData] = useState<Data>(() => getInitialData());
+  const dataContext = useStableDataContextValue(data, setData);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -34,12 +35,12 @@ export default function Board() {
   }, [data]);
 
   return (
-    <WithOrderedColumnIds orderedColumnIds={data.orderedColumnIds}>
+    <DataContext.Provider value={dataContext}>
       <div css={boardStyles}>
         {data.orderedColumnIds.map((columnId) => {
           return <Column column={data.columnMap[columnId]} key={columnId} />;
         })}
       </div>
-    </WithOrderedColumnIds>
+    </DataContext.Provider>
   );
 }

@@ -3,8 +3,12 @@ import { useRef, useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
-import { ColumnMap, getInitialData } from '../../data/tasks';
-import { WithOrderedColumnIds } from '../../shared/with-ordered-column-ids';
+import { ColumnMap, Data, getInitialData } from '../../data/tasks';
+import {
+  DataContext,
+  DataContextValue,
+  useStableDataContextValue,
+} from '../../shared/data-context';
 import { Column } from './column';
 
 const boardStyles = css({
@@ -16,14 +20,12 @@ const boardStyles = css({
 });
 
 export default function Board() {
-  const [data, setData] = useState<{
-    columnMap: ColumnMap;
-    orderedColumnIds: string[];
-  }>(() => getInitialData());
+  const [data, setData] = useState<Data>(() => getInitialData());
+  const dataContext: DataContextValue = useStableDataContextValue(data, setData);
   const ref = useRef<HTMLDivElement | null>(null);
 
   return (
-    <WithOrderedColumnIds orderedColumnIds={data.orderedColumnIds}>
+    <DataContext.Provider value={dataContext}>
       <DndProvider backend={HTML5Backend}>
         <div css={boardStyles} ref={ref}>
           {data.orderedColumnIds.map((columnId) => {
@@ -31,6 +33,6 @@ export default function Board() {
           })}
         </div>
       </DndProvider>
-    </WithOrderedColumnIds>
+    </DataContext.Provider>
   );
 }

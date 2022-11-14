@@ -11,7 +11,7 @@ import mergeRefs from './merge-refs';
 import DropIndicator from '@atlaskit/drag-and-drop-indicator/box';
 import { Edge, getClosestEdge } from './get-closest-edge';
 import { MenuButton, MenuItem } from '../../shared/menu-button';
-import { GetOrderedColumnIdsContext } from '../../shared/get-ordered-column-ids-context';
+import { CardActions } from '../../shared/card-actions';
 
 const cardStyles = css({
   display: 'flex',
@@ -83,7 +83,6 @@ export const Card = memo(function Card({ item, columnId }: { item: Item; columnI
   const itemId = item.itemId;
   const dropTargetRef = useRef<HTMLDivElement | null>(null);
   const [closestEdge, setClosestEdge] = useState<Edge | null>(null);
-  const getOrderedColumnIds = useContext(GetOrderedColumnIdsContext);
 
   const [{ isOver }, dropRef] = useDrop(() => ({
     accept: 'CARD',
@@ -131,13 +130,7 @@ export const Card = memo(function Card({ item, columnId }: { item: Item; columnI
             <>
               <MenuItem>Edit</MenuItem>
               <MenuItem>Share</MenuItem>
-              <MenuItem>Move up</MenuItem>
-              <MenuItem>Move down</MenuItem>
-              {getOrderedColumnIds()
-                .filter((id) => id !== columnId)
-                .map((columnId) => {
-                  return <MenuItem key={columnId}>Move to Column {columnId}</MenuItem>;
-                })}
+              <CardActions columnId={columnId} itemId={itemId} />
             </>
           )}
         </MenuButton>
