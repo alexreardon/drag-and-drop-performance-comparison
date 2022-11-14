@@ -46,6 +46,13 @@
     "@babel/runtime" "^7.0.0"
     "@emotion/react" "^11.7.1"
 
+"@atlaskit/drag-and-drop-live-region@^0.2.1":
+  version "0.2.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/drag-and-drop-live-region/-/drag-and-drop-live-region-0.2.1.tgz#ebcca0801d6ddafa6ec563f825c4f901796d45c6"
+  integrity sha512-8Yi+cXXaElApTaNTXWSZHXnOOHvCxRujh/MGp75cb/KL5VgFy/tLvlZqqKeGlfBlLjrgDI8IuUveMIixDg4CzQ==
+  dependencies:
+    "@babel/runtime" "^7.0.0"
+
 "@atlaskit/drag-and-drop@^0.6.0":
   version "0.6.0"
   resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/drag-and-drop/-/drag-and-drop-0.6.0.tgz#f28b22ebf7e07124936c888454d1a175c323219a"

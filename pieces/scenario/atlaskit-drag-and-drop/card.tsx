@@ -18,6 +18,7 @@ import { Item } from '../../data/tasks';
 import { fallbackColor } from '../../shared/fallback';
 import { MenuButton, MenuItem } from '../../shared/menu-button';
 import { GetOrderedColumnIdsContext } from '../../shared/get-ordered-column-ids-context';
+import { announce } from '@atlaskit/drag-and-drop-live-region';
 
 const cardStyles = css({
   display: 'flex',
