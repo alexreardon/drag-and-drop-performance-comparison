@@ -9,6 +9,51 @@ function assertIsString(value: unknown): asserts value is string {
   invariant(typeof value === 'string');
 }
 
+function moveItem({
+  item,
+  source,
+  destination,
+  startIndex,
+  finishIndex,
+}: {
+  item: Item;
+  source: ColumnType;
+  destination: ColumnType;
+  startIndex: number;
+  finishIndex: number;
+}): ColumnMap {
+  if (source === destination) {
+    const reordered = reorderArray({
+      list: source.items,
+      startIndex: startIndex,
+      finishIndex,
+    });
+    return {
+      [source.columnId]: {
+        ...source,
+        items: reordered,
+      },
+    };
+  }
+  // moving to new column
+  const newSourceItems = [...source.items];
+  newSourceItems.splice(startIndex, 0);
+
+  const newDestinationitems = [...destination.items];
+  newDestinationitems.splice(finishIndex, 0, item);
+
+  return {
+    [source.columnId]: {
+      ...source,
+      items: newSourceItems,
+    },
+    [destination.columnId]: {
+      ...destination,
+      items: newDestinationitems,
+    },
+  };
+}
+
 export function reorder({
   data,
   result,
@@ -103,14 +148,14 @@ export function reorder({
     assertIsString(destinationCardRecord.data.itemId);
     const edge: Edge | null = extractClosestEdge(destinationCardRecord.data);
     const finishIndex = destination.items.findIndex(
-      (item) => item.itemId === destinationCardRecord.data.itemId,
+      (member) => member.itemId === destinationCardRecord.data.itemId,
     );
 
     // moving in same column: move to last position
     if (source === destination) {
       const reordered = reorderWithEdge({
         list: source.items,
-        startIndex: cardIndex,
+        startIndex: startIndex,
         finishIndex,
         edge,
         axis: 'vertical',
