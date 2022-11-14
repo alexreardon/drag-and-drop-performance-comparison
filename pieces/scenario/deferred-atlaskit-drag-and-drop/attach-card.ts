@@ -18,17 +18,19 @@ export function attachCard({
   setState,
   setClosestEdge,
   itemId,
+  columnId,
 }: {
   ref: MutableRefObject<HTMLElement | null>;
   setState: Dispatch<SetStateAction<DraggableState>>;
   setClosestEdge: Dispatch<SetStateAction<Edge | null>>;
   itemId: string;
+  columnId: string;
 }) {
   invariant(ref.current);
   const cleanup = combine(
     draggable({
       element: ref.current,
-      getInitialData: () => ({ type: 'card', itemId: itemId }),
+      getInitialData: () => ({ type: 'card', itemId, columnId }),
       onGenerateDragPreview: ({ source }) => {
         scrollJustEnoughIntoView({ element: source.element });
         setState('generate-preview');
@@ -41,7 +43,7 @@ export function attachCard({
       canDrop: (args) => args.source.data.type === 'card',
       getIsSticky: () => true,
       getData: ({ input, element }) => {
-        const data = { type: 'card', itemId: itemId };
+        const data = { type: 'card', itemId, columnId };
 
         return attachClosestEdge(data, {
           input,

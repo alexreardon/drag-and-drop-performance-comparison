@@ -92,14 +92,14 @@ export const Card = memo(function Card({ item, columnId }: { item: Item; columnI
       if (controller.signal.aborted) {
         return;
       }
-      const cleanup = attachCard({ setState, setClosestEdge, itemId, ref });
+      const cleanup = attachCard({ setState, setClosestEdge, itemId, ref, columnId });
       controller.signal.addEventListener('abort', cleanup, { once: true });
     })();
 
     return () => {
       controller.abort();
     };
-  });
+  }, [itemId, columnId]);
 
   return (
     <div css={cardStyles} ref={ref}>
