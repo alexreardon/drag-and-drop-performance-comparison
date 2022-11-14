@@ -93,8 +93,12 @@ export const Card = memo(function Card({ item, index }: { item: Item; index: num
             <CardText state={state} />
             <div css={controlStyles}>
               <MenuButton label={`controls for card ${itemId}`}>
-                <MenuItem>Edit</MenuItem>
-                <MenuItem>Share</MenuItem>
+                {() => (
+                  <>
+                    <MenuItem>Edit</MenuItem>
+                    <MenuItem>Share</MenuItem>
+                  </>
+                )}
               </MenuButton>
             </div>
           </div>

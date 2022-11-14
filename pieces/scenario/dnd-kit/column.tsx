@@ -88,8 +88,12 @@ export const Column = memo(function Column({ column }: { column: ColumnType }) {
       <div css={columnHeaderStyles} {...attributes} {...listeners}>
         <h6>{column.title}</h6>
         <MenuButton label={`controls for column ${column.columnId}`}>
-          <MenuItem>Edit</MenuItem>
-          <MenuItem>Share</MenuItem>
+          {() => (
+            <>
+              <MenuItem>Edit</MenuItem>
+              <MenuItem>Share</MenuItem>
+            </>
+          )}
         </MenuButton>
       </div>
       <div css={scrollContainerStyles}>

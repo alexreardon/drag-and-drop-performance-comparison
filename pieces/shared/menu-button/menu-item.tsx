@@ -16,7 +16,7 @@ const menuItemStyles = css({
   },
 });
 
-export const MenuItem = ({ children }: { children: ReactNode }) => {
+export const MenuItem = ({ children }: { children: ReactNode | ReactNode[] }) => {
   const [hasFocus, setHasFocus] = useState(false);
 
   const onFocus = useCallback(() => {

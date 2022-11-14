@@ -59,43 +59,18 @@ const isDraggingOverColumnStyles = css({
 // An additional memoization layer to prevent Card memoization checks when
 // entering and leaving a list
 const CardList = memo(
-  forwardRef<HTMLDivElement, { column: ColumnType; orderedColumnIds: string[] }>(function CardList(
-    { column, orderedColumnIds },
-    ref,
-  ) {
+  forwardRef<HTMLDivElement, { column: ColumnType }>(function CardList({ column }, ref) {
     return (
       <div css={cardListStyles} ref={ref}>
         {column.items.map((item) => (
-          <Card
-            item={item}
-            key={item.itemId}
-            columnId={column.columnId}
-            /**
-             * Passing this down to Cards means that every card will re-render
-             * if a column changes order.
-             *
-             * If we end up implementing re-order behavior we should refactor
-             * this.
-             *
-             * One approach is to pass down a stable function (or use context)
-             * which will return the current ids. This uses laziness to
-             * avoid unnecessary re-renders.
-             */
-            orderedColumnIds={orderedColumnIds}
-          />
+          <Card item={item} key={item.itemId} columnId={column.columnId} />
         ))}
       </div>
     );
   }),
 );
 
-export const Column = memo(function Column({
-  column,
-  orderedColumnIds,
-}: {
-  column: ColumnType;
-  orderedColumnIds: string[];
-}) {
+export const Column = memo(function Column({ column }: { column: ColumnType }) {
   const columnId = column.columnId;
   const columnRef = useRef<HTMLDivElement | null>(null);
   const headerRef = useRef<HTMLDivElement | null>(null);
@@ -158,14 +133,18 @@ export const Column = memo(function Column({
       <div css={columnHeaderStyles} ref={headerRef}>
         <h6>{column.title}</h6>
         <MenuButton label={`controls for column ${columnId}`}>
-          <MenuItem>Edit</MenuItem>
-          <MenuItem>Share</MenuItem>
-          <MenuItem>Move left</MenuItem>
-          <MenuItem>Move right</MenuItem>
+          {() => (
+            <>
+              <MenuItem>Edit</MenuItem>
+              <MenuItem>Share</MenuItem>
+              <MenuItem>Move left</MenuItem>
+              <MenuItem>Move right</MenuItem>
+            </>
+          )}
         </MenuButton>
       </div>
       <div css={scrollContainerStyles}>
-        <CardList column={column} ref={cardListRef} orderedColumnIds={orderedColumnIds} />
+        <CardList column={column} ref={cardListRef} />
       </div>
       {closestEdge && <DropIndicator edge={closestEdge} gap={'var(--column-gap)'} />}
     </div>

@@ -91,8 +91,12 @@ export const Column = memo(function Column({
           <div css={columnHeaderStyles} {...draggableProvided.dragHandleProps}>
             <h6>{column.title}</h6>
             <MenuButton label={`controls for column ${column.columnId}`}>
-              <MenuItem>Edit</MenuItem>
-              <MenuItem>Share</MenuItem>
+              {() => (
+                <>
+                  <MenuItem>Edit</MenuItem>
+                  <MenuItem>Share</MenuItem>
+                </>
+              )}
             </MenuButton>
           </div>
           <Droppable droppableId={column.columnId} type="QUOTE" direction="vertical">

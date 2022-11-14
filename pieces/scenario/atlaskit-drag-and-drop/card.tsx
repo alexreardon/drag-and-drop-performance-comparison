@@ -1,4 +1,4 @@
-import { memo, useEffect, useRef, useState } from 'react';
+import { memo, useContext, useEffect, useRef, useState } from 'react';
 
 import { css } from '@emotion/react';
 import invariant from 'tiny-invariant';
@@ -17,6 +17,7 @@ import { token } from '@atlaskit/tokens';
 import { Item } from '../../data/tasks';
 import { fallbackColor } from '../../shared/fallback';
 import { MenuButton, MenuItem } from '../../shared/menu-button';
+import { GetOrderedColumnIdsContext } from '../../shared/get-ordered-column-ids-context';
 
 const cardStyles = css({
   display: 'flex',
@@ -83,19 +84,13 @@ const controlStyles = css({
   right: 'var(--grid)',
 });
 
-export const Card = memo(function Card({
-  item,
-  columnId,
-  orderedColumnIds,
-}: {
-  item: Item;
-  columnId: string;
-  orderedColumnIds: string[];
-}) {
+export const Card = memo(function Card({ item, columnId }: { item: Item; columnId: string }) {
   const ref = useRef<HTMLDivElement | null>(null);
   const itemId = item.itemId;
   const [closestEdge, setClosestEdge] = useState<Edge | null>(null);
   const [state, setState] = useState<DraggableState>('idle');
+  const getOrderedColumnIds = useContext(GetOrderedColumnIdsContext);
+  console.log('render card', item.itemId);
 
   useEffect(() => {
     invariant(ref.current);
@@ -151,15 +146,19 @@ export const Card = memo(function Card({
       {closestEdge && <DropIndicator edge={closestEdge} gap={'var(--card-gap)'} />}
       <div css={controlStyles}>
         <MenuButton label={`controls for card ${itemId}`}>
-          <MenuItem>Edit</MenuItem>
-          <MenuItem>Share</MenuItem>
-          <MenuItem>Move up</MenuItem>
-          <MenuItem>Move down</MenuItem>
-          {orderedColumnIds
-            .filter((id) => id !== columnId)
-            .map((columnId) => {
-              return <MenuItem key={columnId}>Move to Column {columnId}</MenuItem>;
-            })}
+          {() => (
+            <>
+              <MenuItem>Edit</MenuItem>
+              <MenuItem>Share</MenuItem>
+              <MenuItem>Move up</MenuItem>
+              <MenuItem>Move down</MenuItem>
+              {getOrderedColumnIds()
+                .filter((id) => id !== columnId)
+                .map((columnId) => {
+                  return <MenuItem key={columnId}>Move to Column {columnId}</MenuItem>;
+                })}
+            </>
+          )}
         </MenuButton>
       </div>
     </div>

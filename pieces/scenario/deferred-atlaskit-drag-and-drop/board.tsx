@@ -1,7 +1,8 @@
 import { css } from '@emotion/react';
-import { useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { ColumnMap, getInitialData } from '../../data/tasks';
+import { GetOrderedColumnIdsContext } from '../../shared/get-ordered-column-ids-context';
 import { Column } from './column';
 
 const boardStyles = css({
@@ -17,18 +18,19 @@ export default function Board() {
     columnMap: ColumnMap;
     orderedColumnIds: string[];
   }>(() => getInitialData());
+  const orderedColumnIdsRef = useRef<string[]>(data.orderedColumnIds);
+  useEffect(() => {
+    orderedColumnIdsRef.current = data.orderedColumnIds;
+  }, [data.orderedColumnIds]);
+  const getOrderedColumnIds = useCallback(() => orderedColumnIdsRef.current, []);
 
   return (
-    <div css={boardStyles}>
-      {data.orderedColumnIds.map((columnId) => {
-        return (
-          <Column
-            column={data.columnMap[columnId]}
-            key={columnId}
-            orderedColumnIds={data.orderedColumnIds}
-          />
-        );
-      })}
-    </div>
+    <GetOrderedColumnIdsContext.Provider value={getOrderedColumnIds}>
+      <div css={boardStyles}>
+        {data.orderedColumnIds.map((columnId) => {
+          return <Column column={data.columnMap[columnId]} key={columnId} />;
+        })}
+      </div>
+    </GetOrderedColumnIdsContext.Provider>
   );
 }
