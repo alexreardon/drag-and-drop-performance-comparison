@@ -1,10 +1,10 @@
 import { css } from '@emotion/react';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import { ColumnMap, getInitialData } from '../../data/tasks';
-import { GetOrderedColumnIdsContext } from '../../shared/get-ordered-column-ids-context';
+import { WithOrderedColumnIds } from '../../shared/with-ordered-column-ids';
 import { Column } from './column';
 
 const boardStyles = css({
@@ -22,14 +22,8 @@ export default function Board() {
   }>(() => getInitialData());
   const ref = useRef<HTMLDivElement | null>(null);
 
-  const orderedColumnIdsRef = useRef<string[]>(data.orderedColumnIds);
-  useEffect(() => {
-    orderedColumnIdsRef.current = data.orderedColumnIds;
-  }, [data.orderedColumnIds]);
-  const getOrderedColumnIds = useCallback(() => orderedColumnIdsRef.current, []);
-
   return (
-    <GetOrderedColumnIdsContext.Provider value={getOrderedColumnIds}>
+    <WithOrderedColumnIds orderedColumnIds={data.orderedColumnIds}>
       <DndProvider backend={HTML5Backend}>
         <div css={boardStyles} ref={ref}>
           {data.orderedColumnIds.map((columnId) => {
@@ -37,6 +31,6 @@ export default function Board() {
           })}
         </div>
       </DndProvider>
-    </GetOrderedColumnIdsContext.Provider>
+    </WithOrderedColumnIds>
   );
 }
