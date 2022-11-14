@@ -18,7 +18,12 @@ function getItems({ count, startColumnId }: { count: number; startColumnId: stri
   );
 }
 
-export function getInitialData({ count }: { count: number } = { count: 50 }) {
+export type Data = {
+  columnMap: ColumnMap;
+  orderedColumnIds: string[];
+};
+
+export function getInitialData({ count }: { count: number } = { count: 7 }): Data {
   const orderedColumnIds: string[] = ['A', 'B', 'C'];
   const columns: ColumnType[] = orderedColumnIds.map((columnId, index) => {
     const column: ColumnType = {

@@ -102,7 +102,7 @@ export const Card = memo(function Card({
     return combine(
       draggable({
         element: ref.current,
-        getInitialData: () => ({ type: 'card', itemId: itemId }),
+        getInitialData: () => ({ type: 'card', itemId, columnId }),
         onGenerateDragPreview: ({ source }) => {
           scrollJustEnoughIntoView({ element: source.element });
           setState('generate-preview');
@@ -115,7 +115,7 @@ export const Card = memo(function Card({
         canDrop: (args) => args.source.data.type === 'card',
         getIsSticky: () => true,
         getData: ({ input, element }) => {
-          const data = { type: 'card', itemId: itemId };
+          const data = { type: 'card', itemId: itemId, column: columnId };
 
           return attachClosestEdge(data, {
             input,

@@ -9,6 +9,7 @@ import {
 
 import { ColumnMap, getInitialData } from '../../data/tasks';
 import { Column } from './column';
+import { reorder } from './reorder';
 
 const boardStyles = css({
   display: 'flex',
@@ -30,7 +31,14 @@ export default function Board() {
   }>(() => getInitialData());
 
   return (
-    <DragDropContext onDragEnd={() => {}}>
+    <DragDropContext
+      onDragEnd={(result) => {
+        const updated = reorder({ data, result });
+        if (updated) {
+          setData(updated);
+        }
+      }}
+    >
       <Droppable droppableId="board" type="COLUMN" direction="horizontal">
         {(provided: DroppableProvided) => (
           <div css={boardStyles} ref={provided.innerRef} {...provided.droppableProps}>

@@ -1,8 +1,10 @@
+import { monitorForElements } from '@atlaskit/drag-and-drop/adapter/element';
 import { css } from '@emotion/react';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-import { ColumnMap, getInitialData } from '../../data/tasks';
+import { ColumnMap, Data, getInitialData } from '../../data/tasks';
 import { Column } from './column';
+import { reorder } from './reorder';
 
 const boardStyles = css({
   display: 'flex',
@@ -13,10 +15,18 @@ const boardStyles = css({
 });
 
 export default function Board() {
-  const [data] = useState<{
-    columnMap: ColumnMap;
-    orderedColumnIds: string[];
-  }>(() => getInitialData());
+  const [data, setData] = useState<Data>(() => getInitialData());
+
+  useEffect(() => {
+    return monitorForElements({
+      onDrop(args) {
+        const updated = reorder({ data, result: args });
+        if (updated) {
+          setData(updated);
+        }
+      },
+    });
+  }, [data]);
 
   return (
     <div css={boardStyles}>
