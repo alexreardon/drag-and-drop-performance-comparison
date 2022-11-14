@@ -9,8 +9,6 @@ function assertIsString(value: unknown): asserts value is string {
   invariant(typeof value === 'string');
 }
 
-function moveBetween({ sou }) {}
-
 export function reorder({
   data,
   result,
