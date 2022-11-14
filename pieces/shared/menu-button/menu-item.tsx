@@ -1,4 +1,14 @@
-import { FocusEventHandler, ReactNode, useCallback, useState } from 'react';
+import {
+  FocusEventHandler,
+  KeyboardEventHandler,
+  MouseEvent,
+  MouseEventHandler,
+  ReactEventHandler,
+  ReactNode,
+  UIEvent,
+  useCallback,
+  useState,
+} from 'react';
 
 import { css } from '@emotion/react';
 
@@ -16,7 +26,13 @@ const menuItemStyles = css({
   },
 });
 
-export const MenuItem = ({ children }: { children: ReactNode | ReactNode[] }) => {
+export const MenuItem = ({
+  children,
+  onAction,
+}: {
+  children: ReactNode | ReactNode[];
+  onAction?: (event: UIEvent) => void;
+}) => {
   const [hasFocus, setHasFocus] = useState(false);
 
   const onFocus = useCallback(() => {
@@ -31,12 +47,23 @@ export const MenuItem = ({ children }: { children: ReactNode | ReactNode[] }) =>
     setHasFocus(false);
   }, []);
 
+  const onKeyDown: KeyboardEventHandler = useCallback(
+    (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        onAction?.(event);
+      }
+    },
+    [onAction],
+  );
+
   return (
     <li
       css={menuItemStyles}
       role="menuitem"
       onFocus={onFocus}
       onBlur={onBlur}
+      onClick={onAction}
+      onKeyDown={onKeyDown}
       tabIndex={hasFocus ? 0 : -1}
     >
       {children}

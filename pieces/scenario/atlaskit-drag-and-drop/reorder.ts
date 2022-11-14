@@ -9,7 +9,9 @@ function assertIsString(value: unknown): asserts value is string {
   invariant(typeof value === 'string');
 }
 
-function getCardMoveResult(args: Parameters<typeof moveItem>[0] & { data: Data }): Data | null {
+export function getCardMoveResult(
+  args: Parameters<typeof moveItem>[0] & { data: Data },
+): Data | null {
   const map = moveItem(args);
   if (map == null) {
     return null;

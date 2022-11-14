@@ -19,6 +19,8 @@ import { fallbackColor } from '../../shared/fallback';
 import { MenuButton, MenuItem } from '../../shared/menu-button';
 import { GetOrderedColumnIdsContext } from '../../shared/get-ordered-column-ids-context';
 import { announce } from '@atlaskit/drag-and-drop-live-region';
+import { KeyboardActionContext } from './keyboard-actions';
+import { useRequiredContext } from '../../shared/use-required-context';
 
 const cardStyles = css({
   display: 'flex',
@@ -90,7 +92,8 @@ export const Card = memo(function Card({ item, columnId }: { item: Item; columnI
   const itemId = item.itemId;
   const [closestEdge, setClosestEdge] = useState<Edge | null>(null);
   const [state, setState] = useState<DraggableState>('idle');
-  const getOrderedColumnIds = useContext(GetOrderedColumnIdsContext);
+  // const getOrderedColumnIds = useContext(GetOrderedColumnIdsContext);
+  const actions = useRequiredContext(KeyboardActionContext);
 
   useEffect(() => {
     invariant(ref.current);
@@ -150,13 +153,7 @@ export const Card = memo(function Card({ item, columnId }: { item: Item; columnI
             <>
               <MenuItem>Edit</MenuItem>
               <MenuItem>Share</MenuItem>
-              <MenuItem>Move up</MenuItem>
-              <MenuItem>Move down</MenuItem>
-              {getOrderedColumnIds()
-                .filter((id) => id !== columnId)
-                .map((columnId) => {
-                  return <MenuItem key={columnId}>Move to Column {columnId}</MenuItem>;
-                })}
+              {actions.getAvailableCardActions({ itemId, columnId })}
             </>
           )}
         </MenuButton>
