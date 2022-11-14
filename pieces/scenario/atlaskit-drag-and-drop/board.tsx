@@ -1,11 +1,10 @@
 import { monitorForElements } from '@atlaskit/drag-and-drop/adapter/element';
 import { css } from '@emotion/react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { Data, getInitialData } from '../../data/tasks';
-import { WithOrderedColumnIds } from '../../shared/with-ordered-column-ids';
+import { DataContext, DataContextValue } from '../../shared/data-context';
 import { Column } from './column';
-import { createKeyboardActions, KeyboardActionContext } from './keyboard-actions';
 import { reorder } from './reorder';
 
 const boardStyles = css({
@@ -16,19 +15,24 @@ const boardStyles = css({
   flexDirection: 'row',
 });
 
-function useStableGetData(data: Data): () => Data {
+function useStableDataContextValue(data: Data, setData: (value: Data) => void): DataContextValue {
   const last = useRef<Data>(data);
-  const getData = useRef<() => Data>(() => last.current);
   useEffect(() => {
     last.current = data;
   }, [data]);
-  return getData.current;
+  const stable: DataContextValue = useMemo(
+    () => ({
+      setData,
+      getData: () => last.current,
+    }),
+    [],
+  );
+  return stable;
 }
 
 export default function Board() {
   const [data, setData] = useState<Data>(() => getInitialData());
-  const getData = useStableGetData(data);
-  const [api] = useState(() => createKeyboardActions({ setData, getData }));
+  const dataContext: DataContextValue = useStableDataContextValue(data, setData);
 
   useEffect(() => {
     return monitorForElements({
@@ -42,14 +46,12 @@ export default function Board() {
   }, [data]);
 
   return (
-    <KeyboardActionContext.Provider value={api}>
-      <WithOrderedColumnIds orderedColumnIds={data.orderedColumnIds}>
-        <div css={boardStyles}>
-          {data.orderedColumnIds.map((columnId) => {
-            return <Column column={data.columnMap[columnId]} key={columnId} />;
-          })}
-        </div>
-      </WithOrderedColumnIds>
-    </KeyboardActionContext.Provider>
+    <DataContext.Provider value={dataContext}>
+      <div css={boardStyles}>
+        {data.orderedColumnIds.map((columnId) => {
+          return <Column column={data.columnMap[columnId]} key={columnId} />;
+        })}
+      </div>
+    </DataContext.Provider>
   );
 }

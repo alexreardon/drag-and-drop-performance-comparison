@@ -4,6 +4,7 @@ import { MenuItem } from '../../shared/menu-button';
 import { announce } from '@atlaskit/drag-and-drop-live-region';
 import { getCardMoveResult } from './reorder';
 import invariant from 'tiny-invariant';
+import { useRequiredContext } from '../../shared/use-required-context';
 
 type CardAction =
   | {
@@ -196,3 +197,7 @@ export function createKeyboardActions({
 export const KeyboardActionContext = createContext<ReturnType<typeof createKeyboardActions> | null>(
   null,
 );
+
+export function CardActions({ cardId, columnId }) {
+  useRequiredContext();
+}

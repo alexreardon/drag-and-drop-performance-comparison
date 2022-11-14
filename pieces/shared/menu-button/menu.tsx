@@ -105,6 +105,8 @@ function Menu({ children, onClose, initialFocus }: MenuProps) {
       // The enter and space keys trigger the focused action,
       // and close the menu.
       if (event.key === 'Enter' || event.key === ' ') {
+        // cancelling scrolling
+        event.preventDefault();
         onClose({ shouldResetFocus: true });
       }
 

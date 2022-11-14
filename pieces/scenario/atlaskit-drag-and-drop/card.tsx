@@ -1,4 +1,4 @@
-import { memo, useContext, useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 
 import { css } from '@emotion/react';
 import invariant from 'tiny-invariant';
@@ -8,19 +8,17 @@ import {
   Edge,
   extractClosestEdge,
 } from '@atlaskit/drag-and-drop-hitbox/addon/closest-edge';
+import DropIndicator from '@atlaskit/drag-and-drop-indicator/box';
 import { draggable, dropTargetForElements } from '@atlaskit/drag-and-drop/adapter/element';
 import { combine } from '@atlaskit/drag-and-drop/util/combine';
 import { scrollJustEnoughIntoView } from '@atlaskit/drag-and-drop/util/scroll-just-enough-into-view';
-import DropIndicator from '@atlaskit/drag-and-drop-indicator/box';
 import { token } from '@atlaskit/tokens';
 
 import { Item } from '../../data/tasks';
 import { fallbackColor } from '../../shared/fallback';
 import { MenuButton, MenuItem } from '../../shared/menu-button';
-import { GetOrderedColumnIdsContext } from '../../shared/get-ordered-column-ids-context';
-import { announce } from '@atlaskit/drag-and-drop-live-region';
+import { CardActions } from './card-actions';
 import { KeyboardActionContext } from './keyboard-actions';
-import { useRequiredContext } from '../../shared/use-required-context';
 
 const cardStyles = css({
   display: 'flex',
@@ -92,8 +90,6 @@ export const Card = memo(function Card({ item, columnId }: { item: Item; columnI
   const itemId = item.itemId;
   const [closestEdge, setClosestEdge] = useState<Edge | null>(null);
   const [state, setState] = useState<DraggableState>('idle');
-  // const getOrderedColumnIds = useContext(GetOrderedColumnIdsContext);
-  const actions = useRequiredContext(KeyboardActionContext);
 
   useEffect(() => {
     invariant(ref.current);
@@ -153,7 +149,7 @@ export const Card = memo(function Card({ item, columnId }: { item: Item; columnI
             <>
               <MenuItem>Edit</MenuItem>
               <MenuItem>Share</MenuItem>
-              {actions.getAvailableCardActions({ itemId, columnId })}
+              <CardActions columnId={columnId} itemId={itemId} />
             </>
           )}
         </MenuButton>
