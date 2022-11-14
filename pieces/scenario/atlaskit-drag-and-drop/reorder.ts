@@ -9,6 +9,8 @@ function assertIsString(value: unknown): asserts value is string {
   invariant(typeof value === 'string');
 }
 
+function moveBetween({ sou }) {}
+
 export function reorder({
   data,
   result,
@@ -41,8 +43,6 @@ export function reorder({
       axis: 'horizontal',
     });
 
-    // TODO: do nothing if index is unchanged?
-
     return { columnMap: data.columnMap, orderedColumnIds: updated };
   }
 
@@ -53,6 +53,7 @@ export function reorder({
   );
   const card: Item = source.items[cardIndex];
 
+  // last record will always be a column
   const destinationColumnRecord = result.location.current.dropTargets.at(-1);
   invariant(destinationColumnRecord);
   const destinationId = destinationColumnRecord.data.columnId;
@@ -101,6 +102,7 @@ export function reorder({
   // moving relative to a card in a column
   if (result.location.current.dropTargets.length === 2) {
     const destinationCardRecord = result.location.current.dropTargets[0];
+    assertIsString(destinationCardRecord.data.itemId);
     const edge: Edge | null = extractClosestEdge(destinationCardRecord.data);
     const finishIndex = destination.items.findIndex(
       (item) => item.itemId === destinationCardRecord.data.itemId,
@@ -108,13 +110,6 @@ export function reorder({
 
     // moving in same column: move to last position
     if (source === destination) {
-      console.log({
-        list: source.items,
-        startIndex: cardIndex,
-        finishIndex,
-        edge,
-        axis: 'vertical',
-      });
       const reordered = reorderWithEdge({
         list: source.items,
         startIndex: cardIndex,
@@ -136,7 +131,6 @@ export function reorder({
     }
 
     // moving to new column
-    console.warn('moving to new column');
     const updatedItems: Item[] = [...destination.items];
     const destinationIndex = edge === 'bottom' ? finishIndex + 1 : finishIndex;
     updatedItems.splice(destinationIndex, 0, card);
