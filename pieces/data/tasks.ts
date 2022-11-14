@@ -23,7 +23,7 @@ export type Data = {
   orderedColumnIds: string[];
 };
 
-export function getInitialData({ count }: { count: number } = { count: 7 }): Data {
+export function getInitialData({ count }: { count: number } = { count: 50 }): Data {
   const orderedColumnIds: string[] = ['A', 'B', 'C'];
   const columns: ColumnType[] = orderedColumnIds.map((columnId, index) => {
     const column: ColumnType = {

@@ -90,7 +90,6 @@ export const Card = memo(function Card({ item, columnId }: { item: Item; columnI
   const [closestEdge, setClosestEdge] = useState<Edge | null>(null);
   const [state, setState] = useState<DraggableState>('idle');
   const getOrderedColumnIds = useContext(GetOrderedColumnIdsContext);
-  console.log('render card', item.itemId);
 
   useEffect(() => {
     invariant(ref.current);
