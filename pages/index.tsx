@@ -8,8 +8,14 @@ import { token } from '@atlaskit/tokens';
 import Image from 'next/image';
 
 export const getStaticProps: GetStaticProps = async () => {
-  const filePaths: string[] = await fs.readdir(path.join(process.cwd(), 'pages', 'scenario'));
-  const slugs: string[] = filePaths.map((file) => `/scenario/${file.replace('.tsx', '')}`);
+  const stablePaths: string[] = await fs.readdir(path.join(process.cwd(), 'pages', 'stable'));
+  const unstablePaths: string[] = await fs.readdir(path.join(process.cwd(), 'pages', 'unstable'));
+
+  const slugs: string[] = [
+    ...stablePaths.map((file) => `/stable/${file.replace('.tsx', '')}`),
+    ...unstablePaths.map((file) => `/unstable/${file.replace('.tsx', '')}`),
+  ];
+
   return {
     props: {
       slugs,
