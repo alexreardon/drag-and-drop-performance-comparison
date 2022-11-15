@@ -25,7 +25,7 @@ export default function About({ title }: { title: string }) {
     <div css={containerStyles}>
       <h4>Scenario: {title}</h4>
       <Link href="/">
-        <a>← Go Home</a>
+        ← Go Home
       </Link>
       <div>
         <code>NODE_ENV</code>: <code>{process.env.NODE_ENV}</code>
