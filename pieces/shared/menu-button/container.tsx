@@ -3,8 +3,10 @@ import { ReactNode, RefObject, useCallback, useEffect, useReducer, useRef } from
 import { css } from '@emotion/react';
 import { bind } from 'bind-event-listener';
 
-import Trigger from './trigger';
+import { FocusContext } from '../focus-context';
+import { useRequiredContext } from '../use-required-context';
 import Menu from './menu';
+import Trigger from './trigger';
 
 const containerStyles = css({
   display: 'flex',
@@ -73,9 +75,25 @@ function useCloseOnOutsideClick(
   }, [closeMenu, isOpen, ref]);
 }
 
-export const MenuButton = ({ label, children }: { label: string; children: () => ReactNode }) => {
-  const [state, dispatch] = useReducer(reducer, { isOpen: false, shouldResetFocus: false });
+export function MenuButton({
+  label,
+  children,
+  entityId,
+}: {
+  label: string;
+  entityId?: string;
+  children: () => ReactNode;
+}) {
+  console.log('render menu button');
+  const { shouldFocus } = useRequiredContext(FocusContext);
+  const isOpenToStart = entityId ? shouldFocus({ itemId: entityId }) : false;
 
+  const [state, dispatch] = useReducer(
+    reducer,
+    isOpenToStart
+      ? { isOpen: false, shouldResetFocus: true }
+      : { isOpen: false, shouldResetFocus: false },
+  );
   const ref = useRef<HTMLSpanElement>(null);
 
   const closeMenu = useCallback(({ shouldResetFocus }: { shouldResetFocus: boolean }) => {
@@ -103,6 +121,6 @@ export const MenuButton = ({ label, children }: { label: string; children: () =>
       )}
     </span>
   );
-};
+}
 
 export default MenuButton;

@@ -18,6 +18,8 @@ import { Item } from '../../data/tasks';
 import { fallbackColor } from '../../shared/fallback';
 import { MenuButton, MenuItem } from '../../shared/menu-button';
 import { CardActions } from '../../shared/card-actions';
+import { useRequiredContext } from '../../shared/use-required-context';
+import { FocusContext } from '../../shared/focus-context';
 
 const cardStyles = css({
   display: 'flex',
@@ -92,6 +94,7 @@ export const Card = memo(function Card({ item, columnId }: { item: Item; columnI
 
   useEffect(() => {
     invariant(ref.current);
+
     return combine(
       draggable({
         element: ref.current,
@@ -143,7 +146,7 @@ export const Card = memo(function Card({ item, columnId }: { item: Item; columnI
       <CardText state={state} />
       {closestEdge && <DropIndicator edge={closestEdge} gap={'var(--card-gap)'} />}
       <div css={controlStyles}>
-        <MenuButton label={`controls for card ${itemId}`}>
+        <MenuButton label={`controls for card ${itemId}`} entityId={itemId}>
           {() => (
             <>
               <MenuItem>Edit</MenuItem>

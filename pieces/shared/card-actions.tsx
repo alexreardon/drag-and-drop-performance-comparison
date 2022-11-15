@@ -6,6 +6,7 @@ import { MenuItem } from './menu-button';
 import { useRequiredContext } from './use-required-context';
 import { getCardMoveResult } from '../scenario/atlaskit-drag-and-drop/reorder';
 import { announce } from '@atlaskit/drag-and-drop-live-region';
+import { FocusContext } from './focus-context';
 
 export const CardActions = memo(function CardActions({
   itemId,
@@ -15,6 +16,7 @@ export const CardActions = memo(function CardActions({
   columnId: string;
 }) {
   const { getData, setData } = useRequiredContext(DataContext);
+  const { aboutToMove } = useRequiredContext(FocusContext);
 
   const data: Data = getData();
   const column = data.columnMap[columnId];
@@ -48,7 +50,7 @@ export const CardActions = memo(function CardActions({
       return;
     }
 
-    // TODO: focus management
+    aboutToMove({ itemId });
     setData(result);
     announce(
       `Moving card ${itemId} in column ${columnId} from position ${startIndex + 1} to position ${
@@ -87,7 +89,7 @@ export const CardActions = memo(function CardActions({
       return;
     }
 
-    // TODO: focus management
+    aboutToMove({ itemId });
     setData(result);
     announce(
       `Moving card ${itemId} from column ${sourceColumnId} to the start of column ${destinationColumnId}`,
