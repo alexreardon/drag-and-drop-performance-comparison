@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { memo, ReactNode } from 'react';
 import invariant from 'tiny-invariant';
 import { Data } from '../data/tasks';
 import { DataContext } from './data-context';
@@ -7,7 +7,13 @@ import { useRequiredContext } from './use-required-context';
 import { getCardMoveResult } from '../scenario/atlaskit-drag-and-drop/reorder';
 import { announce } from '@atlaskit/drag-and-drop-live-region';
 
-export function CardActions({ itemId, columnId }: { itemId: string; columnId: string }) {
+export const CardActions = memo(function CardActions({
+  itemId,
+  columnId,
+}: {
+  itemId: string;
+  columnId: string;
+}) {
   const { getData, setData } = useRequiredContext(DataContext);
 
   const data: Data = getData();
@@ -131,4 +137,4 @@ export function CardActions({ itemId, columnId }: { itemId: string; columnId: st
   }
 
   return <>{actions}</>;
-}
+});
