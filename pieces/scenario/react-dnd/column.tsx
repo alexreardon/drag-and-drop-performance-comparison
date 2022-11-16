@@ -10,7 +10,7 @@ import { MenuButton, MenuItem } from '../../shared/menu-button';
 
 import { useDrag, useDrop } from 'react-dnd';
 import { Card } from './card';
-import mergeRefs from './merge-refs';
+import mergeRefs from '../../shared/merge-refs';
 import { Edge, getClosestEdge } from './get-closest-edge';
 import DropIndicator from '@atlaskit/drag-and-drop-indicator/box';
 

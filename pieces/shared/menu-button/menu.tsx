@@ -3,7 +3,9 @@ import {
   forwardRef,
   KeyboardEvent,
   MouseEventHandler,
+  MutableRefObject,
   ReactNode,
+  Ref,
   RefObject,
   useCallback,
   useEffect,
@@ -22,11 +24,13 @@ import {
   focusLastItem,
   focusNextMatch,
 } from './focus';
+import mergeRefs from '../merge-refs';
 
 type MenuProps = {
   children: ReactNode;
-  onClose: (args: { shouldResetFocus: boolean }) => void;
+  onClose: (args: { shouldGiveTriggerFocus: boolean }) => void;
   initialFocus: 'first' | 'last';
+  // triggerRef: MutableRefObject<HTMLButtonElement | null>;
 };
 
 const menuStyles = css({
@@ -63,37 +67,20 @@ function useInitialFocus(menuRef: RefObject<HTMLUListElement>, initialFocus: 'fi
   }, [initialFocus, menuRef]);
 }
 
-function Menu({ children, onClose, initialFocus }: MenuProps) {
+const Menu = forwardRef<HTMLElement, MenuProps>(function Menu(
+  { children, onClose, initialFocus },
+  forwardedRef,
+) {
   const ref = useRef<HTMLUListElement>(null);
 
   useInitialFocus(ref, initialFocus);
-
-  /**
-   * When the menu loses focus it should close.
-   */
-  const onBlur: FocusEventHandler = useCallback(
-    (event) => {
-      if (!ref.current) {
-        return;
-      }
-
-      if (ref.current.contains(event.relatedTarget)) {
-        return;
-      }
-
-      // The menu might blur because e.g. you tab to the next button on the page.
-      // That means resetting focus would be a bad thing.
-      onClose({ shouldResetFocus: false });
-    },
-    [onClose],
-  );
 
   /**
    * Clicking a menu item should close the menu,
    * and return focus to the trigger.
    */
   const onClick: MouseEventHandler = useCallback(() => {
-    onClose({ shouldResetFocus: true });
+    onClose({ shouldGiveTriggerFocus: true });
   }, [onClose]);
 
   const onKeyDown = useCallback(
@@ -107,12 +94,12 @@ function Menu({ children, onClose, initialFocus }: MenuProps) {
       if (event.key === 'Enter' || event.key === ' ') {
         // cancelling scrolling
         event.preventDefault();
-        onClose({ shouldResetFocus: true });
+        onClose({ shouldGiveTriggerFocus: true });
       }
 
       // Escape closes the menu, without triggering any action.
       if (event.key === 'Escape') {
-        onClose({ shouldResetFocus: true });
+        onClose({ shouldGiveTriggerFocus: true });
       }
 
       // Moves focus to the next item, wrapping around to the start if necessary.
@@ -151,14 +138,13 @@ function Menu({ children, onClose, initialFocus }: MenuProps) {
     <ul
       role="menu"
       css={menuStyles}
-      ref={ref}
+      ref={mergeRefs([ref, forwardedRef])}
       onKeyDown={onKeyDown}
       onClick={onClick}
-      onBlur={onBlur}
     >
       {children}
     </ul>
   );
-}
+});
 
 export default Menu;

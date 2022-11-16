@@ -1,4 +1,5 @@
 import {
+  FocusEventHandler,
   ReactNode,
   RefObject,
   useCallback,
@@ -12,7 +13,6 @@ import { css } from '@emotion/react';
 import { bind } from 'bind-event-listener';
 
 import { FocusContext } from '../focus-context';
-import { useRequiredContext } from '../use-required-context';
 import Menu from './menu';
 import Trigger from './trigger';
 
@@ -23,12 +23,12 @@ const containerStyles = css({
 
 type MenuButtonState =
   | {
-      isOpen: true;
+      isMenuOpen: true;
       initialFocus: 'first' | 'last';
     }
   | {
-      isOpen: false;
-      shouldResetFocus: boolean;
+      isMenuOpen: false;
+      shouldGiveTriggerFocus: boolean;
     };
 
 type MenuButtonAction =
@@ -38,20 +38,20 @@ type MenuButtonAction =
     }
   | {
       type: 'close';
-      shouldResetFocus: boolean;
+      shouldGiveTriggerFocus: boolean;
     };
 
 function reducer(_: MenuButtonState, action: MenuButtonAction): MenuButtonState {
   if (action.type === 'open') {
     return {
-      isOpen: true,
+      isMenuOpen: true,
       initialFocus: action.initialFocus,
     };
   }
 
   return {
-    isOpen: false,
-    shouldResetFocus: action.shouldResetFocus,
+    isMenuOpen: false,
+    shouldGiveTriggerFocus: action.shouldGiveTriggerFocus,
   };
 }
 
@@ -61,12 +61,15 @@ function reducer(_: MenuButtonState, action: MenuButtonAction): MenuButtonState 
 function useCloseOnOutsideClick(
   ref: RefObject<HTMLUnknownElement>,
   {
-    isOpen,
+    isMenuOpen,
     closeMenu,
-  }: { isOpen: boolean; closeMenu: ({ shouldResetFocus }: { shouldResetFocus: boolean }) => void },
+  }: {
+    isMenuOpen: boolean;
+    closeMenu: ({ shouldGiveTriggerFocus }: { shouldGiveTriggerFocus: boolean }) => void;
+  },
 ) {
   useEffect(() => {
-    if (!isOpen) {
+    if (!isMenuOpen) {
       return;
     }
 
@@ -77,10 +80,10 @@ function useCloseOnOutsideClick(
         if (ref.current?.contains(event.target as Node)) {
           return;
         }
-        closeMenu({ shouldResetFocus: true });
+        closeMenu({ shouldGiveTriggerFocus: true });
       },
     });
-  }, [closeMenu, isOpen, ref]);
+  }, [closeMenu, isMenuOpen]);
 }
 
 export function MenuButton({
@@ -92,37 +95,64 @@ export function MenuButton({
   entityId?: string;
   children: () => ReactNode;
 }) {
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
+  const menuRef = useRef<HTMLElement | null>(null);
+
   const focusContext = useContext(FocusContext);
-  const isOpenToStart = entityId ? focusContext?.shouldFocus({ itemId: entityId }) : false;
+  const isTriggerInitiallyFocused = entityId
+    ? focusContext?.shouldFocus({ itemId: entityId })
+    : false;
 
   const [state, dispatch] = useReducer(
     reducer,
-    isOpenToStart
-      ? { isOpen: false, shouldResetFocus: true }
-      : { isOpen: false, shouldResetFocus: false },
+    isTriggerInitiallyFocused
+      ? { isMenuOpen: false, shouldGiveTriggerFocus: true }
+      : { isMenuOpen: false, shouldGiveTriggerFocus: false },
   );
-  const ref = useRef<HTMLSpanElement>(null);
 
-  const closeMenu = useCallback(({ shouldResetFocus }: { shouldResetFocus: boolean }) => {
-    dispatch({ type: 'close', shouldResetFocus });
-  }, []);
+  const closeMenu = useCallback(
+    ({ shouldGiveTriggerFocus }: { shouldGiveTriggerFocus: boolean }) => {
+      dispatch({ type: 'close', shouldGiveTriggerFocus });
+    },
+    [],
+  );
 
   const openMenu = useCallback(({ initialFocus }: { initialFocus: 'first' | 'last' }) => {
     dispatch({ type: 'open', initialFocus });
   }, []);
 
-  useCloseOnOutsideClick(ref, { isOpen: state.isOpen, closeMenu });
+  // give focus on the trigger if we need to
+  useEffect(() => {
+    if (!state.isMenuOpen && state.shouldGiveTriggerFocus) {
+      triggerRef.current?.focus();
+    }
+  }, [state.isMenuOpen]);
+
+  const onBlur: FocusEventHandler = useCallback(
+    (event) => {
+      // bluring to something in the menu, we can keep the menu open
+      if (menuRef.current?.contains(event.relatedTarget)) {
+        return;
+      }
+
+      // bluring to the trigger, or outside the trigger
+      // we need to close the menu
+      dispatch({ type: 'close', shouldGiveTriggerFocus: false });
+    },
+    [state.isMenuOpen],
+  );
 
   return (
-    <span css={containerStyles} ref={ref}>
+    <span css={containerStyles} onBlur={onBlur}>
       <Trigger
-        isOpen={state.isOpen}
-        shouldResetFocus={state.isOpen ? false : state.shouldResetFocus}
+        ref={triggerRef}
+        isMenuOpen={state.isMenuOpen}
+        closeMenu={() => closeMenu({ shouldGiveTriggerFocus: true })}
         label={label}
         openMenu={openMenu}
       />
-      {state.isOpen && (
-        <Menu onClose={closeMenu} initialFocus={state.initialFocus}>
+      {state.isMenuOpen && (
+        <Menu ref={menuRef} onClose={closeMenu} initialFocus={state.initialFocus}>
           {children()}
         </Menu>
       )}

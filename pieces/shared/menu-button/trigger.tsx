@@ -1,55 +1,68 @@
 import {
+  FocusEventHandler,
+  ForwardedRef,
+  forwardRef,
   KeyboardEventHandler,
   MouseEventHandler,
+  MutableRefObject,
   RefObject,
   useCallback,
   useEffect,
   useRef,
 } from 'react';
+import mergeRefs from '../merge-refs';
 
 import Button from '../button';
 import moreIcon from '../more.svg';
 
 type TriggerProps = {
-  isOpen: boolean;
+  // isOpen: boolean;
   label: string;
   openMenu: ({ initialFocus }: { initialFocus: 'first' | 'last' }) => void;
-  shouldResetFocus: boolean;
+  closeMenu: () => void;
+  isMenuOpen: boolean;
+  // shouldGiveTriggerFocus: boolean;
 };
 
 /**
  * Handles moving focus back to the trigger on menu close.
  */
-function useFocusOnClose(
-  ref: RefObject<HTMLUnknownElement>,
-  {
-    isOpen,
-    shouldResetFocus,
-  }: {
-    isOpen: boolean;
-    shouldResetFocus: boolean;
-  },
+// function useFocusOnClose(
+//   ref: RefObject<HTMLButtonElement>,
+//   {
+//     isOpen,
+//     shouldGiveTriggerFocus,
+//   }: {
+//     isOpen: boolean;
+//     shouldGiveTriggerFocus: boolean;
+//   },
+// ) {
+//   useEffect(() => {
+//     if (!isOpen && shouldGiveTriggerFocus) {
+//       // Running in an 'immediate' timeout so that
+//       // when the menu has closed because of an enter key press,
+//       // it won't trigger a click event on the trigger as well.
+//       setTimeout(() => {
+//         ref.current?.focus();
+//       }, 0);
+//     }
+//   }, [isOpen, ref, shouldGiveTriggerFocus]);
+// }
+
+const Trigger = forwardRef<HTMLButtonElement, TriggerProps>(function Trigger(
+  { label, openMenu, closeMenu, isMenuOpen },
+  forwardedRef,
 ) {
-  useEffect(() => {
-    if (!isOpen && shouldResetFocus) {
-      // Running in an 'immediate' timeout so that
-      // when the menu has closed because of an enter key press,
-      // it won't trigger a click event on the trigger as well.
-      setTimeout(() => {
-        ref.current?.focus();
-      }, 0);
-    }
-  }, [isOpen, ref, shouldResetFocus]);
-}
-
-function Trigger({ isOpen, label, openMenu, shouldResetFocus }: TriggerProps) {
   const ref = useRef<HTMLButtonElement>(null);
-
-  useFocusOnClose(ref, { isOpen, shouldResetFocus });
+  // useFocusOnClose(ref, { isOpen, shouldGiveTriggerFocus });
 
   const onClick: MouseEventHandler = useCallback(() => {
-    openMenu({ initialFocus: 'first' });
-  }, [openMenu]);
+    if (!isMenuOpen) {
+      openMenu({ initialFocus: 'first' });
+    } else {
+      closeMenu();
+    }
+  }, [isMenuOpen, openMenu]);
 
   const onKeyDown: KeyboardEventHandler<HTMLButtonElement> = useCallback(
     (event) => {
@@ -74,15 +87,15 @@ function Trigger({ isOpen, label, openMenu, shouldResetFocus }: TriggerProps) {
     <Button
       role="button"
       aria-haspopup="menu"
-      aria-expanded={isOpen}
+      aria-expanded={isMenuOpen}
       aria-label={label}
       onClick={onClick}
       onKeyDown={onKeyDown}
-      ref={ref}
+      ref={mergeRefs([ref, forwardedRef])}
     >
       <img {...moreIcon} alt="" draggable={false} />
     </Button>
   );
-}
+});
 
 export default Trigger;

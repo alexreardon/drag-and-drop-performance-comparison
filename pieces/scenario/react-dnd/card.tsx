@@ -7,7 +7,7 @@ import { token } from '@atlaskit/tokens';
 import { Item } from '../../data/tasks';
 import { fallbackColor } from '../../shared/fallback';
 import { useDrag, useDrop } from 'react-dnd';
-import mergeRefs from './merge-refs';
+import mergeRefs from '../../shared/merge-refs';
 import DropIndicator from '@atlaskit/drag-and-drop-indicator/box';
 import { Edge, getClosestEdge } from './get-closest-edge';
 import { MenuButton, MenuItem } from '../../shared/menu-button';
