@@ -9,6 +9,11 @@ import {
   DataContextValue,
   useStableDataContextValue,
 } from '../../shared/data-context';
+import {
+  FocusContext,
+  FocusContextValue,
+  useStableFocusContextValue,
+} from '../../shared/focus-context';
 import { Column } from './column';
 
 const boardStyles = css({
@@ -22,17 +27,20 @@ const boardStyles = css({
 export default function Board() {
   const [data, setData] = useState<Data>(() => getInitialData());
   const dataContext: DataContextValue = useStableDataContextValue(data, setData);
+  const focusContext: FocusContextValue = useStableFocusContextValue();
   const ref = useRef<HTMLDivElement | null>(null);
 
   return (
-    <DataContext.Provider value={dataContext}>
-      <DndProvider backend={HTML5Backend}>
-        <div css={boardStyles} ref={ref}>
-          {data.orderedColumnIds.map((columnId) => {
-            return <Column column={data.columnMap[columnId]} key={columnId} />;
-          })}
-        </div>
-      </DndProvider>
-    </DataContext.Provider>
+    <FocusContext.Provider value={focusContext}>
+      <DataContext.Provider value={dataContext}>
+        <DndProvider backend={HTML5Backend}>
+          <div css={boardStyles} ref={ref}>
+            {data.orderedColumnIds.map((columnId) => {
+              return <Column column={data.columnMap[columnId]} key={columnId} />;
+            })}
+          </div>
+        </DndProvider>
+      </DataContext.Provider>
+    </FocusContext.Provider>
   );
 }

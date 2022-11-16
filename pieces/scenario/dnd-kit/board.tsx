@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { horizontalListSortingStrategy, SortableContext } from '@dnd-kit/sortable';
 import invariant from 'tiny-invariant';
-import { ColumnMap, getInitialData, Item } from '../../data/tasks';
+import { ColumnMap, Data, getInitialData, Item } from '../../data/tasks';
 import { Card } from './card';
 import { Column } from './column';
 
@@ -30,10 +30,7 @@ type DragState =
     };
 
 export default function Board() {
-  const [data, setData] = useState<{
-    columnMap: ColumnMap;
-    orderedColumnIds: string[];
-  }>(() => getInitialData());
+  const [data, setData] = useState<Data>(() => getInitialData());
   const ref = useRef<HTMLDivElement | null>(null);
   const [state, setState] = useState<DragState>({ type: 'idle' });
 

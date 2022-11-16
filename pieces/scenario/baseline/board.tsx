@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import { useRef, useState } from 'react';
 
-import { ColumnMap, getInitialData } from '../../data/tasks';
+import { ColumnMap, Data, getInitialData } from '../../data/tasks';
 import { Column } from './column';
 
 const boardStyles = css({
@@ -13,10 +13,7 @@ const boardStyles = css({
 });
 
 export default function Board() {
-  const [data, setData] = useState<{
-    columnMap: ColumnMap;
-    orderedColumnIds: string[];
-  }>(() => getInitialData());
+  const [data, setData] = useState<Data>(() => getInitialData());
   const ref = useRef<HTMLDivElement | null>(null);
 
   return (

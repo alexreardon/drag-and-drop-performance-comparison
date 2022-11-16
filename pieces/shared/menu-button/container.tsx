@@ -1,4 +1,12 @@
-import { ReactNode, RefObject, useCallback, useEffect, useReducer, useRef } from 'react';
+import {
+  ReactNode,
+  RefObject,
+  useCallback,
+  useContext,
+  useEffect,
+  useReducer,
+  useRef,
+} from 'react';
 
 import { css } from '@emotion/react';
 import { bind } from 'bind-event-listener';
@@ -84,9 +92,8 @@ export function MenuButton({
   entityId?: string;
   children: () => ReactNode;
 }) {
-  console.log('render menu button');
-  const { shouldFocus } = useRequiredContext(FocusContext);
-  const isOpenToStart = entityId ? shouldFocus({ itemId: entityId }) : false;
+  const focusContext = useContext(FocusContext);
+  const isOpenToStart = entityId ? focusContext?.shouldFocus({ itemId: entityId }) : false;
 
   const [state, dispatch] = useReducer(
     reducer,
