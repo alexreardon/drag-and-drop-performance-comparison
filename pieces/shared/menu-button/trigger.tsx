@@ -16,38 +16,11 @@ import Button from '../button';
 import moreIcon from '../more.svg';
 
 type TriggerProps = {
-  // isOpen: boolean;
   label: string;
   openMenu: ({ initialFocus }: { initialFocus: 'first' | 'last' }) => void;
   closeMenu: () => void;
   isMenuOpen: boolean;
-  // shouldGiveTriggerFocus: boolean;
 };
-
-/**
- * Handles moving focus back to the trigger on menu close.
- */
-// function useFocusOnClose(
-//   ref: RefObject<HTMLButtonElement>,
-//   {
-//     isOpen,
-//     shouldGiveTriggerFocus,
-//   }: {
-//     isOpen: boolean;
-//     shouldGiveTriggerFocus: boolean;
-//   },
-// ) {
-//   useEffect(() => {
-//     if (!isOpen && shouldGiveTriggerFocus) {
-//       // Running in an 'immediate' timeout so that
-//       // when the menu has closed because of an enter key press,
-//       // it won't trigger a click event on the trigger as well.
-//       setTimeout(() => {
-//         ref.current?.focus();
-//       }, 0);
-//     }
-//   }, [isOpen, ref, shouldGiveTriggerFocus]);
-// }
 
 const Trigger = forwardRef<HTMLButtonElement, TriggerProps>(function Trigger(
   { label, openMenu, closeMenu, isMenuOpen },
