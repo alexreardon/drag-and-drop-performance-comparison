@@ -54,15 +54,15 @@ const Trigger = forwardRef<HTMLButtonElement, TriggerProps>(function Trigger(
   forwardedRef,
 ) {
   const ref = useRef<HTMLButtonElement>(null);
-  // useFocusOnClose(ref, { isOpen, shouldGiveTriggerFocus });
 
   const onClick: MouseEventHandler = useCallback(() => {
+    console.log('trigger click', { isMenuOpen });
     if (!isMenuOpen) {
       openMenu({ initialFocus: 'first' });
     } else {
       closeMenu();
     }
-  }, [isMenuOpen, openMenu]);
+  }, [isMenuOpen, openMenu, closeMenu]);
 
   const onKeyDown: KeyboardEventHandler<HTMLButtonElement> = useCallback(
     (event) => {

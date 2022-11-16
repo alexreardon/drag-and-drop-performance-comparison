@@ -58,33 +58,33 @@ function reducer(_: MenuButtonState, action: MenuButtonAction): MenuButtonState 
 /**
  * Closes the menu if there is a click outside of it.
  */
-function useCloseOnOutsideClick(
-  ref: RefObject<HTMLUnknownElement>,
-  {
-    isMenuOpen,
-    closeMenu,
-  }: {
-    isMenuOpen: boolean;
-    closeMenu: ({ shouldGiveTriggerFocus }: { shouldGiveTriggerFocus: boolean }) => void;
-  },
-) {
-  useEffect(() => {
-    if (!isMenuOpen) {
-      return;
-    }
+// function useCloseOnOutsideClick(
+//   ref: RefObject<HTMLUnknownElement>,
+//   {
+//     isMenuOpen,
+//     closeMenu,
+//   }: {
+//     isMenuOpen: boolean;
+//     closeMenu: ({ shouldGiveTriggerFocus }: { shouldGiveTriggerFocus: boolean }) => void;
+//   },
+// ) {
+//   useEffect(() => {
+//     if (!isMenuOpen) {
+//       return;
+//     }
 
-    return bind(window, {
-      type: 'click',
-      listener: (event) => {
-        // Ignore clicks inside, we only care about _outside_ clicks.
-        if (ref.current?.contains(event.target as Node)) {
-          return;
-        }
-        closeMenu({ shouldGiveTriggerFocus: true });
-      },
-    });
-  }, [closeMenu, isMenuOpen]);
-}
+//     return bind(window, {
+//       type: 'click',
+//       listener: (event) => {
+//         // Ignore clicks inside, we only care about _outside_ clicks.
+//         if (ref.current?.contains(event.target as Node)) {
+//           return;
+//         }
+//         closeMenu({ shouldGiveTriggerFocus: true });
+//       },
+//     });
+//   }, [closeMenu, isMenuOpen]);
+// }
 
 export function MenuButton({
   label,
@@ -126,10 +126,11 @@ export function MenuButton({
     if (!state.isMenuOpen && state.shouldGiveTriggerFocus) {
       triggerRef.current?.focus();
     }
-  }, [state.isMenuOpen]);
+  }, [state]);
 
   const onBlur: FocusEventHandler = useCallback(
     (event) => {
+      console.log('blur', { target: event.target, relatedTarget: event.relatedTarget });
       // bluring to something in the menu, we can keep the menu open
       if (menuRef.current?.contains(event.relatedTarget)) {
         return;
