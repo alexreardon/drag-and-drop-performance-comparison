@@ -56,7 +56,6 @@ const Trigger = forwardRef<HTMLButtonElement, TriggerProps>(function Trigger(
   const ref = useRef<HTMLButtonElement>(null);
 
   const onClick: MouseEventHandler = useCallback(() => {
-    console.log('trigger click', { isMenuOpen });
     if (!isMenuOpen) {
       openMenu({ initialFocus: 'first' });
     } else {

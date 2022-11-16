@@ -17,7 +17,6 @@ function create(): FocusContextValue {
   }
 
   function aboutToMove({ itemId }: { itemId: string }) {
-    console.log('about to move', itemId);
     movedItemId = itemId;
   }
 

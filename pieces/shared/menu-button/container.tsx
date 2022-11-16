@@ -1,5 +1,6 @@
 import {
   FocusEventHandler,
+  PointerEventHandler,
   ReactNode,
   useCallback,
   useContext,
@@ -64,6 +65,7 @@ export function MenuButton({
 }) {
   const triggerRef = useRef<HTMLButtonElement | null>(null);
   const menuRef = useRef<HTMLElement | null>(null);
+  const isClosingMenuByClickingOnTrigger = useRef<boolean>(false);
 
   const focusContext = useContext(FocusContext);
   const isTriggerInitiallyFocused = entityId
@@ -85,6 +87,10 @@ export function MenuButton({
   );
 
   const openMenu = useCallback(({ initialFocus }: { initialFocus: 'first' | 'last' }) => {
+    if (isClosingMenuByClickingOnTrigger.current) {
+      isClosingMenuByClickingOnTrigger.current = false;
+      return;
+    }
     dispatch({ type: 'open', initialFocus });
   }, []);
 
@@ -109,8 +115,22 @@ export function MenuButton({
     [state.isMenuOpen],
   );
 
+  // Clicking on the Trigger while the Menu is open
+  // will cause a 'blur' which will close the menu
+  // The 'blur' event occurs before the 'click' event on the Trigger
+  // The Trigger then responds to the 'click' and opens the menu
+  // We need to block the Trigger from opening the menu
+  const onPointerDown: PointerEventHandler = useCallback(
+    (event) => {
+      if (state.isMenuOpen && triggerRef.current?.contains(event.target as Node)) {
+        isClosingMenuByClickingOnTrigger.current = true;
+      }
+    },
+    [state.isMenuOpen],
+  );
+
   return (
-    <span css={containerStyles} onBlur={onBlur}>
+    <span css={containerStyles} onBlur={onBlur} onPointerDown={onPointerDown}>
       <Trigger
         ref={triggerRef}
         isMenuOpen={state.isMenuOpen}
