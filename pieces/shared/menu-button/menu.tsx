@@ -39,12 +39,13 @@ const menuStyles = css({
   position: 'absolute',
   background: token('elevation.surface.overlay', fallbackColor),
   boxShadow: token('elevation.shadow.overlay', fallbackColor),
-  minWidth: 128,
-  minHeight: 48,
+  // minWidth: 128,
+  minWidth: 'calc(var(--grid) * 16)', // 128px
+  minHeight: 'calc(var(--grid) * 6)', // 48px
   width: 'max-content',
   zIndex: 1,
-  top: 'calc(100% + 8px)',
-  borderRadius: 3,
+  top: 'calc(100% + var(--grid))',
+  borderRadius: 'var(--border-radius)',
   right: 0,
   listStyleType: 'none',
   padding: 0,
