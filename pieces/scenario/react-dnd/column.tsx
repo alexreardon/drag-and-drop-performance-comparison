@@ -13,6 +13,7 @@ import { Card } from './card';
 import mergeRefs from '../../shared/merge-refs';
 import { Edge, getClosestEdge } from './get-closest-edge';
 import DropIndicator from '@atlaskit/drag-and-drop-indicator/box';
+import { ColumnActions } from '../../shared/column-actions';
 
 const columnStyles = css({
   display: 'flex',
@@ -122,8 +123,7 @@ export const Column = memo(function Column({ column }: { column: ColumnType }) {
             <>
               <MenuItem>Edit</MenuItem>
               <MenuItem>Share</MenuItem>
-              <MenuItem>Move left</MenuItem>
-              <MenuItem>Move right</MenuItem>
+              <ColumnActions columnId={column.columnId} />
             </>
           )}
         </MenuButton>

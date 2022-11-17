@@ -13,6 +13,9 @@ import dynamic from 'next/dynamic';
 import { Card } from './card';
 
 const LazyDropIndicator = dynamic(() => import('@atlaskit/drag-and-drop-indicator/box'));
+const LazyColumnActions = dynamic(() =>
+  import('../../shared/column-actions').then((mod) => mod.ColumnActions),
+);
 
 const columnStyles = css({
   display: 'flex',
@@ -108,8 +111,7 @@ export const Column = memo(function Column({ column }: { column: ColumnType }) {
             <>
               <MenuItem>Edit</MenuItem>
               <MenuItem>Share</MenuItem>
-              <MenuItem>Move left</MenuItem>
-              <MenuItem>Move right</MenuItem>
+              <LazyColumnActions columnId={columnId} />
             </>
           )}
         </MenuButton>
