@@ -39,7 +39,6 @@ const menuStyles = css({
   position: 'absolute',
   background: token('elevation.surface.overlay', fallbackColor),
   boxShadow: token('elevation.shadow.overlay', fallbackColor),
-  // minWidth: 128,
   minWidth: 'calc(var(--grid) * 16)', // 128px
   minHeight: 'calc(var(--grid) * 6)', // 48px
   width: 'max-content',

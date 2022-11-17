@@ -4,7 +4,7 @@ import { Data } from '../data/tasks';
 import { DataContext } from './data-context';
 import { MenuItem } from './menu-button';
 import { useRequiredContext } from './use-required-context';
-import { getCardMoveResult } from '../scenario/atlaskit-drag-and-drop/reorder';
+import { getDataWithItemMovement } from '../scenario/atlaskit-drag-and-drop/reorder';
 import { announce } from '@atlaskit/drag-and-drop-live-region';
 import { FocusContext } from './focus-context';
 
@@ -33,11 +33,10 @@ export const CardActions = memo(function CardActions({
     startIndex: number;
     finishIndex: number;
   }) {
-    const data = getData();
     const column = data.columnMap[columnId];
     const item = column.items.find((member) => member.itemId === itemId);
     invariant(item);
-    const result: Data | null = getCardMoveResult({
+    const result: Data | null = getDataWithItemMovement({
       item,
       startIndex,
       finishIndex,
@@ -50,7 +49,7 @@ export const CardActions = memo(function CardActions({
       return;
     }
 
-    aboutToMove({ itemId });
+    aboutToMove({ entityId: itemId });
     setData(result);
     announce(
       `Moving card ${itemId} in column ${columnId} from position ${startIndex + 1} to position ${
@@ -75,7 +74,7 @@ export const CardActions = memo(function CardActions({
     const item = source.items[startIndex];
 
     invariant(item);
-    const result: Data | null = getCardMoveResult({
+    const result: Data | null = getDataWithItemMovement({
       item,
       startIndex,
       // going into first position in new column
@@ -89,7 +88,7 @@ export const CardActions = memo(function CardActions({
       return;
     }
 
-    aboutToMove({ itemId });
+    aboutToMove({ entityId: itemId });
     setData(result);
     announce(
       `Moving card ${itemId} from column ${sourceColumnId} to the start of column ${destinationColumnId}`,

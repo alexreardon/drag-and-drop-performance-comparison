@@ -18,6 +18,7 @@ import { fallbackColor } from '../../shared/fallback';
 import { MenuButton, MenuItem } from '../../shared/menu-button';
 
 import { Card } from './card';
+import { ColumnActions } from '../../shared/column-actions';
 
 const columnStyles = css({
   display: 'flex',
@@ -137,8 +138,7 @@ export const Column = memo(function Column({ column }: { column: ColumnType }) {
             <>
               <MenuItem>Edit</MenuItem>
               <MenuItem>Share</MenuItem>
-              <MenuItem>Move left</MenuItem>
-              <MenuItem>Move right</MenuItem>
+              <ColumnActions columnId={columnId} />
             </>
           )}
         </MenuButton>

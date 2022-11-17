@@ -1,23 +1,22 @@
 import { createContext, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Data } from '../data/tasks';
 
 export type FocusContextValue = {
-  shouldFocus: ({ itemId }: { itemId: string }) => boolean;
-  aboutToMove: ({ itemId }: { itemId: string }) => void;
+  shouldFocus: ({ entityId }: { entityId: string }) => boolean;
+  aboutToMove: ({ entityId }: { entityId: string }) => void;
 };
 
 function create(): FocusContextValue {
-  let movedItemId: string | null = null;
+  let movedEntityId: string | null = null;
 
-  function shouldFocus({ itemId }: { itemId: string }) {
-    const result: boolean = itemId === movedItemId;
+  function shouldFocus({ entityId }: { entityId: string }) {
+    const result: boolean = entityId === movedEntityId;
     // any check will purge registry
-    movedItemId = null;
+    movedEntityId = null;
     return result;
   }
 
-  function aboutToMove({ itemId }: { itemId: string }) {
-    movedItemId = itemId;
+  function aboutToMove({ entityId }: { entityId: string }) {
+    movedEntityId = entityId;
   }
 
   return { shouldFocus, aboutToMove };

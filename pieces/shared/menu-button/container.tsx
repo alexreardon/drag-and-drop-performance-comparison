@@ -69,7 +69,7 @@ export function MenuButton({
 
   const focusContext = useContext(FocusContext);
   const isTriggerInitiallyFocused = entityId
-    ? focusContext?.shouldFocus({ itemId: entityId })
+    ? focusContext?.shouldFocus({ entityId: entityId })
     : false;
 
   const [state, dispatch] = useReducer(

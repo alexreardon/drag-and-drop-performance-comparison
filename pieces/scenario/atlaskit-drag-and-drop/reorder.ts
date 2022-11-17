@@ -2,14 +2,32 @@ import type { ColumnMap, ColumnType, Data, Item } from '../../data/tasks';
 import type { ElementEventBasePayload } from '@atlaskit/drag-and-drop/adapter/element';
 import { reorder as reorderArray } from '@atlaskit/drag-and-drop/util/reorder';
 import invariant from 'tiny-invariant';
-import { reorderWithEdge } from '@atlaskit/drag-and-drop-hitbox/util/reorder-with-edge';
 import { extractClosestEdge, Edge } from '@atlaskit/drag-and-drop-hitbox/addon/closest-edge';
+import { getDestinationIndex } from './get-destination-index';
 
 function assertIsString(value: unknown): asserts value is string {
   invariant(typeof value === 'string');
 }
 
-export function getCardMoveResult(
+export function getDataWithColumnReordering({
+  startIndex,
+  finishIndex,
+  data,
+}: {
+  startIndex: number;
+  finishIndex: number;
+  data: Data;
+}): Data | null {
+  const reordered = reorderArray({
+    list: data.orderedColumnIds,
+    startIndex: startIndex,
+    finishIndex,
+  });
+
+  return { columnMap: data.columnMap, orderedColumnIds: reordered };
+}
+
+export function getDataWithItemMovement(
   args: Parameters<typeof moveItem>[0] & { data: Data },
 ): Data | null {
   const map = moveItem(args);
@@ -100,15 +118,11 @@ export function reorder({
 
     const edge: Edge | null = extractClosestEdge(finish.data);
 
-    const updated = reorderWithEdge({
-      list: data.orderedColumnIds,
+    return getDataWithColumnReordering({
       startIndex,
-      finishIndex,
-      edge,
-      axis: 'horizontal',
+      finishIndex: getDestinationIndex({ edge, startIndex, finishIndex, axis: 'vertical' }),
+      data,
     });
-
-    return { columnMap: data.columnMap, orderedColumnIds: updated };
   }
 
   // moving a card
@@ -129,7 +143,7 @@ export function reorder({
   if (result.location.current.dropTargets.length === 1) {
     // moving in same column: move to last position
     const finishIndex = source === destination ? source.items.length - 1 : destination.items.length;
-    return getCardMoveResult({ item, source, destination, startIndex, finishIndex, data });
+    return getDataWithItemMovement({ item, source, destination, startIndex, finishIndex, data });
   }
 
   // moving relative to a card in a column
@@ -144,19 +158,17 @@ export function reorder({
     const finishIndex: number = (() => {
       if (source === destination) {
         // reordering in same list
-        const reordered = reorderWithEdge({
-          list: source.items,
-          startIndex: startIndex,
-          finishIndex: indexInDesintation,
+        return getDestinationIndex({
           edge,
+          startIndex,
+          finishIndex: indexInDesintation,
           axis: 'vertical',
         });
-        return reordered.indexOf(item);
       }
       // moving into new list
       return edge === 'bottom' ? indexInDesintation + 1 : indexInDesintation;
     })();
-    return getCardMoveResult({ item, source, destination, startIndex, finishIndex, data });
+    return getDataWithItemMovement({ item, source, destination, startIndex, finishIndex, data });
   }
 
   // should never get here
