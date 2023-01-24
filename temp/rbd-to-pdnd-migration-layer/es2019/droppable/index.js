@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useLayoutEffect, useMemo, useReducer, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useReducer, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import invariant from 'tiny-invariant';
 import { dropTargetForElements } from '@atlaskit/drag-and-drop/adapter/element';
@@ -18,7 +18,7 @@ export function Droppable({
   mode = 'standard',
   renderClone,
   getContainerForClone,
-  isDropDisabled = false
+  isDropDisabled = false,
 }) {
   const instanceId = useInstanceId();
   const isDropDisabledRef = useRef(isDropDisabled);
@@ -30,34 +30,33 @@ export function Droppable({
       droppableId,
       instanceId,
       isDroppable: true,
-      getIsDropDisabled: () => isDropDisabledRef.current
+      getIsDropDisabled: () => isDropDisabledRef.current,
     };
   }, [droppableId, instanceId]);
   const elementRef = useRef(null);
-  const setElement = useCallback(element => {
-    if (element) {
-      setAttributes(element, {
-        [customAttributes.droppable.type]: type,
-        [customAttributes.droppable.direction]: direction,
+  const setElement = useCallback(
+    (element) => {
+      if (element) {
+        setAttributes(element, {
+          [customAttributes.droppable.type]: type,
+          [customAttributes.droppable.direction]: direction,
 
-        /**
-         * We set this manually instead of relying on the provided prop,
-         * because for virtual lists this can be difficult to apply.
-         *
-         * `react-beautiful-dnd` does not actually break if this is not applied.
-         */
-        [attributes.droppable.id]: droppableId
-      });
-    }
+          /**
+           * We set this manually instead of relying on the provided prop,
+           * because for virtual lists this can be difficult to apply.
+           *
+           * `react-beautiful-dnd` does not actually break if this is not applied.
+           */
+          [attributes.droppable.id]: droppableId,
+        });
+      }
 
-    elementRef.current = element;
-  }, [direction, droppableId, type]);
+      elementRef.current = element;
+    },
+    [direction, droppableId, type],
+  );
   const [state, dispatch] = useReducer(reducer, idleState);
-  const {
-    draggingFromThisWith,
-    draggingOverWith,
-    isDraggingOver
-  } = state;
+  const { draggingFromThisWith, draggingOverWith, isDraggingOver } = state;
   useEffect(() => {
     const element = elementRef.current;
     invariant(element instanceof HTMLElement, 'innerRef must provide an `HTMLElement`');
@@ -68,9 +67,7 @@ export function Droppable({
         return data;
       },
 
-      canDrop({
-        source
-      }) {
+      canDrop({ source }) {
         if (isDropDisabled) {
           return false;
         }
@@ -80,84 +77,93 @@ export function Droppable({
 
       onDragLeave() {
         dispatch({
-          type: 'DRAG_CLEAR'
+          type: 'DRAG_CLEAR',
         });
-      }
-
+      },
     });
   }, [data, droppableId, instanceId, isDropDisabled, type]);
   const monitorForLifecycle = useMonitorForLifecycle();
   useEffect(() => {
     return monitorForLifecycle({
-      onPendingDragStart({
-        start
-      }) {
+      onPendingDragStart({ start }) {
         dispatch({
           type: 'DRAG_START',
           payload: {
             droppableId,
-            start
-          }
+            start,
+          },
         });
       },
 
-      onPendingDragUpdate({
-        targetLocation,
-        update
-      }) {
+      onPendingDragUpdate({ targetLocation, update }) {
         dispatch({
           type: 'DRAG_UPDATE',
           payload: {
             droppableId,
             targetLocation,
-            update
-          }
+            update,
+          },
         });
       },
 
       onBeforeDragEnd() {
         dispatch({
-          type: 'DRAG_CLEAR'
+          type: 'DRAG_CLEAR',
         });
-      }
-
+      },
     });
   }, [droppableId, monitorForLifecycle]);
-  const provided = useMemo(() => ({
-    innerRef: setElement,
-    droppableProps: {
-      [attributes.droppable.contextId]: '',
-      [attributes.droppable.id]: droppableId
-    },
-    // TODO: should be null if portalling it
-    placeholder: isDraggingOver && state.source ? /*#__PURE__*/React.createElement(DropIndicator, {
-      direction: direction,
-      mode: mode,
-      source: state.source,
-      destination: state.destination,
-      targetLocation: state.targetLocation
-    }) : null
-  }), [direction, droppableId, isDraggingOver, mode, setElement, state.destination, state.source, state.targetLocation]);
-  const snapshot = useMemo(() => ({
-    draggingFromThisWith,
-    draggingOverWith,
-    isDraggingOver,
-    isUsingPlaceholder: isDraggingOver
-  }), [draggingFromThisWith, draggingOverWith, isDraggingOver]);
+  const provided = useMemo(
+    () => ({
+      innerRef: setElement,
+      droppableProps: {
+        [attributes.droppable.contextId]: '',
+        [attributes.droppable.id]: droppableId,
+      },
+      // TODO: should be null if portalling it
+      placeholder:
+        isDraggingOver && state.source
+          ? /*#__PURE__*/ React.createElement(DropIndicator, {
+              direction: direction,
+              mode: mode,
+              source: state.source,
+              destination: state.destination,
+              targetLocation: state.targetLocation,
+            })
+          : null,
+    }),
+    [
+      direction,
+      droppableId,
+      isDraggingOver,
+      mode,
+      setElement,
+      state.destination,
+      state.source,
+      state.targetLocation,
+    ],
+  );
+  const snapshot = useMemo(
+    () => ({
+      draggingFromThisWith,
+      draggingOverWith,
+      isDraggingOver,
+      isUsingPlaceholder: isDraggingOver,
+    }),
+    [draggingFromThisWith, draggingOverWith, isDraggingOver],
+  );
   const element = elementRef.current;
   const shouldPortalDropIndicator = isDraggingOver && mode === 'virtual' && element;
   /**
    * Assumes that the ref points to the scroll container.
    */
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!shouldPortalDropIndicator) {
       return;
     }
 
-    const {
-      position
-    } = window.getComputedStyle(element);
+    const { position } = window.getComputedStyle(element);
 
     if (position !== 'static') {
       return;
@@ -180,14 +186,25 @@ export function Droppable({
       droppableId,
       hasRenderClone,
       isDropDisabled,
-      type
+      type,
     };
   }, [direction, droppableId, hasRenderClone, isDropDisabled, type]);
-  return /*#__PURE__*/React.createElement(DroppableContextProvider, {
-    value: contextValue
-  }, children(provided, snapshot), shouldPortalDropIndicator && /*#__PURE__*/createPortal(provided.placeholder, element), renderClone && /*#__PURE__*/React.createElement(DraggableClone, {
-    droppableId: droppableId,
-    type: type,
-    getContainerForClone: getContainerForClone
-  }, renderClone));
+  return /*#__PURE__*/ React.createElement(
+    DroppableContextProvider,
+    {
+      value: contextValue,
+    },
+    children(provided, snapshot),
+    shouldPortalDropIndicator && /*#__PURE__*/ createPortal(provided.placeholder, element),
+    renderClone &&
+      /*#__PURE__*/ React.createElement(
+        DraggableClone,
+        {
+          droppableId: droppableId,
+          type: type,
+          getContainerForClone: getContainerForClone,
+        },
+        renderClone,
+      ),
+  );
 }
