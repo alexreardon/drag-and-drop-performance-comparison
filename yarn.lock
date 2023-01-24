@@ -19,6 +19,15 @@
     "@babel/runtime" "^7.0.0"
     fbjs "^3.0.0"
 
+"@atlaskit/drag-and-drop-autoscroll@^0.1.10":
+  version "0.1.10"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/drag-and-drop-autoscroll/-/drag-and-drop-autoscroll-0.1.10.tgz#28fa8c720f23abf1a6f73b8d9b5585880c09d721"
+  integrity sha512-Cq7oLTZ/H4/rTsIg74MEAmHaytB5YTPdhsC4IciyxpZ5FUaDVuZxwhiPpdWB+LtbHCDcFItI8zBVAObOUBZc4g==
+  dependencies:
+    "@atlaskit/drag-and-drop" "^0.8.0"
+    "@babel/runtime" "^7.0.0"
+    css-box-model "^1.2.0"
+
 "@atlaskit/drag-and-drop-hitbox@^0.2.0":
   version "0.2.4"
   resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/drag-and-drop-hitbox/-/drag-and-drop-hitbox-0.2.4.tgz#9e06af64278d4b8605586ef5587bc0478fb8d8c1"
@@ -66,6 +75,15 @@
   version "0.7.0"
   resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/drag-and-drop/-/drag-and-drop-0.7.0.tgz#41bd00a69f625f8469c526375eeaec720a632a28"
   integrity sha512-HxfQTO5Yp3Szdj6bTbcTSIrLdH/6SK1t2Ukep4mkO+VWRNIVqKwIGr9SUwPUNdIIA0l4QQySJc9ccw2LMvVo8Q==
+  dependencies:
+    "@babel/runtime" "^7.0.0"
+    bind-event-listener "^2.1.1"
+    raf-schd "^4.0.3"
+
+"@atlaskit/drag-and-drop@^0.8.0":
+  version "0.8.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/drag-and-drop/-/drag-and-drop-0.8.1.tgz#0d8b94c9b81fd8f4191c049f8ba023040ee2418a"
+  integrity sha512-wdzPgSr7e0m/dECRSJAPmkbEUEwT2ouhdoMRwZvrRrt1BMujKtohUPBhvFHLFlyeS9s8doVL49h+blPJE92TrA==
   dependencies:
     "@babel/runtime" "^7.0.0"
     bind-event-listener "^2.1.1"
