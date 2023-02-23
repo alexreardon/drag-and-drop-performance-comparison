@@ -3,8 +3,7 @@ import { css } from '@emotion/react';
 import Link from 'next/link';
 
 const containerStyles = css({
-  // background: token('color.background.accent.purple'),
-  border: `2px solid ${token('color.background.accent.purple.bold')}`,
+  border: `2px solid ${token('color.background.accent.purple.bolder')}`,
   borderBottom: 'none',
   borderLeft: 'none',
   position: 'fixed',
@@ -17,16 +16,14 @@ const containerStyles = css({
   flexDirection: 'column',
   gap: 'var(--grid)',
 
-  background: token('color.background.accent.purple'),
+  background: token('color.background.accent.purple.subtler'),
 });
 
 export default function About({ title }: { title: string }) {
   return (
     <div css={containerStyles}>
       <h4>Scenario: {title}</h4>
-      <Link href="/">
-        ← Go Home
-      </Link>
+      <Link href="/">← Go Home</Link>
       <div>
         <code>NODE_ENV</code>: <code>{process.env.NODE_ENV}</code>
       </div>
