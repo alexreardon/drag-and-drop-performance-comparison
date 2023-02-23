@@ -19,71 +19,45 @@
     "@babel/runtime" "^7.0.0"
     fbjs "^3.0.0"
 
-"@atlaskit/drag-and-drop-autoscroll@^0.1.10":
-  version "0.1.10"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/drag-and-drop-autoscroll/-/drag-and-drop-autoscroll-0.1.10.tgz#28fa8c720f23abf1a6f73b8d9b5585880c09d721"
-  integrity sha512-Cq7oLTZ/H4/rTsIg74MEAmHaytB5YTPdhsC4IciyxpZ5FUaDVuZxwhiPpdWB+LtbHCDcFItI8zBVAObOUBZc4g==
+"@atlaskit/drag-and-drop-autoscroll@^0.1.12":
+  version "0.1.12"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/drag-and-drop-autoscroll/-/drag-and-drop-autoscroll-0.1.12.tgz#c5fb5b163cfd709ebb714f3a0dcf89e7949bd489"
+  integrity sha512-smAeyU09oKZAl2pRqpW37XIj1+2KZ8b1+SEHnDk/FOaLnyAjBDQdKdUoJthzVXXVbd247koD02kJCvK+vDo1fQ==
   dependencies:
-    "@atlaskit/drag-and-drop" "^0.8.0"
+    "@atlaskit/drag-and-drop" "^0.10.0"
     "@babel/runtime" "^7.0.0"
     css-box-model "^1.2.0"
 
-"@atlaskit/drag-and-drop-hitbox@^0.2.0":
-  version "0.2.4"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/drag-and-drop-hitbox/-/drag-and-drop-hitbox-0.2.4.tgz#9e06af64278d4b8605586ef5587bc0478fb8d8c1"
-  integrity sha512-4zMyZtmvx1GJlsZq011NVEslA0hCD+3+VWCZcn60QE76vxrMReY0IUJ/FI0DGb9iNuigxr1AQrWCUbuU8xnLiA==
+"@atlaskit/drag-and-drop-hitbox@^0.3.0", "@atlaskit/drag-and-drop-hitbox@^0.3.2":
+  version "0.3.2"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/drag-and-drop-hitbox/-/drag-and-drop-hitbox-0.3.2.tgz#8142d8475eda034753e4156f64cd1a1c00e34a66"
+  integrity sha512-uyDmKBomrALJ5ZkA6iADmAAXkRJKwmpahABEfOTfFCUtO0ueoVBxkVMYrTwe+XIO9mwH8m8UMr/6t7V0l/D2Tg==
   dependencies:
-    "@atlaskit/drag-and-drop" "^0.6.0"
+    "@atlaskit/drag-and-drop" "^0.10.0"
     "@babel/runtime" "^7.0.0"
 
-"@atlaskit/drag-and-drop-hitbox@^0.2.5":
-  version "0.2.5"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/drag-and-drop-hitbox/-/drag-and-drop-hitbox-0.2.5.tgz#ed19bd392da84f7ec9a98a2d754b8b3033be9611"
-  integrity sha512-O65MyBPCfWkAeop5JQtDecKUfGwXgZ28/KgvRDlqu0H07zRvcEHMRSUHNLfYAonqSczrmh43u+O18hJlozV29g==
+"@atlaskit/drag-and-drop-indicator@^0.8.2":
+  version "0.8.2"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/drag-and-drop-indicator/-/drag-and-drop-indicator-0.8.2.tgz#e725ba29ddf798d9044a57467748b1185998c23d"
+  integrity sha512-ZVvYKfvdhErqgZwgnAyj7AvkjA7wCA4ay1rHy4IWPTeXkUeGz4hM4VlehHpwNAbWU6le3F4hKevpR3sHQ6MwgA==
   dependencies:
-    "@atlaskit/drag-and-drop" "^0.7.0"
-    "@babel/runtime" "^7.0.0"
-
-"@atlaskit/drag-and-drop-indicator@^0.5.0":
-  version "0.5.0"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/drag-and-drop-indicator/-/drag-and-drop-indicator-0.5.0.tgz#63db8f16fe5484e7fb62ab00776acd0eb1c1b400"
-  integrity sha512-EsWmu/T01sKRzzrKulzlWj6yF8ymrwHH7qt6/qKiPcn572+CyRgyTmfiTQGVPmfREzrbjz/Sm2SCHcIVD18YTA==
-  dependencies:
-    "@atlaskit/drag-and-drop" "^0.7.0"
-    "@atlaskit/drag-and-drop-hitbox" "^0.2.0"
-    "@atlaskit/tokens" "^0.10.11"
+    "@atlaskit/drag-and-drop" "^0.10.0"
+    "@atlaskit/drag-and-drop-hitbox" "^0.3.0"
+    "@atlaskit/tokens" "^1.1.0"
     "@babel/runtime" "^7.0.0"
     "@emotion/react" "^11.7.1"
 
-"@atlaskit/drag-and-drop-live-region@^0.2.1":
-  version "0.2.1"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/drag-and-drop-live-region/-/drag-and-drop-live-region-0.2.1.tgz#ebcca0801d6ddafa6ec563f825c4f901796d45c6"
-  integrity sha512-8Yi+cXXaElApTaNTXWSZHXnOOHvCxRujh/MGp75cb/KL5VgFy/tLvlZqqKeGlfBlLjrgDI8IuUveMIixDg4CzQ==
+"@atlaskit/drag-and-drop-live-region@^0.2.2":
+  version "0.2.2"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/drag-and-drop-live-region/-/drag-and-drop-live-region-0.2.2.tgz#a793848e645995913a652f20f2a3e88c9fa82b4f"
+  integrity sha512-BJedeIiV7M0xmLZg9NnYhz48DxbDWzUaQaU3uL1YSmb5cPzNSiLZEjAkbK/H62aKMWVQJeL8Dak0nRgBDhkJRw==
   dependencies:
     "@babel/runtime" "^7.0.0"
 
-"@atlaskit/drag-and-drop@^0.6.0":
-  version "0.6.0"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/drag-and-drop/-/drag-and-drop-0.6.0.tgz#f28b22ebf7e07124936c888454d1a175c323219a"
-  integrity sha512-K2XN+Qc0JoH5qNXQIru4pl3y8K8fFyWvkcIhjP/GohsZC3SM1Fp+y7MUS9txOHmR7Wvkje67Rd60nFFY1TkaYg==
-  dependencies:
-    "@babel/runtime" "^7.0.0"
-    bind-event-listener "^2.1.1"
-    raf-schd "^4.0.3"
-
-"@atlaskit/drag-and-drop@^0.7.0":
-  version "0.7.0"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/drag-and-drop/-/drag-and-drop-0.7.0.tgz#41bd00a69f625f8469c526375eeaec720a632a28"
-  integrity sha512-HxfQTO5Yp3Szdj6bTbcTSIrLdH/6SK1t2Ukep4mkO+VWRNIVqKwIGr9SUwPUNdIIA0l4QQySJc9ccw2LMvVo8Q==
-  dependencies:
-    "@babel/runtime" "^7.0.0"
-    bind-event-listener "^2.1.1"
-    raf-schd "^4.0.3"
-
-"@atlaskit/drag-and-drop@^0.8.0":
-  version "0.8.1"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/drag-and-drop/-/drag-and-drop-0.8.1.tgz#0d8b94c9b81fd8f4191c049f8ba023040ee2418a"
-  integrity sha512-wdzPgSr7e0m/dECRSJAPmkbEUEwT2ouhdoMRwZvrRrt1BMujKtohUPBhvFHLFlyeS9s8doVL49h+blPJE92TrA==
+"@atlaskit/drag-and-drop@^0.10.0":
+  version "0.10.0"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/drag-and-drop/-/drag-and-drop-0.10.0.tgz#046d268e96831b8ed2daf3012b2f79ad99c60c43"
+  integrity sha512-ooMfpXNgz8DjsnpzGaEUCRnMVozmjn8ylWsXGlQC8E6TVJGlECPZsLp5B7h0MxDibOZwrmtTDnD9sDvVRVwDwg==
   dependencies:
     "@babel/runtime" "^7.0.0"
     bind-event-listener "^2.1.1"
@@ -117,16 +91,6 @@
     "@babel/traverse" "^7.15.0"
     "@babel/types" "^7.15.0"
 
-"@atlaskit/tokens@^0.10.11":
-  version "0.10.19"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/tokens/-/tokens-0.10.19.tgz#e20a0e81d72c10ebbac0646fba149f0c8df36277"
-  integrity sha512-IqB5JcMCCTA/+Oi/4IHsnEPb41qj/9UhQztfyqJscHcb4NryfT8lmwnj0GD2uH/Yixp+qdHP1lcGsMppf1AEaQ==
-  dependencies:
-    "@atlaskit/ds-lib" "^2.1.0"
-    "@babel/runtime" "^7.0.0"
-    "@babel/traverse" "^7.15.0"
-    "@babel/types" "^7.15.0"
-
 "@atlaskit/tokens@^0.10.20":
   version "0.10.20"
   resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/tokens/-/tokens-0.10.20.tgz#df1d096daebf1ec248a722af4888430daa3f3df0"
@@ -136,6 +100,17 @@
     "@babel/runtime" "^7.0.0"
     "@babel/traverse" "^7.15.0"
     "@babel/types" "^7.15.0"
+
+"@atlaskit/tokens@^1.1.0":
+  version "1.2.1"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/tokens/-/tokens-1.2.1.tgz#2f3900b781c3715b2bd240ed5edc9c72a26110b7"
+  integrity sha512-E9bF8OLXVIr69QxELGgbS2rSM3uCAbjU6SlimE2Spu+CVWA3GU+lUeLBggBhz1eP1LzpuOzLCdm1ECMJBNBreg==
+  dependencies:
+    "@atlaskit/ds-lib" "^2.1.0"
+    "@babel/runtime" "^7.0.0"
+    "@babel/traverse" "^7.15.0"
+    "@babel/types" "^7.15.0"
+    bind-event-listener "^2.1.1"
 
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.18.6":
   version "7.18.6"
