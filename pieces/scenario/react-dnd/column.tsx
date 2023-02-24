@@ -131,8 +131,8 @@ export const Column = memo(function Column({ column }: { column: ColumnType }) {
       <div css={scrollContainerStyles}>
         <CardList column={column} ref={cardDropRef} />
       </div>
-      {closestEdge && (
-        <DropIndicator edge={isColumnOver ? closestEdge : null} gap={'var(--column-gap)'} />
+      {isColumnOver && closestEdge && (
+        <DropIndicator edge={closestEdge} gap={'var(--column-gap)'} />
       )}
     </div>
   );

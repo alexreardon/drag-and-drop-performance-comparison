@@ -123,7 +123,7 @@ export const Card = memo(function Card({ item, columnId }: { item: Item; columnI
       <span css={idStyles}>ID: {itemId}</span>
       <DragIcon state={state} />
       <CardText state={state} />
-      {isOver && <DropIndicator edge={closestEdge} gap={'var(--card-gap)'} />}
+      {isOver && closestEdge && <DropIndicator edge={closestEdge} gap={'var(--card-gap)'} />}
       <div css={controlStyles}>
         <MenuButton label={`controls for card ${itemId}`}>
           {() => (
