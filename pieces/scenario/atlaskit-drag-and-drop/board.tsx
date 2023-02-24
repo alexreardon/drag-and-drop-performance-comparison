@@ -1,5 +1,6 @@
 import { monitorForElements } from '@atlaskit/drag-and-drop/adapter/element';
 import { css } from '@emotion/react';
+import { bind } from 'bind-event-listener';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { Data, getInitialData } from '../../data/tasks';
@@ -36,6 +37,14 @@ export default function Board() {
         if (updated) {
           setData(updated);
         }
+        document.body.style.pointerEvents = 'none';
+        bind(window, {
+          type: 'pointermove',
+          listener() {
+            document.body.style.removeProperty('pointer-events');
+          },
+          options: { capture: true, once: true },
+        });
       },
     });
   }, [data]);

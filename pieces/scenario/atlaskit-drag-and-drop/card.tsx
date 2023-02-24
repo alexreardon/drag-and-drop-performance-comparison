@@ -15,11 +15,9 @@ import { scrollJustEnoughIntoView } from '@atlaskit/drag-and-drop/util/scroll-ju
 import { token } from '@atlaskit/tokens';
 
 import { Item } from '../../data/tasks';
+import { CardActions } from '../../shared/card-actions';
 import { fallbackColor } from '../../shared/fallback';
 import { MenuButton, MenuItem } from '../../shared/menu-button';
-import { CardActions } from '../../shared/card-actions';
-import { useRequiredContext } from '../../shared/use-required-context';
-import { FocusContext } from '../../shared/focus-context';
 
 const cardStyles = css({
   display: 'flex',
@@ -33,6 +31,25 @@ const cardStyles = css({
   borderRadius: 'calc(var(--grid) / 2)',
   boxShadow: `0px 0px 1px rgba(9, 30, 66, 0.31), 0px 1px 1px rgba(9, 30, 66, 0.25)`,
   userSelect: 'none',
+});
+
+const interactiveStyles = css({
+  ':hover::before': {
+    content: '"hover"',
+    position: 'absolute',
+    background: token('color.accent.boldPurple'),
+    padding: 'var(--grid)',
+    left: 0,
+    top: 0,
+  },
+  ':active::before': {
+    content: '"active"',
+    position: 'absolute',
+    background: token('color.accent.boldTeal'),
+    padding: 'var(--grid)',
+    left: 0,
+    top: 0,
+  },
 });
 
 const idStyles = css({
@@ -140,7 +157,8 @@ export const Card = memo(function Card({ item, columnId }: { item: Item; columnI
   }, [itemId]);
 
   return (
-    <div css={cardStyles} ref={ref}>
+    // <div css={[cardStyles, state === 'idle' ? interactiveStyles : undefined]} ref={ref}>
+    <div css={[cardStyles, state === 'idle' ? interactiveStyles : undefined]} ref={ref}>
       <span css={idStyles}>ID: {item.itemId}</span>
       <DragIcon state={state} />
       <CardText state={state} />
