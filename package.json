@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "engines": {
-    "node": ">=16.15.0"
+    "node": ">=18.15.0"
   },
   "dependencies": {
     "@atlaskit/css-reset": "^6.3.20",
