@@ -15,6 +15,8 @@ import mergeRefs from '../merge-refs';
 import Button from '../button';
 import moreIcon from '../more.svg';
 
+console.log('MORE ICON', moreIcon);
+
 type TriggerProps = {
   label: string;
   openMenu: ({ initialFocus }: { initialFocus: 'first' | 'last' }) => void;
@@ -65,7 +67,13 @@ const Trigger = forwardRef<HTMLButtonElement, TriggerProps>(function Trigger(
       onKeyDown={onKeyDown}
       ref={mergeRefs([ref, forwardedRef])}
     >
-      <img {...moreIcon} alt="" draggable={false} />
+      <img
+        height={moreIcon.height}
+        width={moreIcon.width}
+        src={moreIcon.src}
+        alt=""
+        draggable={false}
+      />
     </Button>
   );
 });

@@ -27,8 +27,8 @@ const headerStyles = css({
   background: `linear-gradient(43deg, ${token('color.accent.boldGreen')} 0%, ${token(
     'color.accent.boldOrange',
   )} 46%, ${token('color.accent.boldRed')} 100%)`,
-  '-webkit-background-clip': 'text',
-  '-webkit-text-fill-color': 'transparent',
+  WebkitBackgroundClip: 'text',
+  WebkitTextFillColor: 'transparent',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
@@ -77,7 +77,13 @@ const Home: NextPage = ({ slugs }: { slugs?: string[] }) => {
             css={repoLinkStyles}
             href="https://github.com/alexreardon/drag-and-drop-performance-comparison"
           >
-            <Image {...githubIcon} alt="" draggable={false} />
+            <Image
+              height={githubIcon.height}
+              width={githubIcon.width}
+              src={githubIcon.src}
+              alt=""
+              draggable={false}
+            />
             Repo
           </a>
         </p>
