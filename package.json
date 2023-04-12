@@ -13,12 +13,12 @@
   },
   "dependencies": {
     "@atlaskit/css-reset": "^6.3.20",
-    "@atlaskit/drag-and-drop": "^0.12.0",
-    "@atlaskit/drag-and-drop-autoscroll": "^0.2.1",
-    "@atlaskit/drag-and-drop-hitbox": "^0.6.0",
-    "@atlaskit/drag-and-drop-indicator": "^0.10.1",
+    "@atlaskit/drag-and-drop": "^0.15.0",
+    "@atlaskit/drag-and-drop-autoscroll": "^0.2.4",
+    "@atlaskit/drag-and-drop-hitbox": "^0.7.0",
+    "@atlaskit/drag-and-drop-indicator": "^0.10.5",
     "@atlaskit/drag-and-drop-live-region": "^0.2.2",
-    "@atlaskit/tokens": "^0.10.20",
+    "@atlaskit/tokens": "^1.2.11",
     "@dnd-kit/core": "^6.0.8",
     "@dnd-kit/sortable": "^7.0.2",
     "@dnd-kit/utilities": "^3.2.1",
@@ -33,14 +33,14 @@
     "tiny-invariant": "^1.3.1"
   },
   "devDependencies": {
-    "@types/node": "18.15.5",
-    "@types/react": "18.0.28",
+    "@types/node": "18.15.11",
+    "@types/react": "18.0.35",
     "@types/react-beautiful-dnd": "^13.1.4",
     "@types/react-dom": "18.0.11",
-    "eslint": "8.36.0",
-    "eslint-config-next": "13.2.4",
+    "eslint": "8.38.0",
+    "eslint-config-next": "13.3.0",
     "eslint-config-prettier": "^8.8.0",
-    "prettier": "^2.8.6",
-    "typescript": "5.0.2"
+    "prettier": "^2.8.7",
+    "typescript": "5.0.4"
   }
 }
