@@ -5,7 +5,7 @@ import {
   DragDropContext,
   Droppable,
   resetServerContext,
-} from '../../../temp/rbd-to-pdnd-migration-layer/esm';
+} from '@atlaskit/pragmatic-drag-and-drop-react-beautiful-dnd-migration';
 
 import { ColumnMap, getInitialData } from '../../data/tasks';
 import { Column } from './column';

@@ -5,7 +5,7 @@ import { css } from '@emotion/react';
 import { token } from '@atlaskit/tokens';
 
 import type { DraggableProvided, DraggableStateSnapshot } from 'react-beautiful-dnd';
-import { Draggable } from '../../../temp/rbd-to-pdnd-migration-layer/esm';
+import { Draggable } from '@atlaskit/pragmatic-drag-and-drop-react-beautiful-dnd-migration';
 import { Item } from '../../data/tasks';
 import { fallbackColor } from '../../shared/fallback';
 import { MenuButton, MenuItem } from '../../shared/menu-button';

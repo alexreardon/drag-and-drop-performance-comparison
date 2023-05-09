@@ -15,7 +15,10 @@ import type {
   DroppableProvided,
   DroppableStateSnapshot,
 } from 'react-beautiful-dnd';
-import { Draggable, Droppable } from '../../../temp/rbd-to-pdnd-migration-layer/esm';
+import {
+  Draggable,
+  Droppable,
+} from '@atlaskit/pragmatic-drag-and-drop-react-beautiful-dnd-migration';
 
 const columnStyles = css({
   display: 'flex',
