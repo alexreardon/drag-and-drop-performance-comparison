@@ -7,7 +7,7 @@ const Page: NextPage = () => {
   return (
     <>
       <Board />
-      <About title="@atlaskit/drag-and-drop" />
+      <About title="@atlaskit/pragmatic-drag-and-drop" />
     </>
   );
 };

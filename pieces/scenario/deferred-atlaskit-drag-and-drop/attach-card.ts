@@ -2,10 +2,13 @@ import {
   Edge,
   attachClosestEdge,
   extractClosestEdge,
-} from '@atlaskit/drag-and-drop-hitbox/addon/closest-edge';
-import { draggable, dropTargetForElements } from '@atlaskit/drag-and-drop/adapter/element';
-import { combine } from '@atlaskit/drag-and-drop/util/combine';
-import { scrollJustEnoughIntoView } from '@atlaskit/drag-and-drop/util/scroll-just-enough-into-view';
+} from '@atlaskit/pragmatic-drag-and-drop-hitbox/addon/closest-edge';
+import {
+  draggable,
+  dropTargetForElements,
+} from '@atlaskit/pragmatic-drag-and-drop/adapter/element';
+import { combine } from '@atlaskit/pragmatic-drag-and-drop/util/combine';
+import { scrollJustEnoughIntoView } from '@atlaskit/pragmatic-drag-and-drop/util/scroll-just-enough-into-view';
 import type { Dispatch, SetStateAction, MutableRefObject } from 'react';
 import invariant from 'tiny-invariant';
 

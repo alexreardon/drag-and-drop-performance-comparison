@@ -4,7 +4,7 @@ import { css } from '@emotion/react';
 
 import { token } from '@atlaskit/tokens';
 
-import type { Edge } from '@atlaskit/drag-and-drop-hitbox/types';
+import type { Edge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/types';
 import { ColumnType } from '../../data/tasks';
 import { fallbackColor } from '../../shared/fallback';
 import { MenuButton, MenuItem } from '../../shared/menu-button';
@@ -12,7 +12,9 @@ import { MenuButton, MenuItem } from '../../shared/menu-button';
 import dynamic from 'next/dynamic';
 import { Card } from './card';
 
-const LazyDropIndicator = dynamic(() => import('@atlaskit/drag-and-drop-indicator/box'));
+const LazyDropIndicator = dynamic(
+  () => import('@atlaskit/pragmatic-drag-and-drop-react-indicator/box'),
+);
 const LazyColumnActions = dynamic(() =>
   import('../../shared/column-actions').then((mod) => mod.ColumnActions),
 );
