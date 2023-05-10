@@ -12,7 +12,7 @@ import { useDrag, useDrop } from 'react-dnd';
 import { Card } from './card';
 import mergeRefs from '../../shared/merge-refs';
 import { Edge, getClosestEdge } from './get-closest-edge';
-import DropIndicator from '@atlaskit/drag-and-drop-indicator/box';
+import DropIndicator from '@atlaskit/pragmatic-drag-and-drop-react-indicator/box';
 import { ColumnActions } from '../../shared/column-actions';
 
 const columnStyles = css({

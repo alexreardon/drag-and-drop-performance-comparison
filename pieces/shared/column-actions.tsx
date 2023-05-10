@@ -8,7 +8,7 @@ import {
   getDataWithColumnReordering,
   getDataWithItemMovement,
 } from '../scenario/atlaskit-drag-and-drop/reorder';
-import { announce } from '@atlaskit/drag-and-drop-live-region';
+import { announce } from '@atlaskit/pragmatic-drag-and-drop-live-region';
 import { FocusContext } from './focus-context';
 
 export const ColumnActions = memo(function ColumnActions({ columnId }: { columnId: string }) {

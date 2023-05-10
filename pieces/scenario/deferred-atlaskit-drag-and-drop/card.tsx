@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic';
-import type { Edge } from '@atlaskit/drag-and-drop-hitbox/types';
+import type { Edge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/types';
 import { token } from '@atlaskit/tokens';
 import { css } from '@emotion/react';
 import { memo, Suspense, useContext, useEffect, useRef, useState } from 'react';
@@ -11,7 +11,9 @@ import { MenuButton, MenuItem } from '../../shared/menu-button';
 import type { DraggableState } from './attach-card';
 import { CardActions } from '../../shared/card-actions';
 
-const LazyDropIndicator = dynamic(() => import('@atlaskit/drag-and-drop-indicator/box'));
+const LazyDropIndicator = dynamic(
+  () => import('@atlaskit/pragmatic-drag-and-drop-react-indicator/box'),
+);
 const LazyCardActions = dynamic(() =>
   import('../../shared/card-actions').then((mod) => mod.CardActions),
 );

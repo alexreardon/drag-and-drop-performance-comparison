@@ -1,6 +1,6 @@
 import type { DraggableLocation, DropResult } from 'react-beautiful-dnd';
 import type { ColumnMap, ColumnType, Data, Item } from '../../data/tasks';
-import { reorder as reorderArray } from '@atlaskit/drag-and-drop/util/reorder';
+import { reorder as reorderArray } from '@atlaskit/pragmatic-drag-and-drop/util/reorder';
 
 export function reorder({ data, result }: { data: Data; result: DropResult }): Data | null {
   // dropped nowhere

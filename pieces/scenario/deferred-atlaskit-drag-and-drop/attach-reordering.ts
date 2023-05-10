@@ -1,5 +1,5 @@
-import { monitorForElements } from '@atlaskit/drag-and-drop/adapter/element';
-import { CleanupFn } from '@atlaskit/drag-and-drop/types';
+import { monitorForElements } from '@atlaskit/pragmatic-drag-and-drop/adapter/element';
+import { CleanupFn } from '@atlaskit/pragmatic-drag-and-drop/types';
 import { Data } from '../../data/tasks';
 import { reorder } from '../atlaskit-drag-and-drop/reorder';
 
