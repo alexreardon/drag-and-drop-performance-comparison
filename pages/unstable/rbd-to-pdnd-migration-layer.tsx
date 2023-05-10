@@ -1,5 +1,5 @@
 import { NextPage } from 'next';
-import { resetServerContext } from '../../temp/rbd-to-pdnd-migration-layer/esm';
+import { resetServerContext } from '@atlaskit/pragmatic-drag-and-drop-react-beautiful-dnd-migration';
 
 import Board from '../../pieces/scenario/rbd-to-pdnd-migration-layer/board';
 import About from '../../pieces/shared/about';

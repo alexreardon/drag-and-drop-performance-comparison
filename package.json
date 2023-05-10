@@ -18,6 +18,7 @@
     "@atlaskit/drag-and-drop-hitbox": "^0.7.0",
     "@atlaskit/drag-and-drop-indicator": "^0.10.5",
     "@atlaskit/drag-and-drop-live-region": "^0.2.2",
+    "@atlaskit/pragmatic-drag-and-drop-react-beautiful-dnd-migration": "^0.1.0",
     "@atlaskit/tokens": "^0.10.20",
     "@dnd-kit/core": "^6.0.8",
     "@dnd-kit/sortable": "^7.0.2",
