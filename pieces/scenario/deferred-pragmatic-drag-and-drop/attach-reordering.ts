@@ -1,7 +1,7 @@
 import { monitorForElements } from '@atlaskit/pragmatic-drag-and-drop/adapter/element';
 import { CleanupFn } from '@atlaskit/pragmatic-drag-and-drop/types';
 import { Data } from '../../data/tasks';
-import { reorder } from '../atlaskit-drag-and-drop/reorder';
+import { reorder } from '../pragmatic-drag-and-drop/reorder';
 
 export function attachReordering({
   data,
