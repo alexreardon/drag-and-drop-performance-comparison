@@ -7,7 +7,7 @@ import { useRequiredContext } from './use-required-context';
 import {
   getDataWithColumnReordering,
   getDataWithItemMovement,
-} from '../scenario/atlaskit-drag-and-drop/reorder';
+} from '../scenario/pragmatic-drag-and-drop/reorder';
 import { announce } from '@atlaskit/pragmatic-drag-and-drop-live-region';
 import { FocusContext } from './focus-context';
 

@@ -4,7 +4,7 @@ import { Data } from '../data/tasks';
 import { DataContext } from './data-context';
 import { MenuItem } from './menu-button';
 import { useRequiredContext } from './use-required-context';
-import { getDataWithItemMovement } from '../scenario/atlaskit-drag-and-drop/reorder';
+import { getDataWithItemMovement } from '../scenario/pragmatic-drag-and-drop/reorder';
 import { announce } from '@atlaskit/pragmatic-drag-and-drop-live-region';
 import { FocusContext } from './focus-context';
 
