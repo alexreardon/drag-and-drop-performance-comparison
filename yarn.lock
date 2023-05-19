@@ -58,20 +58,19 @@
   dependencies:
     "@babel/runtime" "^7.0.0"
 
-"@atlaskit/pragmatic-drag-and-drop-react-beautiful-dnd-migration@^0.4.0":
-  version "0.4.0"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/pragmatic-drag-and-drop-react-beautiful-dnd-migration/-/pragmatic-drag-and-drop-react-beautiful-dnd-migration-0.4.0.tgz#15b66a6109291428182b529fa7371e0030b0e392"
-  integrity sha512-6RvamfIGOEQtFW6ereVrj5Cfn2aJvbJsZxEKv4QKFhyGCbd/XEhfr+57mBBDfd+fy4mKwAX2CuWfPsXY8OB6PQ==
+"@atlaskit/pragmatic-drag-and-drop-react-beautiful-dnd-migration@^0.7.0":
+  version "0.7.0"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/pragmatic-drag-and-drop-react-beautiful-dnd-migration/-/pragmatic-drag-and-drop-react-beautiful-dnd-migration-0.7.0.tgz#0f607537b888ac0eba5bc9f8bb57a53f9e297220"
+  integrity sha512-jqhBqRYUnLb4kMMR25dWz6Y1FIXJEuglOme8XIeeg8TBWsJIZrAVdiVgAwiHECNcx3zU+djNcN4P7AhPvRx3qQ==
   dependencies:
     "@atlaskit/pragmatic-drag-and-drop" "^0.18.0"
     "@atlaskit/pragmatic-drag-and-drop-autoscroll" "^0.5.0"
     "@atlaskit/pragmatic-drag-and-drop-hitbox" "^0.11.0"
     "@atlaskit/pragmatic-drag-and-drop-live-region" "^0.5.0"
-    "@atlaskit/tokens" "^1.3.0"
+    "@atlaskit/tokens" "^1.4.0"
     "@babel/runtime" "^7.0.0"
     "@emotion/react" "^11.7.1"
     bind-event-listener "^2.1.1"
-    react-dom "^16.8.0"
     tiny-invariant "^1.2.0"
 
 "@atlaskit/pragmatic-drag-and-drop-react-indicator@^0.14.0":
@@ -114,10 +113,10 @@
     "@babel/traverse" "^7.15.0"
     "@babel/types" "^7.15.0"
 
-"@atlaskit/tokens@^1.0.0", "@atlaskit/tokens@^1.2.0", "@atlaskit/tokens@^1.3.0":
-  version "1.3.2"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/tokens/-/tokens-1.3.2.tgz#4e2f398a07d80c00de9a5f3800089b31984ac878"
-  integrity sha512-ksyKCV1ZfO8DQ9pm/ecGYul+jAt9AHJcDTMq6WiDf3+7Ql3xcH0h+N/OGZsMgn6T5kicUJdywaHfFLgCY/kkTw==
+"@atlaskit/tokens@^1.0.0", "@atlaskit/tokens@^1.2.0", "@atlaskit/tokens@^1.3.0", "@atlaskit/tokens@^1.4.0":
+  version "1.4.2"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/tokens/-/tokens-1.4.2.tgz#c17796db4ead08a9531a785629864df076274814"
+  integrity sha512-Krw657b0ia/ujZgYrZOWbum1XdkyFSs5T+o9H1r8J1QU0DLAgSEt0Fu3md/TW95p3GuvIWKKkw5XNL1dksSu9A==
   dependencies:
     "@atlaskit/ds-lib" "^2.2.0"
     "@atlaskit/platform-feature-flags" "^0.2.0"
@@ -2118,7 +2117,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1:
+prop-types@^15.7.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -2180,16 +2179,6 @@ react-dom@18.2.0:
   dependencies:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
-
-react-dom@^16.8.0:
-  version "16.14.0"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/react-dom/-/react-dom-16.14.0.tgz#7ad838ec29a777fb3c75c3a190f661cf92ab8b89"
-  integrity sha512-1gCeQXDLoIqMgqD3IO2Ah9bnf0w9kzhwN5q4FGnHZ67hBm9yePzB5JJAIQCc8x3pFnNlwFq4RidZggNAAkzWWw==
-  dependencies:
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
-    prop-types "^15.6.2"
-    scheduler "^0.19.1"
 
 react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"
@@ -2287,14 +2276,6 @@ safe-buffer@~5.1.1:
   version "5.1.2"
   resolved "https://packages.atlassian.com/api/npm/npm-remote/safe-buffer/-/safe-buffer-5.1.2.tgz#991ec69d296e0313747d59bdfd2b745c35f8828d"
   integrity sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==
-
-scheduler@^0.19.1:
-  version "0.19.1"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/scheduler/-/scheduler-0.19.1.tgz#4f3e2ed2c1a7d65681f4c854fa8c5a1ccb40f196"
-  integrity sha512-n/zwRWRYSUj0/3g/otKDRPMh6qv2SYMWNq85IEa8iZyAv8od9zDYpGSnpBEjNgcMNq6Scbu5KfIPxNF72R/2EA==
-  dependencies:
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
 
 scheduler@^0.23.0:
   version "0.23.0"
