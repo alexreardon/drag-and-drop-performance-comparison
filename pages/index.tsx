@@ -24,9 +24,9 @@ export const getStaticProps: GetStaticProps = async () => {
 };
 
 const headerStyles = css({
-  background: `linear-gradient(43deg, ${token('color.accent.boldGreen')} 0%, ${token(
-    'color.accent.boldOrange',
-  )} 46%, ${token('color.accent.boldRed')} 100%)`,
+  background: `linear-gradient(43deg, ${token('color.background.accent.green.bolder')} 0%, ${token(
+    'color.background.accent.orange.bolder',
+  )} 46%, ${token('color.background.accent.red.bolder')} 100%)`,
   WebkitBackgroundClip: 'text',
   WebkitTextFillColor: 'transparent',
   display: 'flex',
