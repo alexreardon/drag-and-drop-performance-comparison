@@ -71,10 +71,10 @@
   dependencies:
     "@babel/runtime" "^7.0.0"
 
-"@atlaskit/pragmatic-drag-and-drop-react-beautiful-dnd-migration@^0.4.0":
-  version "0.4.2"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/pragmatic-drag-and-drop-react-beautiful-dnd-migration/-/pragmatic-drag-and-drop-react-beautiful-dnd-migration-0.4.2.tgz#6cda08ff229c091ef4a9a9b49292672a8d028149"
-  integrity sha512-5KRNbph/5vzKMRez516elbW7vFt/3KeGpQcGY+xCnNAEo34AUTteoVvFjZWOgbj3ZpgEC+hxFqsUHqL4Zpdilw==
+"@atlaskit/pragmatic-drag-and-drop-react-beautiful-dnd-migration@^0.7.0":
+  version "0.7.0"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/pragmatic-drag-and-drop-react-beautiful-dnd-migration/-/pragmatic-drag-and-drop-react-beautiful-dnd-migration-0.7.0.tgz#0f607537b888ac0eba5bc9f8bb57a53f9e297220"
+  integrity sha512-jqhBqRYUnLb4kMMR25dWz6Y1FIXJEuglOme8XIeeg8TBWsJIZrAVdiVgAwiHECNcx3zU+djNcN4P7AhPvRx3qQ==
   dependencies:
     "@atlaskit/pragmatic-drag-and-drop" "^0.18.0"
     "@atlaskit/pragmatic-drag-and-drop-autoscroll" "^0.5.0"
@@ -84,7 +84,6 @@
     "@babel/runtime" "^7.0.0"
     "@emotion/react" "^11.7.1"
     bind-event-listener "^2.1.1"
-    react-dom "^16.8.0"
     tiny-invariant "^1.2.0"
 
 "@atlaskit/pragmatic-drag-and-drop-react-indicator@^0.14.0":
@@ -2706,7 +2705,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1:
+prop-types@^15.7.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://packages.atlassian.com/api/npm/npm-remote/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -2768,16 +2767,6 @@ react-dom@18.2.0:
   dependencies:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
-
-react-dom@^16.8.0:
-  version "16.14.0"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/react-dom/-/react-dom-16.14.0.tgz#7ad838ec29a777fb3c75c3a190f661cf92ab8b89"
-  integrity sha512-1gCeQXDLoIqMgqD3IO2Ah9bnf0w9kzhwN5q4FGnHZ67hBm9yePzB5JJAIQCc8x3pFnNlwFq4RidZggNAAkzWWw==
-  dependencies:
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
-    prop-types "^15.6.2"
-    scheduler "^0.19.1"
 
 react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"
@@ -2886,14 +2875,6 @@ safe-regex-test@^1.0.0:
     call-bind "^1.0.2"
     get-intrinsic "^1.1.3"
     is-regex "^1.1.4"
-
-scheduler@^0.19.1:
-  version "0.19.1"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/scheduler/-/scheduler-0.19.1.tgz#4f3e2ed2c1a7d65681f4c854fa8c5a1ccb40f196"
-  integrity sha512-n/zwRWRYSUj0/3g/otKDRPMh6qv2SYMWNq85IEa8iZyAv8od9zDYpGSnpBEjNgcMNq6Scbu5KfIPxNF72R/2EA==
-  dependencies:
-    loose-envify "^1.1.0"
-    object-assign "^4.1.1"
 
 scheduler@^0.23.0:
   version "0.23.0"
