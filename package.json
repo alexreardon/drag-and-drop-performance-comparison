@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prebuild": "tsx ./scripts/generate-theme.ts"
+    "build-theme": "tsx ./scripts/generate-theme.ts",
+    "prebuild": "yarn build-theme",
+    "postinstall": "yarn build-theme"
   },
   "engines": {
     "node": ">=18.0.0"
