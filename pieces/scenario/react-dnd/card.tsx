@@ -8,7 +8,7 @@ import { Item } from '../../data/tasks';
 import { fallbackColor } from '../../shared/fallback';
 import { useDrag, useDrop } from 'react-dnd';
 import mergeRefs from '../../shared/merge-refs';
-import DropIndicator from '@atlaskit/pragmatic-drag-and-drop-react-indicator/box';
+import DropIndicator from '@atlaskit/pragmatic-drag-and-drop-react-drop-indicator/box';
 import { Edge, getClosestEdge } from './get-closest-edge';
 import { MenuButton, MenuItem } from '../../shared/menu-button';
 import { CardActions } from '../../shared/card-actions';

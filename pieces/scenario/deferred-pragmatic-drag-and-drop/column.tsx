@@ -13,7 +13,7 @@ import dynamic from 'next/dynamic';
 import { Card } from './card';
 
 const LazyDropIndicator = dynamic(
-  () => import('@atlaskit/pragmatic-drag-and-drop-react-indicator/box'),
+  () => import('@atlaskit/pragmatic-drag-and-drop-react-drop-indicator/box'),
 );
 const LazyColumnActions = dynamic(() =>
   import('../../shared/column-actions').then((mod) => mod.ColumnActions),

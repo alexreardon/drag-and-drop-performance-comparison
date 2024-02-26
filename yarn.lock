@@ -56,14 +56,6 @@
     "@babel/runtime" "^7.0.0"
     css-box-model "^1.2.0"
 
-"@atlaskit/pragmatic-drag-and-drop-hitbox@^0.11.0":
-  version "0.11.2"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/pragmatic-drag-and-drop-hitbox/-/pragmatic-drag-and-drop-hitbox-0.11.2.tgz#c5c547b187bcc610cd85812a7bd2535cd940023b"
-  integrity sha512-im3IyCLmZHD4KOhoW/X+WZMZQ0wsJAKUjLGgb/kdGAQTCaCzUFnXeZ4qEt4C3YdrkuS4bXil89AiyUHMO7tejQ==
-  dependencies:
-    "@atlaskit/pragmatic-drag-and-drop" "^0.18.0"
-    "@babel/runtime" "^7.0.0"
-
 "@atlaskit/pragmatic-drag-and-drop-hitbox@^1.0.0":
   version "1.0.0"
   resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/pragmatic-drag-and-drop-hitbox/-/pragmatic-drag-and-drop-hitbox-1.0.0.tgz#87fbe1f18e3b163454d8520ee1779ba05469ac4e"
@@ -103,25 +95,16 @@
     bind-event-listener "^2.1.1"
     tiny-invariant "^1.2.0"
 
-"@atlaskit/pragmatic-drag-and-drop-react-indicator@^0.14.0":
-  version "0.14.2"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/pragmatic-drag-and-drop-react-indicator/-/pragmatic-drag-and-drop-react-indicator-0.14.2.tgz#f5bc27cff973175daa543c68ee385a6e5560bc42"
-  integrity sha512-0Y1JS7fAWL4FtffAFD9rPBagDXuSOKlyCLMbaHr1EpjYN9WkQUwXjjmQ91PRVeT0+nDOu/ala0RdDrftFlpffQ==
+"@atlaskit/pragmatic-drag-and-drop-react-drop-indicator@^1.0.0":
+  version "1.0.0"
+  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/pragmatic-drag-and-drop-react-drop-indicator/-/pragmatic-drag-and-drop-react-drop-indicator-1.0.0.tgz#f233c07c1dc3867d3be022c900f2204dfb51dcff"
+  integrity sha512-1288LH6rnowbGxvRapdxBkWvbk+qbiBDffQG+2H9sT9P2FpIPAJgtQ+4ejkq5zoUFk30r7Ak3crVNnsGm0ivBA==
   dependencies:
-    "@atlaskit/pragmatic-drag-and-drop" "^0.18.0"
-    "@atlaskit/pragmatic-drag-and-drop-hitbox" "^0.11.0"
-    "@atlaskit/tokens" "^1.4.0"
+    "@atlaskit/pragmatic-drag-and-drop" "^1.0.0"
+    "@atlaskit/pragmatic-drag-and-drop-hitbox" "^1.0.0"
+    "@atlaskit/tokens" "^1.38.0"
     "@babel/runtime" "^7.0.0"
     "@emotion/react" "^11.7.1"
-
-"@atlaskit/pragmatic-drag-and-drop@^0.18.0":
-  version "0.18.2"
-  resolved "https://packages.atlassian.com/api/npm/npm-remote/@atlaskit/pragmatic-drag-and-drop/-/pragmatic-drag-and-drop-0.18.2.tgz#ba118aa637d4f2f019deca7db1acfc34b8d97eb7"
-  integrity sha512-UW2RJSBORF+dE3YZaiPXiHjQ0TsSEuR3CEvyNjXC6gEd0ggRwyFq2orT2WftTD3DjFNrCeX0P/UtO9A1gmwWZQ==
-  dependencies:
-    "@babel/runtime" "^7.0.0"
-    bind-event-listener "^2.1.1"
-    raf-schd "^4.0.3"
 
 "@atlaskit/pragmatic-drag-and-drop@^0.19.0":
   version "0.19.0"

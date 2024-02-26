@@ -7,13 +7,13 @@ import {
   attachClosestEdge,
   Edge,
   extractClosestEdge,
-} from '@atlaskit/pragmatic-drag-and-drop-hitbox/addon/closest-edge';
+} from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge';
 import {
   draggable,
   dropTargetForElements,
-} from '@atlaskit/pragmatic-drag-and-drop/adapter/element';
-import { combine } from '@atlaskit/pragmatic-drag-and-drop/util/combine';
-import DropIndicator from '@atlaskit/pragmatic-drag-and-drop-react-indicator/box';
+} from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
+import { combine } from '@atlaskit/pragmatic-drag-and-drop/combine';
+import DropIndicator from '@atlaskit/pragmatic-drag-and-drop-react-drop-indicator/box';
 import { token } from '@atlaskit/tokens';
 
 import { ColumnType } from '../../data/tasks';
