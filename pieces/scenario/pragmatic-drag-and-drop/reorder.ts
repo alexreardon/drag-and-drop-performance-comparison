@@ -1,11 +1,11 @@
 import type { ColumnMap, ColumnType, Data, Item } from '../../data/tasks';
-import type { ElementEventBasePayload } from '@atlaskit/pragmatic-drag-and-drop/adapter/element';
-import { reorder as reorderArray } from '@atlaskit/pragmatic-drag-and-drop/util/reorder';
+import type { ElementEventBasePayload } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
+import { reorder as reorderArray } from '@atlaskit/pragmatic-drag-and-drop/reorder';
 import invariant from 'tiny-invariant';
 import {
   extractClosestEdge,
   Edge,
-} from '@atlaskit/pragmatic-drag-and-drop-hitbox/addon/closest-edge';
+} from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge';
 import { getDestinationIndex } from './get-destination-index';
 
 function assertIsString(value: unknown): asserts value is string {

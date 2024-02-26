@@ -1,4 +1,4 @@
-import { monitorForElements } from '@atlaskit/pragmatic-drag-and-drop/adapter/element';
+import { monitorForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { CleanupFn } from '@atlaskit/pragmatic-drag-and-drop/types';
 import { Data } from '../../data/tasks';
 import { reorder } from '../pragmatic-drag-and-drop/reorder';

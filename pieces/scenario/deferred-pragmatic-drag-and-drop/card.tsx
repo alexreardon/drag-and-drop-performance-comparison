@@ -1,18 +1,17 @@
-import dynamic from 'next/dynamic';
 import type { Edge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/types';
 import { token } from '@atlaskit/tokens';
 import { css } from '@emotion/react';
-import { memo, Suspense, useContext, useEffect, useRef, useState } from 'react';
+import dynamic from 'next/dynamic';
+import { memo, Suspense, useEffect, useRef, useState } from 'react';
 
 import { Item } from '../../data/tasks';
 import { fallbackColor } from '../../shared/fallback';
 import { MenuButton, MenuItem } from '../../shared/menu-button';
 
 import type { DraggableState } from './attach-card';
-import { CardActions } from '../../shared/card-actions';
 
 const LazyDropIndicator = dynamic(
-  () => import('@atlaskit/pragmatic-drag-and-drop-react-indicator/box'),
+  () => import('@atlaskit/pragmatic-drag-and-drop-react-drop-indicator/box'),
 );
 const LazyCardActions = dynamic(() =>
   import('../../shared/card-actions').then((mod) => mod.CardActions),

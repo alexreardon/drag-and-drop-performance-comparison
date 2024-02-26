@@ -1,4 +1,4 @@
-import { monitorForElements } from '@atlaskit/pragmatic-drag-and-drop/adapter/element';
+import { monitorForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { css } from '@emotion/react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
