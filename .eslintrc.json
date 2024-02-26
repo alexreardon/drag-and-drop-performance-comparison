@@ -3,5 +3,11 @@
     "next/core-web-vitals",
     "prettier",
     "plugin:@atlaskit/design-system/recommended"
-  ]
+  ],
+  "rules": {
+    "@atlaskit/design-system/ensure-design-token-usage": "off",
+    "@atlaskit/design-system/no-unsupported-drag-and-drop-libraries": "off",
+    "@atlaskit/design-system/consistent-css-prop-usage": "off",
+    "@atlaskit/design-system/no-nested-styles": "off"
+  }
 }
