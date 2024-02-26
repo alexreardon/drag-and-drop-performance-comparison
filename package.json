@@ -11,6 +11,9 @@
     "prebuild": "yarn build-theme",
     "postinstall": "yarn build-theme"
   },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "dependencies": {
     "@atlaskit/css-reset": "^6.6.2",
     "@atlaskit/pragmatic-drag-and-drop": "^1.0.0",
