@@ -28,7 +28,7 @@
     "@dnd-kit/utilities": "^3.2.1",
     "@emotion/react": "^11.11.3",
     "bind-event-listener": "^3.0.0",
-    "next": "14.1.0",
+    "next": "14.2.35",
     "react": "18.2.0",
     "react-beautiful-dnd": "^13.1.1",
     "react-dnd": "^16.0.1",
